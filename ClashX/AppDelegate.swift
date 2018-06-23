@@ -26,9 +26,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         _ = ProxyConfigManager.install()
         
         statusItem = NSStatusBar.system.statusItem(withLength: AppDelegate.StatusItemIconWidth)
-        let image : NSImage = NSImage(named: NSImage.Name(rawValue: "menu_icon"))!
-        image.isTemplate = true
-        statusItem.image = image
         statusItem.menu = statusMenu
         updateMenuItem()
         startProxy()
@@ -44,7 +41,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func updateMenuItem(){
         proxySettingMenuItem.state = ConfigManager.proxyPortAutoSet ? .on : .off
         autoStartMenuItem.state = LaunchAtLogin.isEnabled ? .on:.off
+        let image = proxySettingMenuItem.state == .on ?
+            NSImage(named: NSImage.Name(rawValue: "menu_icon"))! :
+            NSImage(named: NSImage.Name(rawValue: "menu_icon_disabled"))!
         
+        statusItem.image = image
     }
     
     func startProxy() {
@@ -93,8 +94,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func actionGenConfig(_ sender: Any) {
         let ctrl = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
             .instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "sampleConfigGenerator")) as! NSWindowController
+        
         genConfigWindow?.close()
         genConfigWindow=ctrl
+        ctrl.window?.title = ctrl.contentViewController?.title ?? ""
         ctrl.showWindow(nil)
         NSApp.activate(ignoringOtherApps: true)
         ctrl.window?.makeKeyAndOrderFront(self)

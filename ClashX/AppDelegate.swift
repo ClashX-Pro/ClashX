@@ -58,33 +58,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ssQueue.async {
             run()
         }
-        
-        let ports = getPortsC()
-        ConfigManager.httpProxyPort = Int(String(cString: ports.r0))!
-        ConfigManager.socksProxyPort = Int(String(cString: ports.r1))!
-        
-        if ConfigManager.proxyPortAutoSet {
-            _ = ProxyConfigManager.setUpSystemProxy(port: ConfigManager.httpProxyPort,socksPort: ConfigManager.socksProxyPort)
-        }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0) {
-            self.startRPCInterface()
+        ApiRequest.requestConfig{ (config) in
+            print(config.port)
+            ConfigManager.httpProxyPort = config.port
+            ConfigManager.socksProxyPort = config.socketPort
 
+            if ConfigManager.proxyPortAutoSet {
+                _ = ProxyConfigManager.setUpSystemProxy(port: ConfigManager.httpProxyPort,socksPort: ConfigManager.socksProxyPort)
+            }
+            self.startTrafficMonitor()
         }
     }
     
-    func startRPCInterface(){
-        
-        class info:Codable {
-            let up:Int
-            let down:Int
-        }
-
-        request("http://127.0.0.1:8080/traffic").stream { [weak self] (data) in
-            guard let strongSelf = self else {return}
-            if let jsonData = try? JSONSerialization.jsonObject(with: data) as? [String:Int] {
-                ((strongSelf.statusItem.view) as! StatusItemView).updateSpeedLabel(up: jsonData!["up"]!, down: jsonData!["down"]!)
-
-            }
+    func startTrafficMonitor(){
+        ApiRequest.requestTrafficInfo(){ [weak self] up,down in
+            guard let `self` = self else {return}
+            ((self.statusItem.view) as! StatusItemView).updateSpeedLabel(up: up, down: down)
         }
     }
     
@@ -136,8 +125,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.openFile(path)
     }
     @IBAction func actionUpdateConfig(_ sender: Any) {
-        ssQueue.async {
-            updateConfigC()
+        ApiRequest.requestConfigUpdate() { [weak self] success in
+            guard let strongSelf = self else {return}
         }
     }
 }

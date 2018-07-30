@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0D318CDAC9464E01DAD1F92B /* Pods_ClashX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0358BF8F0CBD7FF9A7EA4E30 /* Pods_ClashX.framework */; };
+		492C4865210EC9E4004554A0 /* ProxyConfig in Resources */ = {isa = PBXBuildFile; fileRef = 492C4864210EC9E4004554A0 /* ProxyConfig */; };
+		492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C4868210EE6B9004554A0 /* ApiRequest.swift */; };
+		492C4871210EF62E004554A0 /* ClashConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C4870210EF62E004554A0 /* ClashConfig.swift */; };
 		495340B020DE5F7200B0D3FF /* StatusItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 495340AF20DE5F7200B0D3FF /* StatusItemView.xib */; };
 		495340B320DE68C300B0D3FF /* StatusItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495340B220DE68C300B0D3FF /* StatusItemView.swift */; };
 		495A44BF20D2660A00888A0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A44BE20D2660A00888A0A /* AppDelegate.swift */; };
@@ -28,7 +31,6 @@
 		49CF3B4220CD7845001EBF94 /* menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CF3B3E20CD7845001EBF94 /* menu_icon@2x.png */; };
 		49CF3B5C20CE8068001EBF94 /* ProxyConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CF3B5B20CE8068001EBF94 /* ProxyConfigManager.swift */; };
 		49CF3B5F20CE80D2001EBF94 /* install_proxy_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = 49CF3B5E20CE80D2001EBF94 /* install_proxy_helper.sh */; };
-		49CF3B6120CE8404001EBF94 /* ProxyConfig in Resources */ = {isa = PBXBuildFile; fileRef = 49CF3B6020CE8404001EBF94 /* ProxyConfig */; };
 		49CF3B6320CED9CF001EBF94 /* check_proxy_helper.sh in Resources */ = {isa = PBXBuildFile; fileRef = 49CF3B6220CED934001EBF94 /* check_proxy_helper.sh */; };
 		49CF3B6520CEE06C001EBF94 /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CF3B6420CEE06C001EBF94 /* ConfigManager.swift */; };
 		49E07A8C20D501A000A088A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49E07A8920D501A000A088A3 /* Main.storyboard */; };
@@ -66,6 +68,9 @@
 
 /* Begin PBXFileReference section */
 		0358BF8F0CBD7FF9A7EA4E30 /* Pods_ClashX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClashX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		492C4864210EC9E4004554A0 /* ProxyConfig */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = ProxyConfig; path = "../../../../Library/Developer/Xcode/DerivedData/ClashX-dojkemepirlxgtgjgkqxpjrbgopn/Build/Products/Debug/ProxyConfig"; sourceTree = "<group>"; };
+		492C4868210EE6B9004554A0 /* ApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
+		492C4870210EF62E004554A0 /* ClashConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashConfig.swift; sourceTree = "<group>"; };
 		495340AF20DE5F7200B0D3FF /* StatusItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatusItemView.xib; sourceTree = "<group>"; };
 		495340B220DE68C300B0D3FF /* StatusItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemView.swift; sourceTree = "<group>"; };
 		495A44BC20D2660A00888A0A /* ClashXLaunchHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClashXLaunchHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,7 +100,6 @@
 		49CF3B4B20CE5232001EBF94 /* ProxyConfig.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ProxyConfig.xcodeproj; sourceTree = "<group>"; };
 		49CF3B5B20CE8068001EBF94 /* ProxyConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyConfigManager.swift; sourceTree = "<group>"; };
 		49CF3B5E20CE80D2001EBF94 /* install_proxy_helper.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install_proxy_helper.sh; sourceTree = "<group>"; };
-		49CF3B6020CE8404001EBF94 /* ProxyConfig */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = ProxyConfig; path = "../../../../../Library/Developer/Xcode/DerivedData/ClashX-bcbrsbofqgevdffhsbymjskmsxik/Build/Products/Debug/ProxyConfig"; sourceTree = "<group>"; };
 		49CF3B6220CED934001EBF94 /* check_proxy_helper.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = check_proxy_helper.sh; sourceTree = "<group>"; };
 		49CF3B6420CEE06C001EBF94 /* ConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
 		49E07A8A20D501A000A088A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
@@ -123,6 +127,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		492C4866210EE69B004554A0 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				492C4868210EE6B9004554A0 /* ApiRequest.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		492C486E210EF621004554A0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				492C4870210EF62E004554A0 /* ClashConfig.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		495A44BD20D2660A00888A0A /* ClashXLaunchHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +197,8 @@
 		49CF3B1F20CD7463001EBF94 /* ClashX */ = {
 			isa = PBXGroup;
 			children = (
+				492C486E210EF621004554A0 /* Models */,
+				492C4866210EE69B004554A0 /* General */,
 				4997732220D251A60009B136 /* Basic */,
 				4989F98520D0AA300001E564 /* ViewControllers */,
 				49CF3B5D20CE80D2001EBF94 /* script */,
@@ -200,10 +222,10 @@
 			children = (
 				4989F98D20D0AE990001E564 /* sampleConfig.ini */,
 				4989F98320D02D200001E564 /* Country.mmdb */,
-				49CF3B6020CE8404001EBF94 /* ProxyConfig */,
 				49CF3B3D20CD7845001EBF94 /* menu_icon_disabled.png */,
 				49CF3B3C20CD7845001EBF94 /* menu_icon_disabled@2x.png */,
 				49CF3B3B20CD7845001EBF94 /* menu_icon.png */,
+				492C4864210EC9E4004554A0 /* ProxyConfig */,
 				49CF3B3E20CD7845001EBF94 /* menu_icon@2x.png */,
 			);
 			path = "Support Files";
@@ -392,13 +414,13 @@
 				495340B020DE5F7200B0D3FF /* StatusItemView.xib in Resources */,
 				49CF3B2820CD7465001EBF94 /* Main.storyboard in Resources */,
 				49CF3B4220CD7845001EBF94 /* menu_icon@2x.png in Resources */,
-				49CF3B6120CE8404001EBF94 /* ProxyConfig in Resources */,
 				49CF3B4120CD7845001EBF94 /* menu_icon_disabled.png in Resources */,
 				49CF3B5F20CE80D2001EBF94 /* install_proxy_helper.sh in Resources */,
 				49CF3B4020CD7845001EBF94 /* menu_icon_disabled@2x.png in Resources */,
 				49CF3B3F20CD7845001EBF94 /* menu_icon.png in Resources */,
 				4989F98420D02D200001E564 /* Country.mmdb in Resources */,
 				497F0DF320DE2FE50077AD41 /* Icon.icns in Resources */,
+				492C4865210EC9E4004554A0 /* ProxyConfig in Resources */,
 				4989F98E20D0AE990001E564 /* sampleConfig.ini in Resources */,
 				49CF3B6320CED9CF001EBF94 /* check_proxy_helper.sh in Resources */,
 			);
@@ -485,6 +507,8 @@
 				495340B320DE68C300B0D3FF /* StatusItemView.swift in Sources */,
 				495A44D320D267D000888A0A /* LaunchAtLogin.swift in Sources */,
 				49CF3B2120CD7463001EBF94 /* AppDelegate.swift in Sources */,
+				492C4871210EF62E004554A0 /* ClashConfig.swift in Sources */,
+				492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */,
 				49CF3B6520CEE06C001EBF94 /* ConfigManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -527,7 +551,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MEWHFZ92DY;
 				INFOPLIST_FILE = ClashXLaunchHelper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.west2online.ClashX.LaunchHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -543,7 +570,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MEWHFZ92DY;
 				INFOPLIST_FILE = ClashXLaunchHelper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.west2online.ClashX.LaunchHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -677,7 +707,10 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = ClashX/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ClashX",
@@ -705,7 +738,10 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = ClashX/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ClashX",

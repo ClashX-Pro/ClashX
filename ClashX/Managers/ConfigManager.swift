@@ -41,4 +41,10 @@ class ConfigManager {
             instance._socksProxyPort = newValue
         }
     }
+    
+    static var apiUrl:String{
+        get {
+            return "http://127.0.0.1:8080"
+        }
+    }
 }

@@ -94,7 +94,7 @@ class SampleConfigViewController: NSViewController {
             generateConfig()
             self.view.window?.windowController?.close()
             DispatchQueue(label: "com.w2fzu.ssqueue", attributes: .concurrent).async {
-                updateConfigC()
+//                updateConfigC()
             }
         } else {
             shakeWindows()

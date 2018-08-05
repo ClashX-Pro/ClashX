@@ -15,7 +15,28 @@ class ProxyServerModel: NSObject, Codable {
     @objc dynamic var method:String = "RC4-MD5"
     @objc dynamic var remark:String = "Proxy"
     
+    
+    static let supportMethod = [
+        "RC4-MD5",
+        "AES-128-CTR",
+        "AES-192-CTR",
+        "AES-256-CTR",
+        "AES-128-CFB",
+        "AES-192-CFB",
+        "AES-256-CFB",
+        "CHACHA20",
+        "CHACHA20-IETF",
+        "XCHACHA20",
+        "AEAD_AES_128_GCM",
+        "AEAD_AES_192_GCM",
+        "AEAD_AES_256_GCM",
+        "AEAD_CHACHA20_POLY1305"
+    ]
+    
     func isValid() -> Bool {
+        let whitespace = NSCharacterSet.whitespacesAndNewlines
+        remark = remark.components(separatedBy: whitespace).joined()
+        
         func validateIpAddress(_ ipToValidate: String) -> Bool {
             
             var sin = sockaddr_in()
@@ -34,6 +55,7 @@ class ProxyServerModel: NSObject, Codable {
         }
         
         func validateDomainName(_ value: String) -> Bool {
+            // this regex from ss-ng seems useless
             let validHostnameRegex = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
             
             if (value.range(of: validHostnameRegex, options: .regularExpression) != nil) {
@@ -43,16 +65,22 @@ class ProxyServerModel: NSObject, Codable {
             }
         }
         
-        func validatePort(_ value: String) -> Bool {
+        func vaildatePort(_ value: String) -> Bool {
             if let port = Int(value) {
                 return port > 0 && port <= 65535
             }
             return false
         }
         
-        if !(validateIpAddress(serverHost) ||
-            validateDomainName(serverHost) ||
-            validatePort(serverPort)){
+        func vaildateMethod(_ method:String) -> Bool {
+            return type(of: self).supportMethod.contains(method.uppercased())
+        }
+        
+        if !(validateIpAddress(serverHost) || validateDomainName(serverHost)) {
+            return false
+        }
+        
+        if !(vaildateMethod(method) && vaildatePort(serverPort)) {
             return false
         }
         

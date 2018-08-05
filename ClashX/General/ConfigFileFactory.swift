@@ -74,8 +74,9 @@ class ConfigFileFactory {
                     profile.method = item["method"] as! String
                     profile.password = item["password"] as! String
                     profile.remark = item["remarks"] as! String
-                    
-                    profiles.append(profile)
+                    if (profile.isValid()) {
+                        profiles.append(profile)
+                    }
                 }
                 
                 let configStr = self.configFile(proxies: profiles)

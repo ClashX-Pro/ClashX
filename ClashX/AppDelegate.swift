@@ -214,9 +214,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBAction func actionUpdateConfig(_ sender: Any) {
         ApiRequest.requestConfigUpdate() { [unowned self] success in
-            self.syncConfig(){
-                self.resetTrafficMonitor()
+            if (success) {
+                self.syncConfig(){self.resetTrafficMonitor()}
+                NSUserNotificationCenter
+                    .default
+                    .post(title: "Reload Config Succeed", info: "succees")
+            } else {
+                NSUserNotificationCenter
+                    .default
+                    .post(title: "Reload Config Fail", info: "Please Check Config Fils")
             }
+            
         }
     }
     

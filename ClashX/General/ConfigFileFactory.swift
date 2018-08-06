@@ -7,6 +7,7 @@
 //
 import Foundation
 import AppKit
+import SwiftyJSON
 
 class ConfigFileFactory {
     static func configFile(proxies:[ProxyServerModel]) -> String {
@@ -26,6 +27,8 @@ class ConfigFileFactory {
             let autoGroupStr = "ProxyAuto = url-test, \(proxyGroupStr), http://www.google.com/generate_204, 300"
             sampleConfigStr = sampleConfigStr?.replacingOccurrences(of: "{{ProxyAutoGroupPlaceHolder}}", with: autoGroupStr)
             proxyGroupStr.append("ProxyAuto,")
+        } else {
+            sampleConfigStr = sampleConfigStr?.replacingOccurrences(of: "{{ProxyAutoGroupPlaceHolder}}", with: "")
         }
         proxyGroupStr = String(proxyGroupStr.dropLast())
 
@@ -56,45 +59,60 @@ class ConfigFileFactory {
         openPanel.canChooseFiles = true
         openPanel.becomeKey()
         let result = openPanel.runModal()
-        if (result.rawValue == NSFileHandlingPanelOKButton && (openPanel.url) != nil) {
-            let fileManager = FileManager.default
-            let filePath:String = (openPanel.url?.path)!
-            var profiles = [ProxyServerModel]()
-            if (fileManager.fileExists(atPath: filePath) && filePath.hasSuffix("json")) {
-                let data = fileManager.contents(atPath: filePath)
-                let readString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!
-                let readStringData = readString.data(using: String.Encoding.utf8.rawValue)
-                
-                let jsonArr1 = try! JSONSerialization.jsonObject(with: readStringData!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-
-                for item in jsonArr1.object(forKey: "configs") as! [[String: AnyObject]]{
-                    let profile = ProxyServerModel()
-                    profile.serverHost = item["server"] as! String
-                    profile.serverPort = item["server_port"] as! String
-                    profile.method = item["method"] as! String
-                    profile.password = item["password"] as! String
-                    profile.remark = item["remarks"] as! String
-                    if (profile.isValid()) {
-                        profiles.append(profile)
+        guard (result.rawValue == NSFileHandlingPanelOKButton && (openPanel.url) != nil) else {
+            NSUserNotificationCenter.default
+                .post(title: "Import Server Profile failed!",
+                      info: "Invalid config file!")
+            return
+        }
+        let fileManager = FileManager.default
+        let filePath:String = (openPanel.url?.path)!
+        var profiles = [ProxyServerModel]()
+        
+        
+        if fileManager.fileExists(atPath: filePath) &&
+            filePath.hasSuffix("json") {
+            if let data = fileManager.contents(atPath: filePath),
+                let json = try? JSON(data: data) {
+                let remarkSet = Set<String>()
+                for item in json["configs"].arrayValue{
+                    if let host = item["server"].string,
+                        let method = item["method"].string,
+                        let password = item["password"].string{
+                        
+                        let profile = ProxyServerModel()
+                        profile.serverHost = host
+                        profile.serverPort = String(item["server_port"].intValue)
+                        profile.method = method
+                        profile.password = password
+                        profile.remark = item["remarks"].stringValue
+                        if remarkSet.contains(profile.remark) {
+                            profile.remark.append("Dup")
+                        }
+                        
+                        if (profile.isValid()) {
+                            profiles.append(profile)
+                        }
                     }
                 }
                 
-                let configStr = self.configFile(proxies: profiles)
-                self.saveToClashConfigFile(str: configStr)
+                if (profiles.count > 0) {
+                    let configStr = self.configFile(proxies: profiles)
+                    self.saveToClashConfigFile(str: configStr)
+                    NSUserNotificationCenter
+                        .default
+                        .post(title: "Import Server Profile succeed!",
+                              info: "Successful import \(profiles.count) items")
+                } else {
+                    NSUserNotificationCenter
+                        .default
+                        .post(title: "Import Server Profile Fail!",
+                              info: "No proxies are imported")
+                }
                 
-                let notification = NSUserNotification()
-                notification.title = "Import Server Profile succeed!"
-                notification.informativeText = "Successful import \(profiles.count) items"
-                NSUserNotificationCenter.default
-                    .deliver(notification)
-            }else{
-                let notification = NSUserNotification()
-                notification.title = "Import Server Profile failed!"
-                notification.informativeText = "Invalid config file!"
-                NSUserNotificationCenter.default
-                    .deliver(notification)
-                return
+
             }
         }
+        
     }
 }

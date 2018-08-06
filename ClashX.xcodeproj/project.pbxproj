@@ -22,6 +22,7 @@
 		495A44BF20D2660A00888A0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A44BE20D2660A00888A0A /* AppDelegate.swift */; };
 		495A44CD20D266BA00888A0A /* ClashXLaunchHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 495A44BC20D2660A00888A0A /* ClashXLaunchHelper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		495A44D320D267D000888A0A /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A44D220D267D000888A0A /* LaunchAtLogin.swift */; };
+		4966E9E32118153A00A391FB /* NSUserNotificationCenter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4966E9E22118153A00A391FB /* NSUserNotificationCenter+Extension.swift */; };
 		497F0DF320DE2FE50077AD41 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 497F0DF220DE2FE50077AD41 /* Icon.icns */; };
 		4989F98020D01C8F0001E564 /* clash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4989F97E20D01C8F0001E564 /* clash.a */; };
 		4989F98420D02D200001E564 /* Country.mmdb in Resources */ = {isa = PBXBuildFile; fileRef = 4989F98320D02D200001E564 /* Country.mmdb */; };
@@ -90,6 +91,7 @@
 		495A44C720D2660B00888A0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		495A44C820D2660B00888A0A /* ClashXLaunchHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClashXLaunchHelper.entitlements; sourceTree = "<group>"; };
 		495A44D220D267D000888A0A /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
+		4966E9E22118153A00A391FB /* NSUserNotificationCenter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSUserNotificationCenter+Extension.swift"; sourceTree = "<group>"; };
 		497F0DF220DE2FE50077AD41 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		4989F97E20D01C8F0001E564 /* clash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = clash.a; sourceTree = "<group>"; };
 		4989F97F20D01C8F0001E564 /* clash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clash.h; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				4997732320D251A60009B136 /* SWBApplication.m */,
 				4997732420D251A60009B136 /* SWBApplication.h */,
 				495A44D220D267D000888A0A /* LaunchAtLogin.swift */,
+				4966E9E22118153A00A391FB /* NSUserNotificationCenter+Extension.swift */,
 			);
 			path = Basic;
 			sourceTree = "<group>";
@@ -545,6 +548,7 @@
 				492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */,
 				49CF3B6520CEE06C001EBF94 /* ConfigManager.swift in Sources */,
 				4952C3BF2115C7CA004A4FA8 /* ProxyMenuItemFactory.swift in Sources */,
+				4966E9E32118153A00A391FB /* NSUserNotificationCenter+Extension.swift in Sources */,
 				4952C3CE2116EA2E004A4FA8 /* ProxyServerModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

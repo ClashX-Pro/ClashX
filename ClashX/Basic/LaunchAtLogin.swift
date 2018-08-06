@@ -31,6 +31,7 @@ public class LaunchAtLogin {
         }
         set {
             SMLoginItemSetEnabled(LaunchAtLogin.id as CFString, newValue)
+            isEnableVirable.value = newValue
         }
     }
     

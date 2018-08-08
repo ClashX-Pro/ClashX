@@ -89,7 +89,7 @@ class ApiRequest{
     
     static func updateProxyGroup(group:String,selectProxy:String,callback:@escaping ((Bool)->())) {
         request(ConfigManager.apiUrl + "/proxies/\(group)", method: .put, parameters: ["name":selectProxy], encoding: JSONEncoding.default).responseJSON { (response) in
-            callback(response.response?.statusCode == 200)
+            callback(response.response?.statusCode == 204)
         }
     }
 }

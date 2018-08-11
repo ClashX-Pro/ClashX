@@ -35,13 +35,19 @@ class ApiRequest{
         }
     }
     
-    func requestTrafficInfo(callback:@escaping ((Int,Int)->()) ){
+    func requestTrafficInfo(retryTimes:Int = 0, callback:@escaping ((Int,Int)->()) ){
         trafficReq?.cancel()
+        var retry = retryTimes
+        if (retry > 5) {
+            NSUserNotificationCenter.default.postStreamApiConnectFail(api:"Traffic")
+            return
+        }
         
         trafficReq =
             alamoFireManager
                 .request(ConfigManager.apiUrl + "/traffic")
                 .stream {(data) in
+                    retry = 0
                     if let jsonData = try? JSONSerialization.jsonObject(with: data) as? [String:Int] {
                         callback(jsonData!["up"] ?? 0, jsonData!["down"] ?? 0)
                     }
@@ -51,18 +57,25 @@ class ApiRequest{
                         Logger.log(msg: "Traffic Api.\(err.localizedDescription)")
                         // delay 1s,prevent recursive
                         DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: {
-                            self.requestTrafficInfo(callback: callback)
+                            self.requestTrafficInfo(retryTimes: retry + 1, callback: callback)
                         })
                     }
         }
     }
     
-    func requestLog(callback:@escaping ((String,String)->()) ){
+    func requestLog(retryTimes:Int = 0,callback:@escaping ((String,String)->())){
         logReq?.cancel()
+        var retry = retryTimes
+        if (retry > 5) {
+            NSUserNotificationCenter.default.postStreamApiConnectFail(api:"Log")
+            return
+        }
+        
         logReq =
             alamoFireManager
                 .request(ConfigManager.apiUrl + "/logs")
                 .stream {(data) in
+                    retry = 0
                     if let jsonData = try? JSONSerialization.jsonObject(with: data) as? [String:String] {
                         let type = jsonData!["type"] ?? "info"
                         let payload = jsonData!["payload"] ?? ""
@@ -75,7 +88,7 @@ class ApiRequest{
                         Logger.log(msg: "Loging api disconnected.\(err.localizedDescription)")
                         // delay 1s,prevent recursive
                         DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: {
-                            self.requestLog(callback: callback)
+                            self.requestLog(retryTimes: retry + 1, callback: callback)
                         })
                     }
         }

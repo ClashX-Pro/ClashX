@@ -26,7 +26,10 @@ extension NSUserNotificationCenter {
     
     func postConfigFileChangeDetectionNotice() {
         self.post(title: "Config file have been changed", info: "Tap to reload config",identifier:"postConfigFileChangeDetectionNotice")
-
+    }
+    
+    func postStreamApiConnectFail(api:String) {
+        self.post(title: "\(api) api connect error!", info: "Use reload config to try reconnect.")
     }
     
 }

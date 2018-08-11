@@ -19,11 +19,10 @@ class ProxyMenuItemFactory {
                 completionHandler(menuItems)
                 return
             }
-            
             for proxyGroup in dataDict.dictionaryValue.sorted(by: {  $0.0 < $1.0}) {
                 var menu:NSMenuItem?
                 switch proxyGroup.value["type"].stringValue {
-                case "Selector": menu = self.generateSelectorMenuItem(proxyGroup: proxyGroup)
+                case "Selector": menu = self.generateSelectorMenuItem(json: dataDict, key: proxyGroup.key)
                 case "URLTest": menu = self.generateUrlTestMenuItem(proxyGroup: proxyGroup)
                 default: continue
                 }
@@ -34,8 +33,10 @@ class ProxyMenuItemFactory {
         }
     }
     
-    static func generateSelectorMenuItem(proxyGroup:(key: String, value: JSON))->NSMenuItem? {
-        if (ConfigManager.shared.currentConfig?.mode == .global) {
+    static func generateSelectorMenuItem(json:JSON,key:String)->NSMenuItem? {
+        let proxyGroup:(key: String, value: JSON) = (key,json[key])
+        let isGlobalMode = ConfigManager.shared.currentConfig?.mode == .global
+        if (isGlobalMode) {
             if proxyGroup.key != "GLOBAL" {return nil}
         } else {
             if proxyGroup.key == "GLOBAL" {return nil}
@@ -45,6 +46,11 @@ class ProxyMenuItemFactory {
         let selectedName = proxyGroup.value["now"].stringValue
         let submenu = NSMenu(title: proxyGroup.key)
         for proxy in proxyGroup.value["all"].arrayValue {
+            if isGlobalMode {
+                if json[proxy.stringValue]["type"] == "Selector" {
+                    continue
+                }
+            }
             let proxyItem = NSMenuItem(title: proxy.stringValue, action: #selector(ProxyMenuItemFactory.actionSelectProxy(sender:)), keyEquivalent: "")
             proxyItem.target = ProxyMenuItemFactory.self
             proxyItem.state = proxy.stringValue == selectedName ? .on : .off

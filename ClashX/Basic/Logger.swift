@@ -36,7 +36,7 @@ class Logger {
     }
     
     static func log(msg:String ,level:ClashLogLevel = .unknow) {
-        shared.logToFile(msg: msg, level: level)
+        shared.logToFile(msg: "[\(level.rawValue)] \(msg)", level: level)
     }
     
     func logFilePath() -> String {

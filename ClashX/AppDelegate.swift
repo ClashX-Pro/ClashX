@@ -29,6 +29,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var separatorLineTop: NSMenuItem!
     @IBOutlet weak var sepatatorLineEndProxySelect: NSMenuItem!
     
+    @IBOutlet weak var logLevelMenuItem: NSMenuItem!
+    
     var disposeBag = DisposeBag()
     let ssQueue = DispatchQueue(label: "com.w2fzu.ssqueue", attributes: .concurrent)
     var statusItemView:StatusItemView!
@@ -46,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.syncConfig()
         }
         setupData()
-        
+        updateLoggingLevel()
     }
     
 
@@ -102,6 +104,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 case .global:self.proxyModeGlobalMenuItem.state = .on
                 case .rule:self.proxyModeRuleMenuItem.state = .on
                 }
+
                 
                 self.proxyModeMenuItem.title = "Proxy Mode (\(config!.mode.rawValue))"
                 
@@ -178,6 +181,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             for each in items.reversed() {
                 self.statusMenu.insertItem(each, at: 0)
             }
+        }
+    }
+    
+    func updateLoggingLevel() {
+        for item in self.logLevelMenuItem.submenu?.items ?? [] {
+            item.state = item.title.lowercased() == ConfigManager.selectLoggingApiLevel.rawValue ? .on : .off
         }
     }
     
@@ -272,6 +281,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             
         }
+    }
+    
+    @IBAction func actionSetLogLevel(_ sender: NSMenuItem) {
+        let level = ClashLogLevel(rawValue: sender.title.lowercased()) ?? .unknow
+        ConfigManager.selectLoggingApiLevel = level
+        updateLoggingLevel()
+        resetStreamApi()
     }
     
     @IBAction func actionImportBunchJsonFile(_ sender: NSMenuItem) {

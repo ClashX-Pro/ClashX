@@ -73,7 +73,7 @@ class ApiRequest{
         
         logReq =
             alamoFireManager
-                .request(ConfigManager.apiUrl + "/logs")
+                .request(ConfigManager.apiUrl + "/logs?Level=\(ConfigManager.selectLoggingApiLevel.rawValue)")
                 .stream {(data) in
                     retry = 0
                     if let jsonData = try? JSONSerialization.jsonObject(with: data) as? [String:String] {
@@ -110,7 +110,6 @@ class ApiRequest{
             }
         }
     }
-    
     
     static func requestProxyGroupList(completeHandler:@escaping (([String:[String:Any]])->())){
         request(ConfigManager.apiUrl + "/proxies", method: .get).responseJSON{

@@ -17,6 +17,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ClashX" customModuleProvider="target">
                     <connections>
                         <outlet property="autoStartMenuItem" destination="B1J-XB-BiZ" id="xaS-h5-qd0"/>
+                        <outlet property="logLevelMenuItem" destination="3Da-fL-Mzr" id="ZCW-Il-fOZ"/>
                         <outlet property="proxyModeDirectMenuItem" destination="Np6-Pm-Lo3" id="DER-K7-DNW"/>
                         <outlet property="proxyModeGlobalMenuItem" destination="yiM-U4-MNg" id="M7s-kl-aPh"/>
                         <outlet property="proxyModeMenuItem" destination="jGT-1M-xJu" id="3Xj-xK-MJj"/>
@@ -86,7 +87,7 @@
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <menu key="submenu" title="Config" id="tck-zU-JKQ">
                                 <items>
-                                    <menuItem title="Generate Config" id="a4G-S3-jxT">
+                                    <menuItem title="Generate Config" state="on" id="a4G-S3-jxT">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                         <menu key="submenu" title="Generate Config" id="IeJ-1Q-UaF">
                                             <items>
@@ -123,15 +124,27 @@
                                             <items>
                                                 <menuItem title="ERROR" id="0iu-lB-eZN">
                                                     <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="KEd-c4-cB8"/>
+                                                    </connections>
                                                 </menuItem>
                                                 <menuItem title="WARNING" id="ko2-Ir-DxA">
                                                     <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="V2s-Xc-8lq"/>
+                                                    </connections>
                                                 </menuItem>
                                                 <menuItem title="INFO" id="d8V-h0-0zF">
                                                     <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="jeM-b7-3h6"/>
+                                                    </connections>
                                                 </menuItem>
                                                 <menuItem title="DEBUG" id="XIR-Go-fWA">
                                                     <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="wcc-7Y-8Ke"/>
+                                                    </connections>
                                                 </menuItem>
                                             </items>
                                         </menu>

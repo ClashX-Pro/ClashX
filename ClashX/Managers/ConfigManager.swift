@@ -71,6 +71,15 @@ class ConfigManager {
         }
     }
     
+    static var selectLoggingApiLevel:ClashLogLevel {
+        get{
+            return ClashLogLevel(rawValue: UserDefaults.standard.string(forKey: "selectLoggingApiLevel") ?? "") ?? .info
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: "selectLoggingApiLevel")
+        }
+    }
+    
     func refreshApiPort(){
         if let ini =
             parseConfig("\(NSHomeDirectory())/.config/clash/config.ini"),

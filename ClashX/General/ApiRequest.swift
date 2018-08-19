@@ -94,9 +94,14 @@ class ApiRequest{
         }
     }
     
-    static func requestConfigUpdate(callback:@escaping ((Bool)->())){
-        let success = updateAllConfig()
-        callback(success==0)
+    static func requestConfigUpdate(callback:@escaping ((String?)->())){
+        if let errMSg = updateAllConfig() {
+            let err = String(cString: errMSg)
+            callback(err == "" ? nil : err)
+        } else {
+            callback("unknown error")
+        }
+        
     }
     
     static func updateOutBoundMode(mode:ClashProxyMode, callback:@escaping ((Bool)->())) {

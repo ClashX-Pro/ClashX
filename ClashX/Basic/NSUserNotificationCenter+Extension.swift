@@ -32,6 +32,10 @@ extension NSUserNotificationCenter {
         self.post(title: "\(api) api connect error!", info: "Use reload config to try reconnect.")
     }
     
+    func postConfigErrorNotice(msg:String) {
+        self.post(title: "Config loading Fail!", info: msg)
+    }
+    
 }
 
 class UserNotificationCenterDelegate:NSObject,NSUserNotificationCenterDelegate {

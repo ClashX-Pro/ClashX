@@ -35,6 +35,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let ssQueue = DispatchQueue(label: "com.w2fzu.ssqueue", attributes: .concurrent)
     var statusItemView:StatusItemView!
     
+    var isRunning = false
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         signal(SIGPIPE, SIG_IGN)
         failLaunchProtect()
@@ -197,11 +199,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     func startProxy() {
-        ssQueue.async {
-            run()
+        if self.isRunning {return}
+        
+        self.isRunning = true
+        print("Trying start proxy")
+        if let cstring = run() {
+//            self.isRunning = false
+            let error = String(cString: cstring)
+            if (error != "success") {
+                NSUserNotificationCenter.default.postConfigErrorNotice(msg:error)
+            } else {
+                self.resetStreamApi()
+                self.selectOutBoundModeWithMenory()
+            }
         }
-        self.resetStreamApi()
-        self.selectOutBoundModeWithMenory()
+
     }
     
     func syncConfig(){
@@ -272,17 +284,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func actionUpdateConfig(_ sender: Any) {
-        ApiRequest.requestConfigUpdate() { [unowned self] success in
-            if (success) {
+        ApiRequest.requestConfigUpdate() { [unowned self] error in
+            if (error == nil) {
                 self.syncConfig()
                 self.resetStreamApi()
+                self.selectProxyGroupWithMemory()
+                self.selectOutBoundModeWithMenory()
                 NSUserNotificationCenter
                     .default
                     .post(title: "Reload Config Succeed", info: "succees")
             } else {
                 NSUserNotificationCenter
                     .default
-                    .post(title: "Reload Config Fail", info: "Please Check Config Fils")
+                    .post(title: "Reload Config Fail", info: error ?? "")
             }
             
         }

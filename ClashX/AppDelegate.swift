@@ -42,7 +42,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         failLaunchProtect()
         _ = ProxyConfigManager.install()
         PFMoveToApplicationsFolderIfNecessary()
-        startProxy()
         statusItemView = StatusItemView.create(statusItem: nil,statusMenu: statusMenu)
         statusItemView.onPopUpMenuAction = {
             [weak self] in
@@ -50,6 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.syncConfig()
         }
         setupData()
+        startProxy()
         updateLoggingLevel() 
     }
     

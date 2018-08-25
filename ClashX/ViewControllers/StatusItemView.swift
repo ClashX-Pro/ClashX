@@ -41,10 +41,12 @@ class StatusItemView: NSView {
         UserDefaults.standard
             .rx.observe(String.self, "AppleInterfaceStyle").bind {
             value in
-            let darkMode = (value ?? "Light") == "Dark"
-            let image = NSImage(named: NSImage.Name(rawValue: "menu_icon"))!.tint(color: darkMode ? NSColor.white : NSColor.black)
-            self.imageView.image = image
-            self.isDarkMode = darkMode
+                let darkMode = (value ?? "Light") == "Dark"
+                let customImagePath = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash/menuImage.png")
+                let image = NSImage(contentsOfFile: customImagePath) ??
+                    NSImage(named: NSImage.Name(rawValue: "menu_icon"))!.tint(color: darkMode ? NSColor.white : NSColor.black)
+                self.imageView.image = image
+                self.isDarkMode = darkMode
         }.disposed(by: disposeBag)
     }
     

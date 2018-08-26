@@ -105,6 +105,18 @@
                                                         <action selector="actionImportBunchJsonFile:" target="Voe-Tx-rLC" id="wPl-iW-WvG"/>
                                                     </connections>
                                                 </menuItem>
+                                                <menuItem title="SSURL from pasata board" id="QX2-2U-3Ad">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionImportConfigFromSSURL:" target="Voe-Tx-rLC" id="FGa-8X-oxt"/>
+                                                    </connections>
+                                                </menuItem>
+                                                <menuItem title="QR Code from screen" id="89G-Oc-S3l">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionScanQRCode:" target="Voe-Tx-rLC" id="RQR-HE-w4C"/>
+                                                    </connections>
+                                                </menuItem>
                                             </items>
                                         </menu>
                                     </menuItem>

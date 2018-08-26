@@ -8,3 +8,4 @@
 import Foundation
 
 let kShouldUpDateConfig =  Notification.Name("kShouldUpDateConfig")
+

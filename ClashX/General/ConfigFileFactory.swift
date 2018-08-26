@@ -25,18 +25,23 @@ class ConfigFileFactory {
         }
     }
     
+    static func proxyConfigStr(proxy:ProxyServerModel) -> String {
+        let targetStr:String
+        switch proxy.proxyType {
+        case .shadowsocks:
+            targetStr = "\(proxy.remark) = ss, \(proxy.serverHost), \(proxy.serverPort), \(proxy.method), \(proxy.password)\n"
+        case .socks5:
+            //socks = socks5, server1, port
+            targetStr = "\(proxy.remark) = socks5, \(proxy.serverHost), \(proxy.serverPort)\n"
+        }
+        return targetStr
+    }
+    
     static func configFile(proxies:[ProxyServerModel]) -> String {
         var proxyStr = ""
         var proxyGroupStr = ""
         for proxy in proxies {
-            let targetStr:String
-            switch proxy.proxyType {
-            case .shadowsocks:
-                targetStr = "\(proxy.remark) = ss, \(proxy.serverHost), \(proxy.serverPort), \(proxy.method), \(proxy.password)\n"
-            case .socks5:
-                //socks = socks5, server1, port
-                targetStr = "\(proxy.remark) = socks5, \(proxy.serverHost), \(proxy.serverPort)\n"
-            }
+            let targetStr = self.proxyConfigStr(proxy: proxy)
             proxyStr.append(targetStr)
             proxyGroupStr.append("\(proxy.remark),")
         }
@@ -144,5 +149,49 @@ class ConfigFileFactory {
             }
         }
         
+    }
+    
+    static func addProxyToConfig(proxy:ProxyServerModel) {
+        let targetStr = self.proxyConfigStr(proxy: proxy)
+        guard let ini = parseConfig(kConfigFilePath),
+            let currentProxys = ini["Proxy"],
+            let proxyGroup = ini["Proxy Group"]
+        else {
+            self.saveToClashConfigFile(str: self.configFile(proxies: [proxy]))
+            NotificationCenter.default.post(Notification(name: kShouldUpDateConfig))
+            return
+        }
+        
+        if currentProxys.keys.contains(proxy.remark) {
+            NSUserNotificationCenter.default.postProxyRemarkDupNotice(name: proxy.remark)
+            return
+        }
+        
+        if self.shared.witness != nil {
+            // not watch config file change now.
+            self.shared.witness = nil
+            defer {
+                self.shared.watchConfigFile()
+            }
+        }
+        
+        let configData = NSData(contentsOfFile: kConfigFilePath)
+        var configStr = String(data: configData! as Data, encoding: .utf8)!
+        let spilts = configStr.components(separatedBy: "[Proxy Group]")
+        configStr = spilts[0] + targetStr + "[Proxy Group]\n" + spilts[1]
+        
+        if let selectGroup = proxyGroup["Proxy"] {
+            let newSelectGroup = "\(selectGroup),\(proxy.remark)"
+            configStr = configStr.replacingOccurrences(of: selectGroup, with: newSelectGroup)
+        }
+        
+        if let autoGroup = proxyGroup["ProxyAuto"] {
+            let autoGroupProxys = autoGroup.components(separatedBy: ",").dropLast(2).joined(separator:",")
+            let newAutoGroupProxys = "\(autoGroupProxys),\(proxy.remark)"
+            configStr = configStr.replacingOccurrences(of: autoGroupProxys, with: newAutoGroupProxys)
+        }
+        
+        self.saveToClashConfigFile(str: configStr)
+        NotificationCenter.default.post(Notification(name: kShouldUpDateConfig))
     }
 }

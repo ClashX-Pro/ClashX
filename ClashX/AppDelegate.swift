@@ -50,7 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         setupData()
         startProxy()
-        updateLoggingLevel() 
+        updateLoggingLevel()
     }
     
 
@@ -327,6 +327,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ApiRequest.updateOutBoundMode(mode: mode) { (success) in
             ConfigManager.shared.currentConfig = config
             ConfigManager.selectOutBoundMode = mode
+        }
+    }
+    
+    @IBAction func actionImportConfigFromSSURL(_ sender: NSMenuItem) {
+        let pasteBoard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string)
+        if let proxyModel = ProxyServerModel(urlStr: pasteBoard ?? "") {
+            ConfigFileFactory.addProxyToConfig(proxy: proxyModel)
+        } else {
+            NSUserNotificationCenter.default.postImportConfigFromUrlFailNotice(urlStr: pasteBoard ?? "empty")
+        }
+    }
+    
+    @IBAction func actionScanQRCode(_ sender: NSMenuItem) {
+        if let urls = QRCodeUtil.ScanQRCodeOnScreen() {
+            for url in urls {
+                if let proxyModel = ProxyServerModel(urlStr: url) {
+                    ConfigFileFactory.addProxyToConfig(proxy: proxyModel)
+                } else {
+                    NSUserNotificationCenter
+                        .default
+                        .postImportConfigFromUrlFailNotice(urlStr: url)
+                }
+            }
+        }else {
+            NSUserNotificationCenter.default.postQRCodeNotFoundNotice()
         }
     }
     

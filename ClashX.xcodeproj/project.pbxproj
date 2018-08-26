@@ -12,6 +12,8 @@
 		492C4865210EC9E4004554A0 /* ProxyConfig in Resources */ = {isa = PBXBuildFile; fileRef = 492C4864210EC9E4004554A0 /* ProxyConfig */; };
 		492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C4868210EE6B9004554A0 /* ApiRequest.swift */; };
 		492C4871210EF62E004554A0 /* ClashConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C4870210EF62E004554A0 /* ClashConfig.swift */; };
+		4949D154213242F600EF85E6 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4949D153213242F600EF85E6 /* Paths.swift */; };
+		4949D15D2132614B00EF85E6 /* QRCodeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4949D15C2132614B00EF85E6 /* QRCodeUtil.swift */; };
 		4952C3BF2115C7CA004A4FA8 /* ProxyMenuItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4952C3BE2115C7CA004A4FA8 /* ProxyMenuItemFactory.swift */; };
 		4952C3CB2116E952004A4FA8 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4952C3C82116E952004A4FA8 /* PreferencesWindowController.swift */; };
 		4952C3CC2116E952004A4FA8 /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4952C3CA2116E952004A4FA8 /* PreferencesWindowController.xib */; };
@@ -48,19 +50,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4949D15A213260BD00EF85E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49CF3B4B20CE5232001EBF94 /* ProxyConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 36B6A3231E263590002B5B1D;
+			remoteInfo = ProxyConfig;
+		};
 		495A44CE20D2671F00888A0A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 49CF3B1520CD7463001EBF94 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 495A44BB20D2660A00888A0A;
 			remoteInfo = ClashXLaunchHelper;
-		};
-		49CF3B4F20CE5232001EBF94 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 49CF3B4B20CE5232001EBF94 /* ProxyConfig.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 36B6A3231E263590002B5B1D;
-			remoteInfo = ProxyConfig;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -83,6 +85,8 @@
 		492C4864210EC9E4004554A0 /* ProxyConfig */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = ProxyConfig; path = "../../../../Library/Developer/Xcode/DerivedData/ClashX-dojkemepirlxgtgjgkqxpjrbgopn/Build/Products/Debug/ProxyConfig"; sourceTree = "<group>"; };
 		492C4868210EE6B9004554A0 /* ApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
 		492C4870210EF62E004554A0 /* ClashConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashConfig.swift; sourceTree = "<group>"; };
+		4949D153213242F600EF85E6 /* Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paths.swift; sourceTree = "<group>"; };
+		4949D15C2132614B00EF85E6 /* QRCodeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeUtil.swift; sourceTree = "<group>"; };
 		4952C3BE2115C7CA004A4FA8 /* ProxyMenuItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyMenuItemFactory.swift; sourceTree = "<group>"; };
 		4952C3C82116E952004A4FA8 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		4952C3CA2116E952004A4FA8 /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
@@ -121,7 +125,7 @@
 		49CF3B2920CD7465001EBF94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49CF3B2A20CD7465001EBF94 /* ClashX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClashX.entitlements; sourceTree = "<group>"; };
 		49CF3B3520CD75DF001EBF94 /* ClashX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClashX-Bridging-Header.h"; sourceTree = "<group>"; };
-		49CF3B4B20CE5232001EBF94 /* ProxyConfig.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ProxyConfig.xcodeproj; sourceTree = "<group>"; };
+		49CF3B4B20CE5232001EBF94 /* ProxyConfig.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ProxyConfig.xcodeproj; path = ProxyConfig/ProxyConfig.xcodeproj; sourceTree = "<group>"; };
 		49CF3B5B20CE8068001EBF94 /* ProxyConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyConfigManager.swift; sourceTree = "<group>"; };
 		49CF3B5E20CE80D2001EBF94 /* install_proxy_helper.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install_proxy_helper.sh; sourceTree = "<group>"; };
 		49CF3B6220CED934001EBF94 /* check_proxy_helper.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = check_proxy_helper.sh; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				4913C82221157D0200F6B87C /* Notification.swift */,
+				4949D153213242F600EF85E6 /* Paths.swift */,
 			);
 			path = Macro;
 			sourceTree = "<group>";
@@ -162,9 +167,13 @@
 		492C4866210EE69B004554A0 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				4966E9E22118153A00A391FB /* NSUserNotificationCenter+Extension.swift */,
 				492C4868210EE6B9004554A0 /* ApiRequest.swift */,
 				4952C3BE2115C7CA004A4FA8 /* ProxyMenuItemFactory.swift */,
 				4952C3CF2117027C004A4FA8 /* ConfigFileFactory.swift */,
+				49CF3B5B20CE8068001EBF94 /* ProxyConfigManager.swift */,
+				49CF3B6420CEE06C001EBF94 /* ConfigManager.swift */,
+				4949D15C2132614B00EF85E6 /* QRCodeUtil.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -176,6 +185,14 @@
 				4952C3CD2116EA2E004A4FA8 /* ProxyServerModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4949D157213260BD00EF85E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4949D15B213260BD00EF85E6 /* ProxyConfig */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		495A44BD20D2660A00888A0A /* ClashXLaunchHelper */ = {
@@ -236,7 +253,6 @@
 				4997732320D251A60009B136 /* SWBApplication.m */,
 				4997732420D251A60009B136 /* SWBApplication.h */,
 				495A44D220D267D000888A0A /* LaunchAtLogin.swift */,
-				4966E9E22118153A00A391FB /* NSUserNotificationCenter+Extension.swift */,
 				4966E9E5211824F300A391FB /* NSImage+extension.swift */,
 				496BDEDF21196F1E00C5207F /* Logger.swift */,
 			);
@@ -269,13 +285,12 @@
 			children = (
 				49722FDD211ED2A900650A41 /* Vendor */,
 				4913C82021157CEB00F6B87C /* Macro */,
+				4997732220D251A60009B136 /* Basic */,
 				492C486E210EF621004554A0 /* Models */,
 				492C4866210EE69B004554A0 /* General */,
-				4997732220D251A60009B136 /* Basic */,
 				4989F98520D0AA300001E564 /* ViewControllers */,
 				49CF3B5D20CE80D2001EBF94 /* script */,
-				49CF3B5A20CE8054001EBF94 /* Managers */,
-				49CF3B4820CE5232001EBF94 /* ProxyConfig */,
+				49CF3B4B20CE5232001EBF94 /* ProxyConfig.xcodeproj */,
 				49CF3B4320CD79A0001EBF94 /* clash */,
 				49CF3B3A20CD783A001EBF94 /* Support Files */,
 				49CF3B2020CD7463001EBF94 /* AppDelegate.swift */,
@@ -307,31 +322,6 @@
 				4989F97F20D01C8F0001E564 /* clash.h */,
 			);
 			path = clash;
-			sourceTree = "<group>";
-		};
-		49CF3B4820CE5232001EBF94 /* ProxyConfig */ = {
-			isa = PBXGroup;
-			children = (
-				49CF3B4B20CE5232001EBF94 /* ProxyConfig.xcodeproj */,
-			);
-			path = ProxyConfig;
-			sourceTree = "<group>";
-		};
-		49CF3B4C20CE5232001EBF94 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				49CF3B5020CE5232001EBF94 /* ProxyConfig */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		49CF3B5A20CE8054001EBF94 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				49CF3B5B20CE8068001EBF94 /* ProxyConfigManager.swift */,
-				49CF3B6420CEE06C001EBF94 /* ConfigManager.swift */,
-			);
-			path = Managers;
 			sourceTree = "<group>";
 		};
 		49CF3B5D20CE80D2001EBF94 /* script */ = {
@@ -444,7 +434,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 49CF3B4C20CE5232001EBF94 /* Products */;
+					ProductGroup = 4949D157213260BD00EF85E6 /* Products */;
 					ProjectRef = 49CF3B4B20CE5232001EBF94 /* ProxyConfig.xcodeproj */;
 				},
 			);
@@ -457,11 +447,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		49CF3B5020CE5232001EBF94 /* ProxyConfig */ = {
+		4949D15B213260BD00EF85E6 /* ProxyConfig */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = ProxyConfig;
-			remoteRef = 49CF3B4F20CE5232001EBF94 /* PBXContainerItemProxy */;
+			remoteRef = 4949D15A213260BD00EF85E6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -579,6 +569,7 @@
 				4952C3D02117027C004A4FA8 /* ConfigFileFactory.swift in Sources */,
 				4997732520D251A60009B136 /* SWBApplication.m in Sources */,
 				49BC061C212931F4005A0FE7 /* AboutViewController.swift in Sources */,
+				4949D154213242F600EF85E6 /* Paths.swift in Sources */,
 				495340B320DE68C300B0D3FF /* StatusItemView.swift in Sources */,
 				495A44D320D267D000888A0A /* LaunchAtLogin.swift in Sources */,
 				49CF3B2120CD7463001EBF94 /* AppDelegate.swift in Sources */,
@@ -586,6 +577,7 @@
 				496BDEE021196F1E00C5207F /* Logger.swift in Sources */,
 				49722FEF211F338B00650A41 /* FileEvent.swift in Sources */,
 				4913C82321157D0200F6B87C /* Notification.swift in Sources */,
+				4949D15D2132614B00EF85E6 /* QRCodeUtil.swift in Sources */,
 				492C4871210EF62E004554A0 /* ClashConfig.swift in Sources */,
 				492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */,
 				49CF3B6520CEE06C001EBF94 /* ConfigManager.swift in Sources */,

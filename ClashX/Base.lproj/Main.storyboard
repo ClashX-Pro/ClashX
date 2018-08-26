@@ -18,6 +18,7 @@
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ClashX" customModuleProvider="target">
                     <connections>
+                        <outlet property="allowFromLanMenuItem" destination="Vz8-7n-vx6" id="Fzz-EG-huC"/>
                         <outlet property="autoStartMenuItem" destination="B1J-XB-BiZ" id="xaS-h5-qd0"/>
                         <outlet property="logLevelMenuItem" destination="3Da-fL-Mzr" id="ZCW-Il-fOZ"/>
                         <outlet property="proxyModeDirectMenuItem" destination="Np6-Pm-Lo3" id="DER-K7-DNW"/>
@@ -82,6 +83,12 @@
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="actionShowNetSpeedIndicator:" target="Voe-Tx-rLC" id="iHm-b9-VSa"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Allow connct from Lan" id="Vz8-7n-vx6">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="actionAllowFromLan:" target="Voe-Tx-rLC" id="BGp-Tp-MiH"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="UpD-DI-Smv"/>

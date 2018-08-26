@@ -23,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var proxyModeGlobalMenuItem: NSMenuItem!    
     @IBOutlet weak var proxyModeDirectMenuItem: NSMenuItem!
     @IBOutlet weak var proxyModeRuleMenuItem: NSMenuItem!
+    @IBOutlet weak var allowFromLanMenuItem: NSMenuItem!
     
     @IBOutlet weak var proxyModeMenuItem: NSMenuItem!
     @IBOutlet weak var showNetSpeedIndicatorMenuItem: NSMenuItem!
@@ -107,8 +108,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 case .global:self.proxyModeGlobalMenuItem.state = .on
                 case .rule:self.proxyModeRuleMenuItem.state = .on
                 }
-
-                
+                self.allowFromLanMenuItem.state = config!.allowLan ? .on : .off
                 self.proxyModeMenuItem.title = "Proxy Mode (\(config!.mode.rawValue))"
                 
                 self.updateProxyList()
@@ -170,6 +170,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    func selectAllowLanWithMenory() {
+        ApiRequest.updateAllowLan(allow: ConfigManager.allowConnectFromLan){
+            self.syncConfig()
+        }
+    }
+    
     func updateProxyList() {
         ProxyMenuItemFactory.menuItems { [unowned self] (menus) in
             let startIndex = self.statusMenu.items.index(of: self.separatorLineTop)!+1
@@ -207,17 +213,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if (error != "success") {
                 NSUserNotificationCenter.default.postConfigErrorNotice(msg:error)
             } else {
-                self.resetStreamApi()
-                self.selectOutBoundModeWithMenory()
+                self.syncConfig() {
+                    self.resetStreamApi()
+                    self.selectOutBoundModeWithMenory()
+                    self.selectAllowLanWithMenory()
+                }
             }
         }
 
     }
     
-    func syncConfig(){
+    func syncConfig(completeHandler:(()->())? = nil){
         ApiRequest.requestConfig{ (config) in
             guard config.port > 0 else {return}
             ConfigManager.shared.currentConfig = config
+            completeHandler?()
         }
     }
     
@@ -256,6 +266,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         pasteboard.clearContents()
         let port = ConfigManager.shared.currentConfig?.port ?? 0
         pasteboard.setString("export https_proxy=http://127.0.0.1:\(port);export http_proxy=http://127.0.0.1:\(port)", forType: .string)
+    }
+    @IBAction func actionAllowFromLan(_ sender: NSMenuItem) {
+        ApiRequest.updateAllowLan(allow: !ConfigManager.allowConnectFromLan) {
+            [unowned self] in
+            self.syncConfig()
+            ConfigManager.allowConnectFromLan = !ConfigManager.allowConnectFromLan
+        }
+        
     }
     
     @IBAction func actionStartAtLogin(_ sender: NSMenuItem) {

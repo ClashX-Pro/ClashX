@@ -124,6 +124,18 @@ class ApiRequest{
         }
     }
     
+    static func updateAllowLan(allow:Bool,completeHandler:@escaping (()->())) {
+        request(ConfigManager.apiUrl + "/configs",
+                method: .put,
+                parameters: ["allow-lan":allow,
+                             "socks-port":ConfigManager.shared.currentConfig!.socketPort,
+                             "port":ConfigManager.shared.currentConfig!.port],
+                encoding: JSONEncoding.default).response{
+            _ in
+            completeHandler()
+        }
+    }
+    
     static func updateProxyGroup(group:String,selectProxy:String,callback:@escaping ((Bool)->())) {
         request(ConfigManager.apiUrl + "/proxies/\(group)", method: .put, parameters: ["name":selectProxy], encoding: JSONEncoding.default).responseJSON { (response) in
             callback(response.response?.statusCode == 204)

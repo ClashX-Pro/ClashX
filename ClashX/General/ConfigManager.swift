@@ -72,6 +72,15 @@ class ConfigManager {
         }
     }
     
+    static var allowConnectFromLan:Bool {
+        get{
+            return UserDefaults.standard.bool(forKey: "allowConnectFromLan")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "allowConnectFromLan")
+        }
+    }
+    
     static var selectLoggingApiLevel:ClashLogLevel {
         get{
             return ClashLogLevel(rawValue: UserDefaults.standard.string(forKey: "selectLoggingApiLevel") ?? "") ?? .info

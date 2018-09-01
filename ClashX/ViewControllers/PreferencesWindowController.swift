@@ -138,6 +138,7 @@ class PreferencesWindowController: NSWindowController
         
         let str = ConfigFileFactory.configFile(proxies: serverConfigs)
         ConfigFileFactory.saveToClashConfigFile(str: str)
+        NotificationCenter.default.post(Notification(name:kShouldUpDateConfig))
         window?.performClose(nil)
     }
     

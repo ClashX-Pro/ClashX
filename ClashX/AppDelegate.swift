@@ -135,17 +135,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let xx = x.object(forKey: "launch_fail_times") as? Int {launch_fail_times = xx }
         launch_fail_times += 1
         x.set(launch_fail_times, forKey: "launch_fail_times")
-        if launch_fail_times > 2{
+        if launch_fail_times > 2 {
             //发生连续崩溃
-            let path = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash/")
-            let documentDirectory = URL(fileURLWithPath: path)
-            let originPath = documentDirectory.appendingPathComponent("config.ini")
-            let destinationPath = documentDirectory.appendingPathComponent("config.ini.bak")
-            try? FileManager.default.removeItem(at:destinationPath)
-            try? FileManager.default.moveItem(at: originPath, to: destinationPath)
-            try? FileManager.default.removeItem(at: documentDirectory.appendingPathComponent("Country.mmdb"))
+            ConfigFileFactory.backupAndRemoveConfigFile()
+            try? FileManager.default.removeItem(atPath: kConfigFolderPath + "Country.mmdb")
             NSUserNotificationCenter.default.post(title: "Fail on launch protect", info: "You origin Config has been rename to config.ini.bak")
-
         }
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
             x.set(0, forKey: "launch_fail_times")

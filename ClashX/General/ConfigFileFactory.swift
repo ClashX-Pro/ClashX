@@ -65,21 +65,23 @@ class ConfigFileFactory {
     
     static func saveToClashConfigFile(str:String) {
         // save to ~/.config/clash/config.ini
-        let path = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash/config.ini")
-        
+        self.backupAndRemoveConfigFile()
+        try? str.write(to: URL(fileURLWithPath: kConfigFilePath), atomically: true, encoding: .utf8)
+    }
+    
+    static func backupAndRemoveConfigFile() {
+        let path = kConfigFilePath
+
         if (FileManager.default.fileExists(atPath: path)) {
-            try? FileManager.default.removeItem(at: URL(fileURLWithPath: path))
+            let newPath = "\(kConfigFolderPath)config_\(Date().timeIntervalSince1970).ini"
+            try? FileManager.default.moveItem(atPath: path, toPath: newPath)
         }
-        try? str.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
     }
     
     static func copySimpleConfigFile() {
         let path = Bundle.main.path(forResource: "initConfig", ofType: "ini")!
-        let target = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash/config.ini")
-        if (FileManager.default.fileExists(atPath: target)) {
-            try? FileManager.default.removeItem(at: URL(fileURLWithPath: target))
-        }
-        try? FileManager.default.copyItem(atPath: path, toPath: target)
+        backupAndRemoveConfigFile()
+        try? FileManager.default.copyItem(atPath: path, toPath: kConfigFolderPath)
         NSUserNotificationCenter.default.postGenerateSimpleConfigNotice()
     }
     

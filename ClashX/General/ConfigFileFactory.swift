@@ -83,13 +83,14 @@ class ConfigFileFactory {
         return true
     }
     
-    static func copySimpleConfigFile() {
+    static func copySimpleConfigFile() -> Bool {
         if (!backupAndRemoveConfigFile(showAlert: true)) {
-            return;
+            return false
         }
         let path = Bundle.main.path(forResource: "initConfig", ofType: "ini")!
         try? FileManager.default.copyItem(atPath: path, toPath: kConfigFilePath)
         NSUserNotificationCenter.default.postGenerateSimpleConfigNotice()
+        return true
     }
     
     

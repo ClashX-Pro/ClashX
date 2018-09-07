@@ -66,22 +66,32 @@ class ConfigFileFactory {
     
     static func saveToClashConfigFile(str:String) {
         // save to ~/.config/clash/config.ini
-        let path = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash/config.ini")
-        
-        if (FileManager.default.fileExists(atPath: path)) {
-            try? FileManager.default.removeItem(at: URL(fileURLWithPath: path))
-        }
-        try? str.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+        self.backupAndRemoveConfigFile(showAlert: false)
+        try? str.write(to: URL(fileURLWithPath: kConfigFilePath), atomically: true, encoding: .utf8)
     }
     
-    static func copySimpleConfigFile() {
-        let path = Bundle.main.path(forResource: "initConfig", ofType: "ini")!
-        let target = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash/config.ini")
-        if (FileManager.default.fileExists(atPath: target)) {
-            try? FileManager.default.removeItem(at: URL(fileURLWithPath: target))
+    static func backupAndRemoveConfigFile(showAlert:Bool = false) -> Bool {
+        let path = kConfigFilePath
+        if (showAlert) {
+            if (!self.showReplacingConfigFileAlert()) {
+                return false;
+            }
         }
-        try? FileManager.default.copyItem(atPath: path, toPath: target)
+        if (FileManager.default.fileExists(atPath: path)) {
+            let newPath = "\(kConfigFolderPath)config_\(Date().timeIntervalSince1970).ini"
+            try? FileManager.default.moveItem(atPath: path, toPath: newPath)
+        }
+        return true
+    }
+    
+    static func copySimpleConfigFile() -> Bool {
+        if (!backupAndRemoveConfigFile(showAlert: true)) {
+            return false
+        }
+        let path = Bundle.main.path(forResource: "initConfig", ofType: "ini")!
+        try? FileManager.default.copyItem(atPath: path, toPath: kConfigFilePath)
         NSUserNotificationCenter.default.postGenerateSimpleConfigNotice()
+        return true
     }
     
     
@@ -194,5 +204,18 @@ class ConfigFileFactory {
         
         self.saveToClashConfigFile(str: configStr)
         NotificationCenter.default.post(Notification(name: kShouldUpDateConfig))
+    }
+    
+    static func showReplacingConfigFileAlert() -> Bool{
+        let alert = NSAlert()
+        alert.messageText = """
+        Can't Reconglized your config file. We will backup and replace your config file in your config folder.
+        
+        Otherwise the functions of ClashX will not work properly. You may need to restart ClashX or reload Config manually.
+        """
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Replace")
+        alert.addButton(withTitle: "Cancel")
+        return alert.runModal() == .alertFirstButtonReturn
     }
 }

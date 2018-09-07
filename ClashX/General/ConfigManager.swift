@@ -101,8 +101,11 @@ class ConfigManager {
                 }
             }
         }
-        ConfigFileFactory.copySimpleConfigFile()
-        refreshApiPort()
+        if (ConfigFileFactory.copySimpleConfigFile()) {
+            refreshApiPort()
+        } else {
+            apiPort = "7892"
+        }
     }
     
 

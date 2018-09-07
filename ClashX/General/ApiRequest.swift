@@ -95,12 +95,19 @@ class ApiRequest{
     }
     
     static func requestConfigUpdate(callback:@escaping ((String?)->())){
-        if let errMSg = updateAllConfig() {
-            let err = String(cString: errMSg)
-            callback(err == "" ? nil : err)
-        } else {
-            callback("unknown error")
+        request(ConfigManager.apiUrl + "/configs", method: .put).responseJSON { (res) in
+            if res.response?.statusCode == 204 {
+                callback(nil)
+            } else {
+                if let errMSg = updateAllConfig() {
+                    let err = String(cString: errMSg)
+                    callback(err == "" ? nil : err)
+                } else {
+                    callback("unknown error")
+                }
+            }
         }
+
         
     }
     
@@ -135,7 +142,8 @@ class ApiRequest{
     }
     
     static func updateProxyGroup(group:String,selectProxy:String,callback:@escaping ((Bool)->())) {
-        request(ConfigManager.apiUrl + "/proxies/\(group)", method: .put, parameters: ["name":selectProxy], encoding: JSONEncoding.default).responseJSON { (response) in
+        let groupEncoded = group.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        request(ConfigManager.apiUrl + "/proxies/\(groupEncoded)", method: .put, parameters: ["name":selectProxy], encoding: JSONEncoding.default).responseJSON { (response) in
             callback(response.response?.statusCode == 204)
         }
     }

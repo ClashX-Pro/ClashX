@@ -6,9 +6,15 @@
     <description>Most recent changes with links to updates.</description>
     <language>cn</language>
       <item>
-        <title>1.4.0</title>
+        <title>1.4.1</title>
         <description>
           <![CDATA[
+            <ul>
+              <li>1.4.1</li>
+              <li>Support Vmess with TLS.</li>
+              <li> Format:<br>vmess = vmess, 127.0.0.1, 1234, uuid, alterid (1 if you don't know), auto/aes-128-gcm/chacha20-poly1305/none, tls=true/false</li>
+            </ul>
+              
             <ul>
               <li>1.4.0</li>
               <li>Support Vmess.</li>
@@ -81,8 +87,8 @@
             </ul>
           ]]>
         </description>
-        <pubDate>Sun, 24 Aug 2018 15:20:11 +0000</pubDate>
-        <enclosure url="https://github.com/yichengchen/clashX/releases/download/1.4.0/ClashX.dmg" sparkle:version="1.4.0" type="application/octet-stream"/>
+        <pubDate>Sun, 25 Aug 2018 15:20:11 +0000</pubDate>
+        <enclosure url="https://github.com/yichengchen/clashX/releases/download/1.4.1/ClashX.dmg" sparkle:version="1.4.1" type="application/octet-stream"/>
       </item>
   </channel>
 </rss>

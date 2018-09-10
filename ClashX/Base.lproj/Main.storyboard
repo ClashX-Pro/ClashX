@@ -35,23 +35,19 @@
                 <menu id="Afa-lD-EbR">
                     <items>
                         <menuItem title="Proxy mode (Global)" id="jGT-1M-xJu">
-                            <modifierMask key="keyEquivalentModifierMask"/>
                             <menu key="submenu" title="Proxy mode (Global)" id="UU2-uE-YB4">
                                 <items>
-                                    <menuItem title="Global" id="yiM-U4-MNg">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    <menuItem title="Global" keyEquivalent="g" id="yiM-U4-MNg">
                                         <connections>
                                             <action selector="actionSwitchProxyMode:" target="Voe-Tx-rLC" id="qv6-up-ubF"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Rule" id="89n-bD-JHk">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    <menuItem title="Rule" keyEquivalent="r" id="89n-bD-JHk">
                                         <connections>
                                             <action selector="actionSwitchProxyMode:" target="Voe-Tx-rLC" id="hGb-uh-9p3"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Direct" id="Np6-Pm-Lo3">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    <menuItem title="Direct" keyEquivalent="d" id="Np6-Pm-Lo3">
                                         <connections>
                                             <action selector="actionSwitchProxyMode:" target="Voe-Tx-rLC" id="vbj-a5-5O0"/>
                                         </connections>
@@ -61,14 +57,12 @@
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="1fM-p6-bHd"/>
                         <menuItem isSeparatorItem="YES" id="n67-fU-hLx"/>
-                        <menuItem title="Set as system proxy" id="8se-yr-wmp">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                        <menuItem title="Set as system proxy" keyEquivalent="s" id="8se-yr-wmp">
                             <connections>
                                 <action selector="actionSetSystemProxy:" target="Voe-Tx-rLC" id="jrp-iz-ljC"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Copy export command" id="Jmb-PK-rMW">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                        <menuItem title="Copy export command" keyEquivalent="c" id="Jmb-PK-rMW">
                             <connections>
                                 <action selector="actionCopyExportCommand:" target="Voe-Tx-rLC" id="82r-sY-7xb"/>
                             </connections>
@@ -127,14 +121,12 @@
                                             </items>
                                         </menu>
                                     </menuItem>
-                                    <menuItem title="Open config Folder" id="DwE-WX-ETZ">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    <menuItem title="Open config Folder" keyEquivalent="o" id="DwE-WX-ETZ">
                                         <connections>
                                             <action selector="openConfigFolder:" target="Voe-Tx-rLC" id="6Ke-Bi-AAZ"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Reload config" id="q3G-VH-eyy">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    <menuItem title="Reload config" keyEquivalent="r" id="q3G-VH-eyy">
                                         <connections>
                                             <action selector="actionUpdateConfig:" target="Voe-Tx-rLC" id="oW5-Ll-SY8"/>
                                         </connections>
@@ -183,14 +175,12 @@
                                             <segue destination="UWQ-O3-RVk" kind="show" id="ZDv-Fo-P5y"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Check Update" id="p0T-J8-Emx">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    <menuItem title="Check Update" keyEquivalent="u" id="p0T-J8-Emx">
                                         <connections>
                                             <action selector="checkForUpdates:" target="fth-rt-saN" id="gaF-35-d7h"/>
                                         </connections>
                                     </menuItem>
-                                    <menuItem title="Show Log" id="xxZ-9l-69m">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    <menuItem title="Show Log" keyEquivalent="l" id="xxZ-9l-69m">
                                         <connections>
                                             <action selector="actionShowLog:" target="Voe-Tx-rLC" id="riD-KO-PNs"/>
                                         </connections>
@@ -198,8 +188,7 @@
                                 </items>
                             </menu>
                         </menuItem>
-                        <menuItem title="Quit" id="NXU-86-Eem">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                        <menuItem title="Quit" keyEquivalent="q" id="NXU-86-Eem">
                             <connections>
                                 <action selector="actionQuit:" target="Voe-Tx-rLC" id="ZtA-Bb-6xk"/>
                             </connections>

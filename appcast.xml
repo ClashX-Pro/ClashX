@@ -6,9 +6,15 @@
     <description>Most recent changes with links to updates.</description>
     <language>cn</language>
       <item>
-        <title>1.4.1</title>
+        <title>1.5.2</title>
         <description>
           <![CDATA[
+          <ul>
+              <li>1.5.2</li>
+              <li>Fix stream writer to avoid connection closed when uploading (e.g. Telegram upload image)</li>
+              <li>Add SpeedTest.</li>
+          </ul>
+              
           <ul>
               <li>1.5</li>
               <li>Add shadowsocks simple-obfs support</li>
@@ -96,8 +102,8 @@
             </ul>
           ]]>
         </description>
-        <pubDate>Sun, 25 Aug 2018 15:20:11 +0000</pubDate>
-        <enclosure url="https://github.com/yichengchen/clashX/releases/download/1.5/ClashX.dmg" sparkle:version="1.5" type="application/octet-stream"/>
+        <pubDate>Sun, 26 Aug 2018 15:20:11 +0000</pubDate>
+        <enclosure url="https://github.com/yichengchen/clashX/releases/download/1.5.2/ClashX.dmg" sparkle:version="1.5.2" type="application/octet-stream"/>
       </item>
   </channel>
 </rss>

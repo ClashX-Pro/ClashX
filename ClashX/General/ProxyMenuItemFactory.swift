@@ -23,7 +23,7 @@ class ProxyMenuItemFactory {
                 var menu:NSMenuItem?
                 switch proxyGroup.value["type"].stringValue {
                 case "Selector": menu = self.generateSelectorMenuItem(json: dataDict, key: proxyGroup.key)
-                case "URLTest": menu = self.generateUrlTestMenuItem(proxyGroup: proxyGroup)
+                case "URLTest","Fallback": menu = self.generateUrlTestMenuItem(proxyGroup: proxyGroup)
                 default: continue
                 }
                 if (menu != nil) {menuItems.append(menu!)}

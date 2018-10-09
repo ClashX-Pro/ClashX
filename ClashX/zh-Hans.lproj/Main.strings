@@ -33,7 +33,7 @@
 "AYu-sK-qS6.title" = "Main Menu";
 
 /* Class = "NSMenuItem"; title = "Start at login"; ObjectID = "B1J-XB-BiZ"; */
-"B1J-XB-BiZ.title" = "开启启动";
+"B1J-XB-BiZ.title" = "开机启动";
 
 /* Class = "NSTextFieldCell"; title = "https://github.com/Dreamacro/clash"; ObjectID = "Bej-j7-KKV"; */
 "Bej-j7-KKV.title" = "https://github.com/Dreamacro/clash";

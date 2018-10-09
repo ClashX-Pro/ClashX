@@ -41,8 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItemView:StatusItemView!
     
     var isRunning = false
-    
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    func applicationDidFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
         failLaunchProtect()
         _ = ProxyConfigManager.install()
@@ -59,7 +58,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         startProxy()
         updateLoggingLevel()
     }
-    
+
+
 
     func applicationWillTerminate(_ aNotification: Notification) {
         if ConfigManager.shared.proxyPortAutoSet {

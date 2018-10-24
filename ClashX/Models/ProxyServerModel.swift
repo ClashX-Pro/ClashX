@@ -148,7 +148,7 @@ class ProxyServerModel: NSObject, Codable {
         var whitespace = NSCharacterSet.whitespacesAndNewlines
         whitespace.insert(":")
         remark = remark.components(separatedBy: whitespace).joined()
-        if remark == "" {remark = "NewProxy"}
+        if remark == "" {remark = serverHost}
         
         func validateIpAddress(_ ipToValidate: String) -> Bool {
             

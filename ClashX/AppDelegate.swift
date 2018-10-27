@@ -44,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         signal(SIGPIPE, SIG_IGN)
         
         failLaunchProtect()
+        registCrashLogger()
         
         _ = ProxyConfigManager.install()
         ConfigFileFactory.upgardeIniIfNeed()
@@ -161,6 +162,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if (!ClashWebViewContoller.enableDashBoard()) {
             statusMenu.removeItem(dashboardMenuItem)
         }
+    }
+    
+    func registCrashLogger() {
+        func exceptionHandler(exception : NSException) {
+            print(exception)
+            print(exception.callStackSymbols)
+            let str = exception.callStackSymbols.joined(separator: "\n")
+            Logger.log(msg: str, level: .error)
+        }
+        NSSetUncaughtExceptionHandler(exceptionHandler)
     }
     
     func failLaunchProtect(){

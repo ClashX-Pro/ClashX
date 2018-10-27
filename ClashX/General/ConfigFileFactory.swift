@@ -324,6 +324,16 @@ extension ConfigFileFactory {
         saveToClashConfigFile(config: newConfig)
         showIniUpgradeAlert()
     }
+    
+    static func checkFinalRuleAndShowAlert() {
+        ApiRequest.getRules() {
+            rules in
+            let hasFinal = rules.reversed().contains(){$0.type == "FINAL"}
+            if !hasFinal {
+                showNoFinalRuleAlert()
+            }
+        }
+    }
 }
 
 
@@ -348,6 +358,19 @@ extension ConfigFileFactory {
         ClashX has automatically upgraded your config file.
         Note: current upgradation might cause your config file looks confusion. Check the config file example in github for better customize.
         """.localized()
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+    }
+    
+    
+    static func showNoFinalRuleAlert() {
+        let alert = NSAlert()
+        alert.messageText = """
+No FINAL rule were found in clash configs,This might caused by incorrect upgradation during earily version of clashX or error setting of FINAL rule.Please check your config file.
+
+NO FINAL rule would cause traffic send to DIRECT which no match any rules.
+""".localized()
         alert.alertStyle = .warning
         alert.addButton(withTitle: "OK")
         alert.runModal()

@@ -61,6 +61,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupDashboard()
         startProxy()
         updateLoggingLevel()
+        ConfigFileFactory.checkFinalRuleAndShowAlert()
     }
 
 
@@ -334,6 +335,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.resetStreamApi()
                 self.selectProxyGroupWithMemory()
                 self.selectOutBoundModeWithMenory()
+                ConfigFileFactory.checkFinalRuleAndShowAlert()
                 NSUserNotificationCenter
                     .default
                     .post(title: "Reload Config Succeed", info: "succees")

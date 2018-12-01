@@ -490,7 +490,7 @@
                 </viewController>
                 <customObject id="oHh-a0-cAY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="488" y="341"/>
+            <point key="canvasLocation" x="487.5" y="341"/>
         </scene>
         <!--Clash Web View Contoller-->
         <scene sceneID="hPF-qG-B6J">

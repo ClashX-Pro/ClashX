@@ -247,7 +247,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func updateConfigFiles() {
-        switchConfigMenuItem.submenu?.items = MenuItemFactory.generateSwitchConfigMenuItems()
+        switchConfigMenuItem.submenu = MenuItemFactory.generateSwitchConfigSubMenu()
     }
     
     func updateLoggingLevel() {

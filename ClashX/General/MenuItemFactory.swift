@@ -100,15 +100,15 @@ class MenuItemFactory {
     }
     
    
-    static func generateSwitchConfigMenuItems() -> [NSMenuItem] {
-        var items = [NSMenuItem]()
+    static func generateSwitchConfigSubMenu() -> NSMenu {
+        let subMenu = NSMenu(title: "Switch Configs")
         for config in ConfigManager.getConfigFilesList() {
             let item = NSMenuItem(title: config, action: #selector(MenuItemFactory.actionSelectConfig(sender:)), keyEquivalent: "")
             item.target = MenuItemFactory.self
             item.state = ConfigManager.selectConfigName == config ? .on : .off
-            items.append(item)
+            subMenu.addItem(item)
         }
-        return items
+        return subMenu
     }
 }
 

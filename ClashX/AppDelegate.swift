@@ -351,6 +351,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func actionUpdateConfig(_ sender: Any) {
         startProxy()
         guard ConfigManager.shared.isRunning else {return}
+        let notifaction = self != (sender as? NSObject)
         ApiRequest.requestConfigUpdate() { [unowned self] error in
             if (error == nil) {
                 self.syncConfig()
@@ -358,13 +359,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.selectProxyGroupWithMemory()
                 self.selectOutBoundModeWithMenory()
                 ConfigFileFactory.checkFinalRuleAndShowAlert()
-                NSUserNotificationCenter
-                    .default
-                    .post(title: "Reload Config Succeed", info: "Succees")
+                if notifaction{
+                    NSUserNotificationCenter
+                        .default
+                        .post(title: "Reload Config Succeed", info: "Succees")
+                }
             } else {
-                NSUserNotificationCenter
-                    .default
-                    .post(title: "Reload Config Fail", info: error ?? "")
+                if (notifaction) {
+                    NSUserNotificationCenter
+                        .default
+                        .post(title: "Reload Config Fail", info: error ?? "")
+                }
             }
             
         }

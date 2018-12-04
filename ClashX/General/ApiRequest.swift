@@ -117,13 +117,10 @@ class ApiRequest{
     static func getAllProxyList(callback:@escaping (([String])->())) {
         requestProxyGroupList { (groups) in
             let lists:[String] = groups["GLOBAL"]?["all"] as? [String] ?? []
-            var proxyList = [String]()
-            for proxy in lists {
-                if ["Shadowsocks","Vmess"] .contains(groups[proxy]?["type"] as? String ?? ""){
-                    proxyList.append(proxy)
-                }
-            }
-            callback(proxyList)
+            .filter({
+                ["Shadowsocks","Vmess","Socks5","Http"] .contains(groups[$0]?["type"] as? String ?? "")
+            })
+            callback(lists)
         }
     }
     

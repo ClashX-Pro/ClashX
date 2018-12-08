@@ -12,6 +12,9 @@ import Alamofire
 import RxCocoa
 import RxSwift
 
+import Fabric
+import Crashlytics
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem!
@@ -44,25 +47,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
         
+        // setup menu item first
+        statusItem = NSStatusBar.system.statusItem(withLength:65)
+        statusItem.menu = statusMenu
+        
+        statusItemView = StatusItemView.create(statusItem: statusItem)
+        statusMenu.delegate = self
+        
+        // crash recorder
         failLaunchProtect()
         registCrashLogger()
         
+        // prepare for launch
         _ = ProxyConfigManager.install()
         ConfigFileFactory.upgardeIniIfNeed()
         ConfigFileFactory.copySampleConfigIfNeed()
         
         PFMoveToApplicationsFolderIfNecessary()
-        statusItem = NSStatusBar.system.statusItem(withLength:65)
-        statusItem.menu = statusMenu
-
-        statusItemView = StatusItemView.create(statusItem: statusItem)
-        statusMenu.delegate = self
         
+        // start proxy
         setupData()
-        setupDashboard()
         actionUpdateConfig(self)
         updateLoggingLevel()
+
+        // check config vaild via api
         ConfigFileFactory.checkFinalRuleAndShowAlert()
+
+        // hide dev functions
+        setupDashboard()
     }
 
 
@@ -163,38 +175,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func registCrashLogger() {
-        func exceptionHandler(exception : NSException) {
-            print(exception)
-            print(exception.callStackSymbols)
-            let str = exception.callStackSymbols.joined(separator: "\n")
-            Logger.log(msg: "--------------CRASH--------------")
-            Logger.log(msg: exception.reason ?? "no reason", level: .error)
-            Logger.log(msg: str, level: .error)
-            Logger.log(msg: (String(describing: exception.userInfo)))
-            Logger.log(msg: "---------------------------------")
-
-        }
-        NSSetUncaughtExceptionHandler(exceptionHandler)
-    }
-    
-    func failLaunchProtect(){
-        let x = UserDefaults.standard
-        var launch_fail_times:Int = 0
-        if let xx = x.object(forKey: "launch_fail_times") as? Int {launch_fail_times = xx }
-        launch_fail_times += 1
-        x.set(launch_fail_times, forKey: "launch_fail_times")
-        if launch_fail_times > 2 {
-            //发生连续崩溃
-            ConfigFileFactory.backupAndRemoveConfigFile()
-            try? FileManager.default.removeItem(atPath: kConfigFolderPath + "Country.mmdb")
-            NSUserNotificationCenter.default.post(title: "Fail on launch protect", info: "You origin Config has been renamed")
-        }
-        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
-            x.set(0, forKey: "launch_fail_times")
-        });
-    }
-    
+   
     func selectProxyGroupWithMemory(){
         for item in ConfigManager.selectedProxyMap {
             ApiRequest.updateProxyGroup(group: item.key, selectProxy: item.value) { (success) in
@@ -446,6 +427,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func actionUpdateRemoteConfig(_ sender: Any) {
         RemoteConfigManager.updateConfigIfNeed()
     }
+    
+}
+
+// crash hanlder
+extension AppDelegate {
+    func registCrashLogger() {
+        Fabric.with([Crashlytics.self])
+    }
+    
+    func failLaunchProtect(){
+        let x = UserDefaults.standard
+        var launch_fail_times:Int = 0
+        if let xx = x.object(forKey: "launch_fail_times") as? Int {launch_fail_times = xx }
+        launch_fail_times += 1
+        x.set(launch_fail_times, forKey: "launch_fail_times")
+        if launch_fail_times > 4 {
+            //发生连续崩溃
+            ConfigFileFactory.backupAndRemoveConfigFile()
+            try? FileManager.default.removeItem(atPath: kConfigFolderPath + "Country.mmdb")
+            NSUserNotificationCenter.default.post(title: "Fail on launch protect", info: "You origin Config has been renamed")
+        }
+        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
+            x.set(0, forKey: "launch_fail_times")
+        });
+    }
+    
 }
 
 extension AppDelegate:NSMenuDelegate {

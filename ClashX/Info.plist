@@ -40,6 +40,20 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://yichengchen.github.io/clashX/appcast.xml</string>
+    <string>https://yichengchen.github.io/clashX/appcast.xml</string>
+    <key>Fabric</key>
+    <dict>
+        <key>APIKey</key>
+        <string>e5990c61f53f0e5713e37f78458291760d631147</string>
+        <key>Kits</key>
+        <array>
+            <dict>
+                <key>KitInfo</key>
+                <dict/>
+                <key>KitName</key>
+                <string>Crashlytics</string>
+            </dict>
+        </array>
+    </dict>
 </dict>
 </plist>

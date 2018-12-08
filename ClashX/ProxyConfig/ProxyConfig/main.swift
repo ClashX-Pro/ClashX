@@ -1,7 +1,7 @@
 import Foundation
 import SystemConfiguration
 
-let version = "0.1.1"
+let version = "0.1.2"
 
 func main(_ args: [String]) {
     var port: Int = 0
@@ -78,7 +78,8 @@ func main(_ args: [String]) {
                     "172.16.0.0/12",
                     "127.0.0.1",
                     "localhost",
-                    "*.local"
+                    "*.local",
+                    "*.crashlytics.com"
                     ] as AnyObject
                 
                 let path = "/\(kSCPrefNetworkServices)/\(key)/\(kSCEntNetProxies)"

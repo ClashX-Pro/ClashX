@@ -4,7 +4,7 @@ import AppKit
 
 class ProxyConfigManager {
     static let kProxyConfigFolder = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash")
-    static let kVersion = "0.1.1"
+    static let kVersion = "0.1.2"
 
     
     static func vaildHelper() -> Bool {

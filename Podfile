@@ -10,5 +10,8 @@ target 'ClashX' do
   pod 'WebViewJavascriptBridge', '~> 6.0'
   pod 'Yams'
   
+  pod 'Fabric'
+  pod 'Crashlytics'
+  
 end
 

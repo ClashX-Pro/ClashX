@@ -125,8 +125,8 @@ class JsBridgeUtil {
         
         
         // ping-pong
-        bridge.registerHandler("ping"){ (anydata, responseCallback) in
-            bridge.callHandler("pong")
+        bridge.registerHandler("ping"){ [weak bridge] (anydata, responseCallback) in
+            bridge?.callHandler("pong")
             responseCallback?(true)
         }
         return bridge

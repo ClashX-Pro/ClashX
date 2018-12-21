@@ -90,20 +90,33 @@ class ClashWebViewContoller: NSViewController {
         view.window?.backgroundColor = NSColor.clear
         view.window?.styleMask.remove(.resizable)
         view.window?.styleMask.remove(.miniaturizable)
+        
+        if NSApp.activationPolicy() == .accessory {
+            NSApp.setActivationPolicy(.regular)
+        }
     }
+    
+    deinit {
+        NSApp.setActivationPolicy(.accessory)
+    }
+    
+
+    
     
 }
 
 extension ClashWebViewContoller {
     func registerExtenalJSBridgeFunction(){
-        self.bridge?.registerHandler("setDragAreaHeight") {(anydata, responseCallback) in
+        self.bridge?.registerHandler("setDragAreaHeight") {
+            [weak self] (anydata, responseCallback) in
             if let height = anydata as? CGFloat {
-                self.webview.dragableAreaHeight = height;
+                self?.webview.dragableAreaHeight = height;
             }
             responseCallback?(nil)
         }
     }
 }
+
 
 extension ClashWebViewContoller:WKUIDelegate,WKNavigationDelegate {
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {

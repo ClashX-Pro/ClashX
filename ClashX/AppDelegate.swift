@@ -213,14 +213,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func startProxy() {
         if (ConfigManager.shared.isRunning){return}
-        
+    
         // setup ui config first
         if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dashboard") ,
-            let uiPath = URL(string: htmlPath)?.deletingLastPathComponent().absoluteString,
-            let data = uiPath.data(using: .utf8) {
-                data.withUnsafeBytes({ p in
-                    setUIPath(GoString(p: p, n: data.count))
-                })
+            let uiPath = URL(string: htmlPath)?.deletingLastPathComponent().absoluteString.dropLast() {
+            let path = String(uiPath)
+            let length = path.count + 1
+            let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: length)
+            (path as NSString).getCString(buffer, maxLength: length, encoding: String.Encoding.utf8.rawValue)
+            setUIPath(buffer)
         }
         
         print("Trying start proxy")
@@ -234,6 +235,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.resetStreamApi()
             }
         }
+        
+        
 
     }
     

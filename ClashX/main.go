@@ -21,8 +21,8 @@ func run() *C.char {
 }
 
 //export setUIPath
-func setUIPath(path string) {
-	route.SetUIPath(path)
+func setUIPath(path *C.char) {
+	route.SetUIPath(C.GoString(path))
 }
 
 func main() {

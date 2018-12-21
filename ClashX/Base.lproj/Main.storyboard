@@ -97,7 +97,7 @@
                                 <action selector="actionAllowFromLan:" target="Voe-Tx-rLC" id="BGp-Tp-MiH"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Dashboard (dev)" id="XG6-2M-PNi">
+                        <menuItem title="Dashboard" id="XG6-2M-PNi">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <segue destination="ZNp-tx-6bv" kind="show" id="ZMG-K0-DhZ"/>

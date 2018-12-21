@@ -59,6 +59,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // prepare for launch
         ConfigFileManager.upgardeIniIfNeed()
+        // install proxy helper
+        _ = ProxyConfigHelperManager.install()
         ConfigFileManager.copySampleConfigIfNeed()
         ConfigManager.shared.refreshApiInfo()
         
@@ -72,8 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // check config vaild via api
         ConfigFileManager.checkFinalRuleAndShowAlert()
         
-        // install proxy helper
-        _ = ProxyConfigHelperManager.install()
+
 
     }
 

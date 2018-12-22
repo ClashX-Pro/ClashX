@@ -60,7 +60,7 @@ class MenuItemFactory {
             let selected = proxy.stringValue == selectedName
             proxyItem.state = selected ? .on : .off
 
-            if let delay = SpeedDataRecorder.shared.speedDict[proxy.stringValue] {
+            if let delay = SpeedDataRecorder.shared.getDelay(proxy.stringValue) {
                 let menuItemView = ProxyMenuItemView.create(proxy: proxy.stringValue, delay: delay)
                 menuItemView.isSelected = selected
                 menuItemView.onClick = { [weak proxyItem] in

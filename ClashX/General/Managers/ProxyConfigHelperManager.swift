@@ -33,7 +33,7 @@ class ProxyConfigHelperManager {
        
         if !vaildHelper() {
             if (!showInstallHelperAlert()) {
-                exit(0)
+                NSApplication.shared.terminate(nil)
             }
             
             if (FileManager.default.fileExists(atPath: targetPath)) {
@@ -57,8 +57,13 @@ class ProxyConfigHelperManager {
     
     static func checkConfigDir() {
         var isDir : ObjCBool = true
+        
         if !FileManager.default.fileExists(atPath: kProxyConfigFolder, isDirectory:&isDir) {
-            try? FileManager.default.createDirectory(atPath: kProxyConfigFolder, withIntermediateDirectories: false, attributes: nil)
+            do {
+                try FileManager.default.createDirectory(atPath: kProxyConfigFolder, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                showCreateConfigDirFailAlert()
+            }
         }
     }
     
@@ -102,6 +107,17 @@ class ProxyConfigHelperManager {
         alert.addButton(withTitle: "Install".localized())
         alert.addButton(withTitle: "Quit".localized())
         return alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    static func showCreateConfigDirFailAlert() {
+        let alert = NSAlert()
+        alert.messageText = """
+        ClashX fail to create ~/.config/clash folder. Please check privileges or manually create folder and restart ClashX.
+        """.localized()
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Quit".localized())
+        alert.runModal()
+        NSApplication.shared.terminate(nil)
     }
 
 }

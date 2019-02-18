@@ -23,9 +23,9 @@ class MenuItemFactory {
                 var menu:NSMenuItem?
                 switch proxyGroup.value["type"].stringValue {
                 case "Selector": menu = self.generateSelectorMenuItem(json: dataDict, key: proxyGroup.key)
-                case "URLTest","Fallback": menu = self.generateUrlTestMenuItem(proxyGroup: proxyGroup)
+                case "URLTest","Fallback": menu = generateUrlTestMenuItem(proxyGroup: proxyGroup)
                 case "LoadBalance":
-                    menu = self.generateLoadBalanceMenuItem(proxyGroup: proxyGroup)
+                    menu = generateLoadBalanceMenuItem(proxyGroup: proxyGroup)
                     
                 default: continue
                 }
@@ -105,6 +105,7 @@ class MenuItemFactory {
             if fittitingWidth > submenu.minimumWidth {
                 submenu.minimumWidth = fittitingWidth
             }
+            proxyItem.isSelected = false
             submenu.addItem(proxyItem)
         }
         

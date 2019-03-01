@@ -45,6 +45,14 @@ extension NSUserNotificationCenter {
         self.post(title: "Proxy Remark duplicated", info: "Name:\(name)")
     }
     
+    func postSpeedTestBeginNotice() {
+        self.post(title: "SpeedTest".localized(), info: "SpeedTest has begun, please wait.".localized())
+    }
+    
+    func postSpeedTestingNotice() {
+        self.post(title: "SpeedTest".localized(), info: "SpeedTest is processing, please wait.".localized())
+    }
+    
     func postSpeedTestFinishNotice() {
         self.post(title: "SpeedTest".localized(), info: "SpeedTest Finished!".localized())
     }

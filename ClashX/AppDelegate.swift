@@ -342,7 +342,12 @@ extension AppDelegate {
     }
     
     @IBAction func actionSpeedTest(_ sender: Any) {
-        if isSpeedTesting {return}
+        if isSpeedTesting {
+            NSUserNotificationCenter.default.postSpeedTestingNotice()
+            return
+        }
+        NSUserNotificationCenter.default.postSpeedTestBeginNotice()
+
         isSpeedTesting = true
         ApiRequest.getAllProxyList { [weak self] proxies in
             let testGroup = DispatchGroup()
@@ -357,7 +362,7 @@ extension AppDelegate {
             testGroup.notify(queue: DispatchQueue.main, execute: {
                 NSUserNotificationCenter.default.postSpeedTestFinishNotice()
                 self?.syncConfig()
-                self?.isSpeedTesting = true
+                self?.isSpeedTesting = false
             })
         }
 

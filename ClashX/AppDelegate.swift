@@ -170,7 +170,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         LaunchAtLogin.shared
             .isEnableVirable
             .asObservable()
-            .subscribe(onNext: { (enable) in
+            .subscribe(onNext: { [weak self] enable in
+                guard let self = self else {return}
                 self.autoStartMenuItem.state = enable ? .on : .off
             }).disposed(by: disposeBag)
         
@@ -188,30 +189,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     
     func updateProxyList() {
-        func updateProxyList(withMenus menus:[NSMenuItem]) {
-            let startIndex = self.statusMenu.items.index(of: self.separatorLineTop)!+1
-            let endIndex = self.statusMenu.items.index(of: self.sepatatorLineEndProxySelect)!
-            var items = self.statusMenu.items
-            
-            self.sepatatorLineEndProxySelect.isHidden = menus.count == 0
-            items.removeSubrange(Range(uncheckedBounds: (lower: startIndex, upper: endIndex)))
-            
-            for each in menus {
-                items.insert(each, at: startIndex)
-            }
-            self.statusMenu.removeAllItems()
-            for each in items.reversed() {
-                self.statusMenu.insertItem(each, at: 0)
-            }
-        }
-        
         if ConfigManager.shared.isRunning {
-            MenuItemFactory.menuItems { (menus) in
-                updateProxyList(withMenus: menus)
+            MenuItemFactory.menuItems {
+                [weak self] menus in
+                self?.updateProxyList(withMenus: menus)
             }
-            
         } else {
             updateProxyList(withMenus: [])
+        }
+    }
+    
+    func updateProxyList(withMenus menus:[NSMenuItem]) {
+        let startIndex = self.statusMenu.items.index(of: self.separatorLineTop)!+1
+        let endIndex = self.statusMenu.items.index(of: self.sepatatorLineEndProxySelect)!
+        var items = self.statusMenu.items
+        
+        self.sepatatorLineEndProxySelect.isHidden = menus.count == 0
+        items.removeSubrange(Range(uncheckedBounds: (lower: startIndex, upper: endIndex)))
+        
+        for each in menus {
+            items.insert(each, at: startIndex)
+        }
+        self.statusMenu.removeAllItems()
+        for each in items.reversed() {
+            self.statusMenu.insertItem(each, at: 0)
         }
     }
     
@@ -251,9 +252,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.dashboardMenuItem.isEnabled = true
             }
         }
-        
-        
-
     }
     
     func syncConfig(completeHandler:(()->())? = nil){
@@ -480,14 +478,15 @@ extension AppDelegate {
     
     func selectOutBoundModeWithMenory() {
         ApiRequest.updateOutBoundMode(mode: ConfigManager.selectOutBoundMode){
-            _ in
-            self.syncConfig()
+            [weak self] _ in
+            self?.syncConfig()
         }
     }
     
     func selectAllowLanWithMenory() {
         ApiRequest.updateAllowLan(allow: ConfigManager.allowConnectFromLan){
-            self.syncConfig()
+            [weak self] in
+            self?.syncConfig()
         }
     }
 }

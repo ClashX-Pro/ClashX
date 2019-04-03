@@ -16,7 +16,7 @@ class ProxyMenuItem:NSMenuItem {
         
         proxyName = proxy.name
         
-        if let his = proxy.history.first {
+        if let his = proxy.history.last {
             
             let paragraph = NSMutableParagraphStyle()
             paragraph.tabStops = [

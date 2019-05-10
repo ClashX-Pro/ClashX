@@ -22,7 +22,7 @@ class ConfigManager {
         UserDefaults.standard.rx.observe(Bool.self, "kSDisableShowCurrentProxyInMenu").bind {
             [weak self] disable in
             self?.disableShowCurrentProxyInMenu = disable ?? false
-        }
+        }.disposed(by: disposeBag)
     }
     
     var currentConfig:ClashConfig?{

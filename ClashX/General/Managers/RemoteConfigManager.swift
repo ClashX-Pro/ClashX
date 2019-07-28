@@ -122,6 +122,12 @@ class RemoteConfigManager: NSObject {
                 return
             }
             
+            guard verifyConfig(string: newConfigString) else {
+                alert(with: "Remote Config Format Error")
+                return
+            }
+            
+            
             let savePath = kConfigFolderPath.appending(configName).appending(".yaml")
             let fm = FileManager.default
             do {
@@ -131,7 +137,7 @@ class RemoteConfigManager: NSObject {
                         if let complete = complete {
                             complete(nil)
                         } else {
-                            self.alert(with: "No Update needed!")
+                            alert(with: "No Update needed!")
                         }
                         return
                     }
@@ -143,17 +149,30 @@ class RemoteConfigManager: NSObject {
                 if let complete = complete {
                     complete(nil)
                 } else {
-                    self.alert(with: "Update Success!")
+                    alert(with: "Update Success!")
                 }
-                self.didUpdateConfig()
+                didUpdateConfig()
             } catch let err {
                 if let complete = complete {
                     complete(err.localizedDescription)
                 } else {
-                    self.alert(with: err.localizedDescription)
+                    alert(with: err.localizedDescription)
                 }
             }
         }
+    }
+    
+    static func verifyConfig(string: String) -> Bool {
+        do {
+            let yaml = try Yams.load(yaml: string) as? [String: Any]
+            if let proxies = yaml?["Proxy"] as? [Any], proxies.count > 0 {
+                return true
+            }
+        } catch let error {
+            Logger.log(msg: error.localizedDescription)
+            return false
+        }
+        return false
     }
     
     static func didUpdateConfig() {

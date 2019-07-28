@@ -2,11 +2,20 @@
 /* Class = "NSMenuItem"; title = "ERROR"; ObjectID = "0iu-lB-eZN"; */
 "0iu-lB-eZN.title" = "ERROR";
 
+/* Class = "NSButtonCell"; title = "Update"; ObjectID = "2Rx-ih-aGW"; */
+"2Rx-ih-aGW.title" = "更新";
+
 /* Class = "NSMenuItem"; title = "Log level"; ObjectID = "3Da-fL-Mzr"; */
 "3Da-fL-Mzr.title" = "日志等级";
 
-/* Class = "NSTextFieldCell"; title = "GitHub for ClashX:"; ObjectID = "89f-5u-Eo0"; */
-"89f-5u-Eo0.title" = "GitHub for ClashX:";
+/* Class = "NSButtonCell"; title = "Add"; ObjectID = "51K-nB-xLS"; */
+"51K-nB-xLS.title" = "添加";
+
+/* Class = "NSViewController"; title = "Remote Configs"; ObjectID = "6WI-Hi-v9j"; */
+"6WI-Hi-v9j.title" = "托管的配置文件";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "7G6-oO-vNs"; */
+"7G6-oO-vNs.title" = "Text Cell";
 
 /* Class = "NSMenuItem"; title = "Rule"; ObjectID = "89n-bD-JHk"; */
 "89n-bD-JHk.title" = "规则判断";
@@ -17,12 +26,6 @@
 /* Class = "NSMenuItem"; title = "Ports"; ObjectID = "9i0-LH-x04"; */
 "9i0-LH-x04.title" = "端口";
 
-/* Class = "NSTextFieldCell"; title = "https://github.com/yichengchen/clashX"; ObjectID = "9ox-Fc-Wk3"; */
-"9ox-Fc-Wk3.title" = "https://github.com/yichengchen/clashX";
-
-/* Class = "NSTextFieldCell"; title = "2018-08-19"; ObjectID = "aib-YP-mvk"; */
-"aib-YP-mvk.title" = "2018-08-19";
-
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "Main Menu";
 
@@ -32,8 +35,8 @@
 /* Class = "NSMenuItem"; title = "Start at login"; ObjectID = "B1J-XB-BiZ"; */
 "B1J-XB-BiZ.title" = "开机启动";
 
-/* Class = "NSTextFieldCell"; title = "https://github.com/Dreamacro/clash"; ObjectID = "Bej-j7-KKV"; */
-"Bej-j7-KKV.title" = "https://github.com/Dreamacro/clash";
+/* Class = "NSTableColumn"; headerCell.title = "Url"; ObjectID = "C79-J5-30z"; */
+"C79-J5-30z.headerCell.title" = "链接";
 
 /* Class = "NSMenuItem"; title = "SpeedTest"; ObjectID = "COu-UX-bww"; */
 "COu-UX-bww.title" = "测速";
@@ -50,6 +53,9 @@
 /* Class = "NSMenuItem"; title = "Open config Folder"; ObjectID = "DwE-WX-ETZ"; */
 "DwE-WX-ETZ.title" = "打开配置文件夹";
 
+/* Class = "NSMenuItem"; title = "Manage"; ObjectID = "Dwg-Qb-2AU"; */
+"Dwg-Qb-2AU.title" = "管理";
+
 /* Class = "NSMenuItem"; title = "Remote Config"; ObjectID = "h1C-R6-Y9w"; */
 "h1C-R6-Y9w.title" = "托管配置";
 
@@ -61,6 +67,9 @@
 
 /* Class = "NSMenuItem"; title = "Update"; ObjectID = "I2P-Wd-Ns7"; */
 "I2P-Wd-Ns7.title" = "更新";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "id7-f0-u56"; */
+"id7-f0-u56.title" = "Text Cell";
 
 /* Class = "NSMenuItem"; title = "Show current proxy in menu"; ObjectID = "j9o-36-NTd"; */
 "j9o-36-NTd.title" = "快捷展示策略组策略";
@@ -77,17 +86,11 @@
 /* Class = "NSMenuItem"; title = "Config"; ObjectID = "JMV-Dy-CI0"; */
 "JMV-Dy-CI0.title" = "配置";
 
-/* Class = "NSMenuItem"; title = "Set Url"; ObjectID = "k1Z-jQ-kAy"; */
-"k1Z-jQ-kAy.title" = "设置地址";
-
 /* Class = "NSMenuItem"; title = "WARNING"; ObjectID = "ko2-Ir-DxA"; */
 "ko2-Ir-DxA.title" = "WARNING";
 
-/* Class = "NSTextFieldCell"; title = "GitHub for Clash:"; ObjectID = "lsq-AW-K0M"; */
-"lsq-AW-K0M.title" = "GitHub for Clash:";
-
-/* Class = "NSTextFieldCell"; title = "ClashX"; ObjectID = "MzG-sW-3g7"; */
-"MzG-sW-3g7.title" = "ClashX";
+/* Class = "NSTableColumn"; headerCell.title = "Config Name"; ObjectID = "lRE-Xa-euB"; */
+"lRE-Xa-euB.headerCell.title" = "配置文件名称";
 
 /* Class = "NSMenu"; title = "Ports"; ObjectID = "Ng4-Ia-KSz"; */
 "Ng4-Ia-KSz.title" = "Ports";
@@ -104,17 +107,20 @@
 /* Class = "NSMenuItem"; title = "Check Update"; ObjectID = "p0T-J8-Emx"; */
 "p0T-J8-Emx.title" = "检查更新";
 
-/* Class = "NSTextFieldCell"; title = "Version:1.1.0(1.1.0)"; ObjectID = "pVE-Ti-FcK"; */
-"pVE-Ti-FcK.title" = "Version:1.1.0(1.1.0)";
-
 /* Class = "NSMenuItem"; title = "Reload config"; ObjectID = "q3G-VH-eyy"; */
 "q3G-VH-eyy.title" = "重载配置文件";
 
 /* Class = "NSMenuItem"; title = "Auto Update"; ObjectID = "r8s-OI-tgf"; */
 "r8s-OI-tgf.title" = "自动更新";
 
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "RCv-zz-HKW"; */
+"RCv-zz-HKW.title" = "Text Cell";
+
 /* Class = "NSMenu"; title = "Config"; ObjectID = "tck-zU-JKQ"; */
 "tck-zU-JKQ.title" = "配置";
+
+/* Class = "NSTextFieldCell"; title = "Configs"; ObjectID = "tL1-bl-LXd"; */
+"tL1-bl-LXd.title" = "托管的配置文件：";
 
 /* Class = "NSMenu"; title = "API Connect Error"; ObjectID = "UU2-uE-YB4"; */
 "UU2-uE-YB4.title" = "API Connect Error";
@@ -137,8 +143,14 @@
 /* Class = "NSMenuItem"; title = "DEBUG"; ObjectID = "XIR-Go-fWA"; */
 "XIR-Go-fWA.title" = "DEBUG";
 
+/* Class = "NSTableColumn"; headerCell.title = "Update Time"; ObjectID = "xoc-hs-9qa"; */
+"xoc-hs-9qa.headerCell.title" = "更新时间";
+
 /* Class = "NSMenuItem"; title = "Show Log"; ObjectID = "xxZ-9l-69m"; */
 "xxZ-9l-69m.title" = "显示日志";
+
+/* Class = "NSButtonCell"; title = "Delete"; ObjectID = "yGD-AG-oYU"; */
+"yGD-AG-oYU.title" = "删除";
 
 /* Class = "NSMenuItem"; title = "Global"; ObjectID = "yiM-U4-MNg"; */
 "yiM-U4-MNg.title" = "全局连接";

@@ -1,5 +1,8 @@
 
 /* No comment provided by engineer. */
+"Add a remote config" = "添加托管配置文件";
+
+/* No comment provided by engineer. */
 "Can't recognize your config file. We will backup and replace your config file in your config folder.\n\nOtherwise the functions of ClashX will not work properly. You may need to restart ClashX or reload Config manually." = "无法识别您的配置文件，ClashX将备份并替换您的配置文件，否则ClashX将无法正常工作。您可能需要重启或者重载配置文件";
 
 /* No comment provided by engineer. */
@@ -27,13 +30,28 @@
 "Install" = "安装";
 
 /* No comment provided by engineer. */
+"Never" = "从未";
+
+/* No comment provided by engineer. */
 "No FINAL rule were found in clash configs,This might caused by incorrect upgradation during earily version of clashX or error setting of FINAL rule.Please check your config file.\n\nNO FINAL rule would cause traffic send to DIRECT which no match any rules." = "Clash规则配置文件中没有找到FINAL/MATCH规则，这可能是由于之前版本ClashX的错误ini到yml的转换引起的，也可能因为对FINAL/MATCH进行了错误的配置，如声明的出口不在Proxy或Proxy Group中等。请再次检查配置文件。\n\n缺失FINAL/MATCH规则将导致无命中任何规则的流量使用DIRECT出口。";
+
+/* No comment provided by engineer. */
+"OK" = "确定";
 
 /* No comment provided by engineer. */
 "Proxy Mode" = "出站模式";
 
 /* No comment provided by engineer. */
 "Quit" = "退出";
+
+/* No comment provided by engineer. */
+"Remote Config Update" = "更新托管配置文件";
+
+/* No comment provided by engineer. */
+"Remote Config Update Fail" = "托管配置文件更新失败";
+
+/* No comment provided by engineer. */
+"Remote Config Vaild Fail" = "托管配置文件格式校验失败";
 
 /* No comment provided by engineer. */
 "Replace" = "替换";
@@ -57,7 +75,16 @@
 "SpeedTest is processing, please wait." = "测速正在进行中,请稍候。";
 
 /* No comment provided by engineer. */
+"Succeed!" = "成功！";
+
+/* No comment provided by engineer. */
 "Tap to reload config" = "点击重载配置文件";
+
+/* No comment provided by engineer. */
+"The remote config name is duplicated" = "托管配置文件名称重复";
+
+/* No comment provided by engineer. */
+"Updating" = "更新中";
 
 /* No comment provided by engineer. */
 "Use reload config to try reconnect." = "使用重载配置文件按钮尝试重新连接";

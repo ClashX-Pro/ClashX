@@ -1,5 +1,8 @@
 
 /* No comment provided by engineer. */
+"Add a remote config" = "Add a remote config";
+
+/* No comment provided by engineer. */
 "Can't recognize your config file. We will backup and replace your config file in your config folder.\n\nOtherwise the functions of ClashX will not work properly. You may need to restart ClashX or reload Config manually." = "Can't recognize your config file. We will backup and replace your config file in your config folder.\n\nOtherwise the functions of ClashX will not work properly. You may need to restart ClashX or reload Config manually.";
 
 /* No comment provided by engineer. */
@@ -27,13 +30,28 @@
 "Install" = "Install";
 
 /* No comment provided by engineer. */
+"Never" = "Never";
+
+/* No comment provided by engineer. */
 "No FINAL rule were found in clash configs,This might caused by incorrect upgradation during earily version of clashX or error setting of FINAL rule.Please check your config file.\n\nNO FINAL rule would cause traffic send to DIRECT which no match any rules." = "No FINAL rule were found in clash configs,This might caused by incorrect upgradation during earily version of clashX or error setting of FINAL rule.Please check your config file.\n\nNO FINAL rule would cause traffic send to DIRECT which no match any rules.";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
 
 /* No comment provided by engineer. */
 "Proxy Mode" = "Proxy Mode";
 
 /* No comment provided by engineer. */
 "Quit" = "Quit";
+
+/* No comment provided by engineer. */
+"Remote Config Update" = "Remote Config Update";
+
+/* No comment provided by engineer. */
+"Remote Config Update Fail" = "Remote Config Update Fail";
+
+/* No comment provided by engineer. */
+"Remote Config Vaild Fail" = "Remote Config Vaild Fail";
 
 /* No comment provided by engineer. */
 "Replace" = "Replace";
@@ -57,7 +75,16 @@
 "SpeedTest is processing, please wait." = "SpeedTest is processing, please wait.";
 
 /* No comment provided by engineer. */
+"Succeed!" = "Succeed!";
+
+/* No comment provided by engineer. */
 "Tap to reload config" = "Tap to reload config";
+
+/* No comment provided by engineer. */
+"The remote config name is duplicated" = "The remote config name is duplicated";
+
+/* No comment provided by engineer. */
+"Updating" = "Updating";
 
 /* No comment provided by engineer. */
 "Use reload config to try reconnect." = "Use reload config to try reconnect.";

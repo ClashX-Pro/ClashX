@@ -355,12 +355,12 @@
                 </viewController>
                 <customObject id="oHh-a0-cAY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-41" y="355"/>
+            <point key="canvasLocation" x="-24" y="623"/>
         </scene>
         <!--Remote Configs-->
         <scene sceneID="lXv-k7-YEi">
             <objects>
-                <viewController title="Remote Configs" showSeguePresentationStyle="single" id="6WI-Hi-v9j" customClass="RemoteConfigViewController" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Remote Configs" identifier="RemoteConfigViewController" storyboardIdentifier="RemoteConfigViewController" showSeguePresentationStyle="single" id="6WI-Hi-v9j" customClass="RemoteConfigViewController" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="BIo-GY-n0C">
                         <rect key="frame" x="0.0" y="0.0" width="408" height="258"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -567,7 +567,7 @@
                 <customObject id="1Mg-7q-ojs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="r6q-tD-5zt"/>
             </objects>
-            <point key="canvasLocation" x="459" y="334"/>
+            <point key="canvasLocation" x="531" y="514"/>
         </scene>
         <!--Clash Web View Contoller-->
         <scene sceneID="hPF-qG-B6J">

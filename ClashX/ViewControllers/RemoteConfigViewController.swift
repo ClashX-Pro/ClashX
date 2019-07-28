@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import RxSwift
 
 class RemoteConfigViewController: NSViewController {
 
@@ -16,6 +17,8 @@ class RemoteConfigViewController: NSViewController {
     
     private var latestAddedConfigName: String?
     
+    let disposeBag = DisposeBag()
+    
     deinit {
         print("RemoteConfigViewController deinit")
     }
@@ -23,6 +26,14 @@ class RemoteConfigViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateButtonStatus()
+        
+        NotificationCenter.default.rx.notification(Notification.Name("didGetUrl")).bind {
+            [weak self] (note)  in
+            guard let self = self else {return}
+            guard let url = note.userInfo?["url"] as? String else {return}
+            self.showAdd(defaultUrl: url)
+            }.disposed(by: disposeBag)
+        
     }
     
     override func viewWillDisappear() {
@@ -63,12 +74,15 @@ extension RemoteConfigViewController {
         updateButton.isEnabled = !RemoteConfigManager.shared.configs[selectIdx].updating
     }
     
-    func showAdd() {
+    func showAdd(defaultUrl: String? = nil) {
         let alertView = NSAlert()
         alertView.addButton(withTitle: NSLocalizedString("OK", comment: ""))
         alertView.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         alertView.messageText = NSLocalizedString("Add a remote config", comment: "")
         let remoteConfigInputView = RemoteConfigAddView.createFromNib()!
+        if let defaultUrl = defaultUrl {
+            remoteConfigInputView.setUrl(string: defaultUrl)
+        }
         alertView.accessoryView = remoteConfigInputView
         let response = alertView.runModal()
         
@@ -86,7 +100,7 @@ extension RemoteConfigViewController {
         
         guard !isDup else {
             let alert = NSAlert()
-            alert.messageText = NSLocalizedString("the remote config name is duplicated", comment: "")
+            alert.messageText = NSLocalizedString("The remote config name is duplicated", comment: "")
             alert.alertStyle = .warning
             alert.runModal()
             return
@@ -188,6 +202,11 @@ class RemoteConfigAddView: NSView, NibLoadable {
         return isUrlVaild() && getConfigName().count > 0
     }
     
+    func setUrl(string: String) {
+        urlTextField.stringValue = string
+        updateConfigName()
+    }
+    
     private func isUrlVaild() -> Bool {
         let urlString = urlTextField.stringValue
         guard let url = URL(string: urlString) else {return false}
@@ -199,13 +218,18 @@ class RemoteConfigAddView: NSView, NibLoadable {
         return ["http","https"].contains(scheme)
     }
     
+    private func updateConfigName() {
+        guard isUrlVaild() else {return}
+        let urlString = urlTextField.stringValue
+        configNameTextField.placeholderString = URL(string: urlString)?.host ?? "unknown"
+    }
+    
 
 }
 
 extension RemoteConfigAddView: NSTextFieldDelegate {
     func controlTextDidChange(_ obj: Notification) {
-        guard isUrlVaild() else {return}
-        let urlString = urlTextField.stringValue
-        configNameTextField.placeholderString = URL(string: urlString)?.host ?? "unknown"
+        updateConfigName()
     }
 }
+

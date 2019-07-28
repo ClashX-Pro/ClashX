@@ -95,6 +95,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             _ = ProxyConfigHelperManager.setUpSystemProxy(port: nil,socksPort: nil)
         }
     }
+    
+    func application(_ application: NSApplication, open urls: [URL]) {
+        guard let url = urls.first else {return}
+        
+        guard let components = URLComponents(string: url.absoluteString),
+            let scheme = components.scheme,
+            scheme == "clashx"
+            else {return}
+        
+        switch components.path {
+        case "/install-config":
+            guard let url = components.queryItems?.first(where: { item in
+                item.name == "url"
+            })?.value else {return}
+            
+            remoteConfigAutoupdateMenuItem.menu?.performActionForItem(at: 0)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "didGetUrl"), object: nil, userInfo: ["url":url])
+            }
+        default:
+            Logger.log(msg: "unknown url path:\(components.path)")
+        }
+    }
 
     func setupData() {
         

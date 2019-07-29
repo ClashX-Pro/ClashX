@@ -272,7 +272,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             setUIPath(buffer)
         }
         
-        print("Trying start proxy")
+        Logger.log(msg: "Trying start proxy")
         if let cstring = run() {
             let error = String(cString: cstring)
             if (error != "success") {
@@ -466,7 +466,7 @@ extension AppDelegate {
     
     
     @IBAction func actionUpdateRemoteConfig(_ sender: Any) {
-        RemoteConfigManager.shared.updateCheck()
+        RemoteConfigManager.shared.updateCheck(ignoreTimeLimit: true)
     }
 }
 

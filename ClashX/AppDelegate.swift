@@ -101,10 +101,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         guard let components = URLComponents(string: url.absoluteString),
             let scheme = components.scheme,
-            scheme.hasPrefix("clash")
+            scheme.hasPrefix("clash"),
+            let host = components.host
             else {return}
         
-        if components.path.hasSuffix("install-config") {
+        if host == "install-config" {
             guard let url = components.queryItems?.first(where: { item in
                 item.name == "url"
             })?.value else {return}
@@ -116,7 +117,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             
         } else {
-            Logger.log(msg: "Unknown url path:\(components.path)")
+            Logger.log(msg: "Unknown url host:\(components.path)")
         }
 
     }

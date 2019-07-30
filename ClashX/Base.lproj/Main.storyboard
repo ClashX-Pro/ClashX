@@ -187,6 +187,12 @@
                                                         <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="wcc-7Y-8Ke"/>
                                                     </connections>
                                                 </menuItem>
+                                                <menuItem title="SILENT" id="dVr-Xp-C0C" userLabel="Silent">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="0dh-zw-qRi"/>
+                                                    </connections>
+                                                </menuItem>
                                             </items>
                                         </menu>
                                     </menuItem>

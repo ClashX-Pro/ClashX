@@ -29,10 +29,12 @@ class RemoteConfigViewController: NSViewController {
         
         NotificationCenter.default
             .rx.notification(Notification.Name("didGetUrl")).bind {
-            [weak self] (note)  in
-            guard let self = self else {return}
-            guard let url = note.userInfo?["url"] as? String else {return}
-            self.showAdd(defaultUrl: url)
+                [weak self] (note)  in
+                guard let self = self else {return}
+                guard let url = note.userInfo?["url"] as? String else {return}
+                
+                let name = note.userInfo?["name"] as? String
+                self.showAdd(defaultUrl: url, name:name)
             }.disposed(by: disposeBag)
         
     }
@@ -77,14 +79,14 @@ extension RemoteConfigViewController {
         updateButton.isEnabled = !config.updating
     }
     
-    func showAdd(defaultUrl: String? = nil) {
+    func showAdd(defaultUrl: String? = nil, name: String? = nil) {
         let alertView = NSAlert()
         alertView.addButton(withTitle: NSLocalizedString("OK", comment: ""))
         alertView.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         alertView.messageText = NSLocalizedString("Add a remote config", comment: "")
         let remoteConfigInputView = RemoteConfigAddView.createFromNib()!
         if let defaultUrl = defaultUrl {
-            remoteConfigInputView.setUrl(string: defaultUrl)
+            remoteConfigInputView.setUrl(string: defaultUrl, name: name)
         }
         alertView.accessoryView = remoteConfigInputView
         let response = alertView.runModal()
@@ -208,9 +210,13 @@ class RemoteConfigAddView: NSView, NibLoadable {
         return isUrlVaild() && getConfigName().count > 0
     }
     
-    func setUrl(string: String) {
+    func setUrl(string: String, name: String?) {
         urlTextField.stringValue = string
-        updateConfigName()
+        if let name = name, name.count > 0 {
+            configNameTextField.placeholderString = name
+        } else {
+            updateConfigName()
+        }
     }
     
     private func isUrlVaild() -> Bool {

@@ -557,52 +557,63 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EbX-pj-Cz7">
-                                <rect key="frame" x="14" y="13" width="80" height="32"/>
-                                <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yGD-AG-oYU">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="actionDelete:" target="6WI-Hi-v9j" id="5yg-pq-0Lj"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b6c-1B-tE6">
-                                <rect key="frame" x="97" y="13" width="85" height="32"/>
-                                <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2Rx-ih-aGW">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="actionUpdate:" target="6WI-Hi-v9j" id="Gat-ro-9Mu"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tAe-1Z-RnG">
-                                <rect key="frame" x="185" y="13" width="65" height="32"/>
-                                <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="51K-nB-xLS">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="actionAdd:" target="6WI-Hi-v9j" id="wbk-Q8-U0x"/>
-                                </connections>
-                            </button>
+                            <stackView distribution="fillEqually" orientation="horizontal" alignment="top" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kIY-Fj-jYe">
+                                <rect key="frame" x="21" y="20" width="229" height="21"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tAe-1Z-RnG">
+                                        <rect key="frame" x="-6" y="-7" width="85" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="51K-nB-xLS">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="actionAdd:" target="6WI-Hi-v9j" id="wbk-Q8-U0x"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b6c-1B-tE6">
+                                        <rect key="frame" x="72" y="-7" width="85" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2Rx-ih-aGW">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="actionUpdate:" target="6WI-Hi-v9j" id="Gat-ro-9Mu"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EbX-pj-Cz7">
+                                        <rect key="frame" x="150" y="-7" width="85" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yGD-AG-oYU">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="actionDelete:" target="6WI-Hi-v9j" id="5yg-pq-0Lj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <real value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="kIY-Fj-jYe" firstAttribute="top" secondItem="LqM-v5-9Fo" secondAttribute="bottom" constant="20" id="3zQ-nf-oHX"/>
                             <constraint firstItem="P7n-N0-pkv" firstAttribute="leading" secondItem="BIo-GY-n0C" secondAttribute="leading" constant="20" id="5pq-wP-XDV"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tAe-1Z-RnG" secondAttribute="trailing" constant="20" symbolic="YES" id="6x0-FS-c0n"/>
-                            <constraint firstItem="EbX-pj-Cz7" firstAttribute="top" secondItem="LqM-v5-9Fo" secondAttribute="bottom" constant="20" id="AcW-uf-8fR"/>
-                            <constraint firstItem="b6c-1B-tE6" firstAttribute="leading" secondItem="EbX-pj-Cz7" secondAttribute="trailing" constant="15" id="HSO-PF-eun"/>
+                            <constraint firstAttribute="bottom" secondItem="kIY-Fj-jYe" secondAttribute="bottom" constant="20" id="9YC-cZ-0XT"/>
                             <constraint firstItem="LqM-v5-9Fo" firstAttribute="top" secondItem="P7n-N0-pkv" secondAttribute="bottom" constant="20" id="JZz-kk-xXU"/>
-                            <constraint firstItem="tAe-1Z-RnG" firstAttribute="leading" secondItem="b6c-1B-tE6" secondAttribute="trailing" constant="15" id="K6N-pX-Ldv"/>
-                            <constraint firstItem="b6c-1B-tE6" firstAttribute="top" secondItem="EbX-pj-Cz7" secondAttribute="top" id="S0W-el-lR1"/>
-                            <constraint firstAttribute="bottom" secondItem="EbX-pj-Cz7" secondAttribute="bottom" constant="20" id="UnV-5P-AS9"/>
+                            <constraint firstItem="kIY-Fj-jYe" firstAttribute="leading" secondItem="I57-0R-Jyy" secondAttribute="leading" id="Pun-QQ-BIZ"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="P7n-N0-pkv" secondAttribute="trailing" constant="20" symbolic="YES" id="Y8u-oJ-fWE"/>
                             <constraint firstItem="P7n-N0-pkv" firstAttribute="top" secondItem="BIo-GY-n0C" secondAttribute="top" constant="20" id="dyb-pn-Moi"/>
-                            <constraint firstItem="tAe-1Z-RnG" firstAttribute="top" secondItem="b6c-1B-tE6" secondAttribute="top" id="lQA-HM-luH"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kIY-Fj-jYe" secondAttribute="trailing" id="kr2-IE-r4l"/>
                             <constraint firstItem="LqM-v5-9Fo" firstAttribute="leading" secondItem="BIo-GY-n0C" secondAttribute="leading" constant="20" id="nbe-A2-uN7"/>
                             <constraint firstAttribute="trailing" secondItem="LqM-v5-9Fo" secondAttribute="trailing" constant="20" id="w3r-DJ-wwf"/>
-                            <constraint firstItem="EbX-pj-Cz7" firstAttribute="leading" secondItem="BIo-GY-n0C" secondAttribute="leading" constant="20" id="yc1-QL-Gs0"/>
                         </constraints>
                     </view>
                     <connections>

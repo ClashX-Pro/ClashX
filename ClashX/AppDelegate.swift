@@ -86,8 +86,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         RemoteConfigManager.shared.autoUpdateCheck()
         
+        NSAppleEventManager.shared()
+            .setEventHandler(self,
+                             andSelector: #selector(handleURL(event:reply:)),
+                             forEventClass: AEEventClass(kInternetEventClass),
+                             andEventID: AEEventID(kAEGetURL))
     }
-
 
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -96,32 +100,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let socketPort = ConfigManager.shared.currentConfig?.socketPort ?? 0
             SystemProxyManager.shared.disableProxy(port: port, socksPort: socketPort)
         }
-    }
-    
-    func application(_ application: NSApplication, open urls: [URL]) {
-        guard let url = urls.first else {return}
-        
-        guard let components = URLComponents(string: url.absoluteString),
-            let scheme = components.scheme,
-            scheme.hasPrefix("clash"),
-            let host = components.host
-            else {return}
-        
-        if host == "install-config" {
-            guard let url = components.queryItems?.first(where: { item in
-                item.name == "url"
-            })?.value else {return}
-            
-            remoteConfigAutoupdateMenuItem.menu?.performActionForItem(at: 0)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "didGetUrl"), object: nil, userInfo: ["url":url])
-            }
-            
-        } else {
-            Logger.log(msg: "Unknown url host:\(components.path)")
-        }
-
     }
 
     func setupData() {
@@ -531,7 +509,7 @@ extension AppDelegate {
 }
 
 // MARK: NSMenuDelegate
-extension AppDelegate:NSMenuDelegate {
+extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
     }
     
@@ -539,6 +517,39 @@ extension AppDelegate:NSMenuDelegate {
         syncConfig()
         updateConfigFiles()
     }
+}
 
+// MARK: URL Scheme
+extension AppDelegate {
+    @objc func handleURL(event: NSAppleEventDescriptor, reply: NSAppleEventDescriptor) {
+        guard let url = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue else {
+            return
+        }
+        
+        guard let components = URLComponents(string: url),
+            let scheme = components.scheme,
+            scheme.hasPrefix("clash"),
+            let host = components.host
+            else {return}
+        
+        if host == "install-config" {
+            guard let url = components.queryItems?.first(where: { item in
+                item.name == "url"
+            })?.value else {return}
+            
+            var userInfo = ["url":url]
+            if let name = components.queryItems?.first(where: { item in
+                item.name == "name"
+            })?.value {
+                userInfo["name"] = name
+            }
+            
+            remoteConfigAutoupdateMenuItem.menu?.performActionForItem(at: 0)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "didGetUrl"), object: nil, userInfo: userInfo)
+            }
+        }
+    }
 }
 

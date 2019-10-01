@@ -24,6 +24,7 @@ target 'ClashX' do
   pod 'Starscream',:git=>'https://github.com/daltoniam/Starscream.git', :branch => 'master'
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'Sparkle'
   
 end
 

@@ -11,31 +11,31 @@ import SwiftyJSON
 import RxCocoa
 
 class MenuItemFactory {
-    static func menuItems(completionHandler:@escaping (([NSMenuItem])->())){
-        ApiRequest.requestProxyGroupList { (proxyInfo) in
-            var menuItems = [NSMenuItem]()
-            if (ConfigManager.shared.currentConfig?.mode == .direct) {
-                completionHandler(menuItems)
-                return
+    static func menuItems() -> [NSMenuItem]{
+        
+        if ConfigManager.shared.currentConfig?.mode == .direct {
+            return []
+        }
+        
+        let proxyInfo = ApiRequest.requestProxyGroupList()
+        var menuItems = [NSMenuItem]()
+        
+        for proxy in proxyInfo.proxyGroups {
+            var menu:NSMenuItem?
+            switch proxy.type {
+            case .select: menu = self.generateSelectorMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
+            case .urltest,.fallback: menu = generateUrlTestFallBackMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
+            case .loadBalance:
+                menu = generateLoadBalanceMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
+            default: continue
             }
             
-            for proxy in proxyInfo.proxyGroups {
-                var menu:NSMenuItem?
-                switch proxy.type {
-                case .select: menu = self.generateSelectorMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
-                case .urltest,.fallback: menu = generateUrlTestFallBackMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
-                case .loadBalance:
-                    menu = generateLoadBalanceMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
-                default: continue
-                }
-                
-                if let menu = menu {
-                    menuItems.append(menu)
-                    menu.isEnabled=true
-                }
+            if let menu = menu {
+                menuItems.append(menu)
+                menu.isEnabled=true
             }
-            completionHandler(menuItems.reversed())
         }
+        return menuItems.reversed()
     }
     
     static func proxygroupTitle(name:String,now:String) -> NSAttributedString? {

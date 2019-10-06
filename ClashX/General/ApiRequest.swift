@@ -66,39 +66,25 @@ class ApiRequest {
     
 
     static func requestConfig(completeHandler:@escaping ((ClashConfig)->())){
-        req("/configs").responseData {
-            res in
-            do {
-                let data = try res.result.get()
-                guard let config = ClashConfig.fromData(data) else {
-                    throw RequestError.decodeFail
-                }
-                completeHandler(config)
-            } catch let err {
-                NSUserNotificationCenter.default.post(title: "Error", info: "Get clash config failed. Try Fix your config file then reload config or restart ClashX. \(err.localizedDescription)")
-                (NSApplication.shared.delegate as? AppDelegate)?.startProxy()
-            }
+        let data = clashGetConfigs()?.toString().data(using: .utf8) ?? Data()
+        guard let config = ClashConfig.fromData(data) else {
+            NSUserNotificationCenter.default.post(title: "Error", info: "Get clash config failed. Try Fix your config file then reload config or restart ClashX.")
+            (NSApplication.shared.delegate as? AppDelegate)?.startProxy()
+            return
         }
+        completeHandler(config)
     }
     
     
-    static func requestConfigUpdate(callback: @escaping ((String?)->())){
+    static func requestConfigUpdate() -> String?{
         let filePath = "\(kConfigFolderPath)\(ConfigManager.selectConfigName).yaml"
         
-        req("/configs", method: .put,parameters: ["Path":filePath],encoding: JSONEncoding.default).responseJSON {res in
-            if (res.response?.statusCode == 204) {
-                ConfigManager.shared.isRunning = true
-                callback(nil)
-            } else {
-                let errorJson = try? res.result.get()
-                let err = JSON(errorJson ?? "")["message"].string ?? "Error occoured, Please try to fix it by restarting ClashX. "
-                if err.contains("no such file or directory") {
-                    ConfigManager.selectConfigName = "config"
-                } else {
-                    callback(err)
-                }
-            }
+        let res = clashUpdateConfig(filePath.goStringBuffer())?.toString() ?? "unknown error"
+        
+        if res == "success" {
+            return nil
         }
+        return res
     }
     
     static func updateOutBoundMode(mode:ClashProxyMode, callback:@escaping ((Bool)->())) {
@@ -113,12 +99,9 @@ class ApiRequest {
         }
     }
     
-    static func requestProxyGroupList(completeHandler:@escaping ((ClashProxyResp)->())){
-        req("/proxies").responseJSON{
-            res in
-            let proxies = ClashProxyResp(try? res.result.get())
-            completeHandler(proxies)
-        }
+    static func requestProxyGroupList() -> ClashProxyResp {
+        let json = JSON(parseJSON: clashGetProxies()?.toString() ?? "")
+        return ClashProxyResp(json.object)
     }
     
     static func updateAllowLan(allow:Bool,completeHandler:@escaping (()->())) {
@@ -143,13 +126,12 @@ class ApiRequest {
     }
     
     static func getAllProxyList(callback:@escaping (([ClashProxyName])->())) {
-        requestProxyGroupList { proxyInfo in
-            let proxyGroupType:[ClashProxyType] = [.urltest,.fallback,.loadBalance,.select,.direct,.reject]
-            let lists:[ClashProxyName] = proxyInfo.proxies
-                .filter{$0.name == "GLOBAL" && proxyGroupType.contains($0.type)}
-                .first?.all ?? []
-            callback(lists)
-        }
+        let proxyInfo = requestProxyGroupList()
+        let proxyGroupType:[ClashProxyType] = [.urltest,.fallback,.loadBalance,.select,.direct,.reject]
+        let lists:[ClashProxyName] = proxyInfo.proxies
+            .filter{$0.name == "GLOBAL" && proxyGroupType.contains($0.type)}
+            .first?.all ?? []
+        callback(lists)
     }
     
     static func getProxyDelay(proxyName:String,callback:@escaping ((Int)->())) {

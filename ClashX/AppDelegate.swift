@@ -186,10 +186,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func updateProxyList() {
         if ConfigManager.shared.isRunning {
-            MenuItemFactory.menuItems {
-                [weak self] menus in
-                self?.updateProxyList(withMenus: menus)
-            }
+            updateProxyList(withMenus: MenuItemFactory.menuItems())
         } else {
             updateProxyList(withMenus: [])
         }
@@ -221,9 +218,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             item.state = item.title.lowercased() == ConfigManager.selectLoggingApiLevel.rawValue ? .on : .off
         }
     }
-    
-    
-    
+        
     func startProxy() {
         if (ConfigManager.shared.isRunning){return}
         
@@ -271,24 +266,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         startProxy()
         guard ConfigManager.shared.isRunning else {return}
         
-        ApiRequest.requestConfigUpdate() { [weak self] error in
-            guard let self = self else {return}
-            if (error == nil) {
-                self.syncConfig()
-                self.resetStreamApi()
-                self.selectProxyGroupWithMemory()
-                self.selectOutBoundModeWithMenory()
-                self.selectAllowLanWithMenory()
-                ConfigFileManager.checkFinalRuleAndShowAlert()
-                if showNotification {
-                    NSUserNotificationCenter.default
-                        .post(title: NSLocalizedString("Reload Config Succeed", comment: ""),
-                              info: NSLocalizedString("Succees", comment: ""))
-                }
-            } else if showNotification {
+        if let error = ApiRequest.requestConfigUpdate() {
+            if showNotification {
                 NSUserNotificationCenter.default
-                    .post(title: NSLocalizedString("Reload Config Fail", comment: ""),
-                          info: error ?? "")
+                    .post(title: NSLocalizedString("Reload Config Fail", comment: "")+error,
+                          info: error)
+            }
+        } else {
+            syncConfig()
+            resetStreamApi()
+            selectProxyGroupWithMemory()
+            selectOutBoundModeWithMenory()
+            selectAllowLanWithMenory()
+            ConfigFileManager.checkFinalRuleAndShowAlert()
+            if showNotification {
+                NSUserNotificationCenter.default
+                    .post(title: NSLocalizedString("Reload Config Succeed", comment: ""),
+                          info: NSLocalizedString("Succees", comment: ""))
             }
         }
     }

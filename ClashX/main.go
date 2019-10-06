@@ -5,6 +5,7 @@ import (
 	"github.com/Dreamacro/clash/config"
 	"github.com/Dreamacro/clash/hub/executor"
 	"github.com/Dreamacro/clash/hub/route"
+	T "github.com/Dreamacro/clash/tunnel"
 	"github.com/phayes/freeport"
 	"io/ioutil"
 	"net"
@@ -131,6 +132,40 @@ func run(developerMode bool) *C.char {
 //export setUIPath
 func setUIPath(path *C.char) {
 	route.SetUIPath(C.GoString(path))
+}
+
+//export clashUpdateConfig
+func clashUpdateConfig(path *C.char) *C.char {
+	cfg, err := executor.ParseWithPath(C.GoString(path))
+	if err != nil {
+		return C.CString(err.Error())
+	}
+	executor.ApplyConfig(cfg, false)
+	return C.CString("success")
+}
+
+//export clashGetProxies
+func clashGetProxies() *C.char {
+	proxies := T.Instance().Proxies()
+	r := map[string]interface{} {
+		"proxies": proxies,
+	}
+
+	jsonString, err := json.Marshal(r)
+	if err!= nil {
+		return C.CString(err.Error())
+	}
+	return C.CString(string(jsonString))
+}
+
+//export clashGetConfigs
+func clashGetConfigs() *C.char {
+	general := executor.GetGeneral()
+	jsonString, err := json.Marshal(general)
+	if err!= nil {
+		return C.CString(err.Error())
+	}
+	return C.CString(string(jsonString))
 }
 
 func main() {

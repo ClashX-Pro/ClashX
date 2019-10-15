@@ -33,6 +33,9 @@
 "Install" = "安装";
 
 /* No comment provided by engineer. */
+"Invalid input" = "输入不合法";
+
+/* No comment provided by engineer. */
 "Need to Restart the ClashX to Take effect, Please start clashX manually" = "需要重启ClashX生效，请手动启动ClashX";
 
 /* No comment provided by engineer. */
@@ -64,9 +67,6 @@
 
 /* No comment provided by engineer. */
 "Remote Config Update Fail" = "托管配置文件更新失败";
-
-/* No comment provided by engineer. */
-"Remote Config Vaild Fail" = "托管配置文件格式校验失败";
 
 /* No comment provided by engineer. */
 "Rule" = "规则";

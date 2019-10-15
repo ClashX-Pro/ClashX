@@ -33,6 +33,9 @@
 "Install" = "Install";
 
 /* No comment provided by engineer. */
+"Invalid input" = "Invalid input";
+
+/* No comment provided by engineer. */
 "Need to Restart the ClashX to Take effect, Please start clashX manually" = "Need to Restart the ClashX to Take effect, Please start clashX manually";
 
 /* No comment provided by engineer. */
@@ -64,9 +67,6 @@
 
 /* No comment provided by engineer. */
 "Remote Config Update Fail" = "Remote Config Update Fail";
-
-/* No comment provided by engineer. */
-"Remote Config Vaild Fail" = "Remote Config Vaild Fail";
 
 /* No comment provided by engineer. */
 "Rule" = "Rule";

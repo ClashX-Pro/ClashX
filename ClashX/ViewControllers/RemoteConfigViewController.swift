@@ -94,7 +94,7 @@ extension RemoteConfigViewController {
         guard response == .alertFirstButtonReturn else {return}
         guard remoteConfigInputView.isVaild() else {
             let alert = NSAlert()
-            alert.messageText = NSLocalizedString("Remote Config Vaild Fail", comment: "")
+            alert.messageText = NSLocalizedString("Invalid input", comment: "")
             alert.alertStyle = .warning
             alert.runModal()
             return

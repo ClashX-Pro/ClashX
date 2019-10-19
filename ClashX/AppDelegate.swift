@@ -36,8 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var dashboardMenuItem: NSMenuItem!
     @IBOutlet weak var separatorLineTop: NSMenuItem!
     @IBOutlet weak var sepatatorLineEndProxySelect: NSMenuItem!
-    @IBOutlet weak var switchConfigMenuItem: NSMenuItem!
-    
+    @IBOutlet weak var configSeparatorLine: NSMenuItem!
     @IBOutlet weak var logLevelMenuItem: NSMenuItem!
     @IBOutlet weak var httpPortMenuItem: NSMenuItem!
     @IBOutlet weak var socksPortMenuItem: NSMenuItem!
@@ -49,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var disposeBag = DisposeBag()
     var statusItemView:StatusItemView!
     var isSpeedTesting = false
-
+    
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
@@ -93,18 +92,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                              andEventID: AEEventID(kAEGetURL))
         
         setupNetworkNotifier()
-        
     }
-
-
+    
     func applicationWillTerminate(_ aNotification: Notification) {
-        if ConfigManager.shared.proxyPortAutoSet {
+        if ConfigManager.shared.proxyPortAutoSet && !ConfigManager.shared.isProxySetByOtherVariable.value {
             let port = ConfigManager.shared.currentConfig?.port ?? 0
             let socketPort = ConfigManager.shared.currentConfig?.socketPort ?? 0
             SystemProxyManager.shared.disableProxy(port: port, socksPort: socketPort)
         }
     }
-
+    
     func setupData() {
         remoteConfigAutoupdateMenuItem.state = RemoteConfigManager.autoUpdateEnable ? .on : .off
         
@@ -126,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.statusItemView.frame.size.width = statusItemLength
                 self.statusItemView.showSpeedContainer(show: (show ?? true))
                 self.statusItemView.updateStatusItemView()
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
         
         Observable
             .merge([ConfigManager.shared.proxyPortAutoSetObservable,
@@ -173,7 +170,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.httpPortMenuItem.title  = "Http Port:\(config.port)"
                 self.socksPortMenuItem.title = "Socks Port:\(config.socketPort)"
                 self.apiPortMenuItem.title = "Api Port:\(ConfigManager.shared.apiPort)"
-
+                
         }.disposed(by: disposeBag)
         
         ConfigManager
@@ -221,7 +218,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 ConfigManager.shared.isProxySetByOtherVariable.accept(!proxySetted)
         }.disposed(by: disposeBag)
     }
-
+    
     
     func updateProxyList() {
         if ConfigManager.shared.isRunning {
@@ -234,24 +231,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func updateProxyList(withMenus menus:[NSMenuItem]) {
-        let startIndex = self.statusMenu.items.firstIndex(of: self.separatorLineTop)!+1
-        let endIndex = self.statusMenu.items.firstIndex(of: self.sepatatorLineEndProxySelect)!
-        var items = self.statusMenu.items
-        
-        self.sepatatorLineEndProxySelect.isHidden = menus.count == 0
-        items.removeSubrange(Range(uncheckedBounds: (lower: startIndex, upper: endIndex)))
-        
-        for each in menus {
-            items.insert(each, at: startIndex)
+        let startIndex = statusMenu.items.firstIndex(of: self.separatorLineTop)!+1
+        let endIndex = statusMenu.items.firstIndex(of: self.sepatatorLineEndProxySelect)!
+        sepatatorLineEndProxySelect.isHidden = menus.count == 0
+        for _ in 0 ..< endIndex - startIndex {
+            statusMenu.removeItem(at: startIndex)
         }
-        self.statusMenu.removeAllItems()
-        for each in items.reversed() {
-            self.statusMenu.insertItem(each, at: 0)
+        for each in menus {
+            statusMenu.insertItem(each, at: startIndex)
         }
     }
     
     func updateConfigFiles() {
-        switchConfigMenuItem.submenu = MenuItemFactory.generateSwitchConfigSubMenu()
+        guard let menu = configSeparatorLine.menu else {return}
+        let lineIndex = menu.items.firstIndex(of: configSeparatorLine)!
+        for _ in 0..<lineIndex {
+            menu.removeItem(at: 0)
+        }
+        for item in MenuItemFactory.generateSwitchConfigMenuItems().reversed() {
+            menu.insertItem(item, at: 0)
+        }
     }
     
     func updateLoggingLevel() {
@@ -259,7 +258,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             item.state = item.title.lowercased() == ConfigManager.selectLoggingApiLevel.rawValue ? .on : .off
         }
     }
-        
+    
     func startProxy() {
         if (ConfigManager.shared.isRunning){return}
         
@@ -267,7 +266,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let externalController: String
             let secret: String
         }
-    
+        
         // setup ui config first
         if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dashboard") {
             let uiPath = URL(fileURLWithPath: htmlPath).deletingLastPathComponent().path
@@ -413,7 +412,7 @@ extension AppDelegate {
             return
         }
         NSUserNotificationCenter.default.postSpeedTestBeginNotice()
-
+        
         isSpeedTesting = true
         ApiRequest.getAllProxyList { [weak self] proxies in
             let testGroup = DispatchGroup()
@@ -429,7 +428,7 @@ extension AppDelegate {
                 self?.isSpeedTesting = false
             })
         }
-
+        
         
     }
     
@@ -456,7 +455,7 @@ extension AppDelegate {
     @IBAction func actionShowLog(_ sender: Any) {
         NSWorkspace.shared.openFile(Logger.shared.logFilePath())
     }
-
+    
 }
 
 // MARK: Config actions
@@ -478,7 +477,7 @@ extension AppDelegate {
         resetStreamApi()
     }
     
-
+    
     @IBAction func actionAutoUpdateRemoteConfig(_ sender: Any) {
         RemoteConfigManager.autoUpdateEnable = !RemoteConfigManager.autoUpdateEnable
         remoteConfigAutoupdateMenuItem.state = RemoteConfigManager.autoUpdateEnable ? .on : .off
@@ -513,7 +512,7 @@ extension AppDelegate {
         alert.accessoryView = textfiled
         alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-
+        
         if alert.runModal() == .alertFirstButtonReturn {
             if textfiled.stringValue.isUrlVaild() {
                 ConfigManager.shared.benchMarkUrl = textfiled.stringValue
@@ -524,7 +523,7 @@ extension AppDelegate {
             }
         }
     }
-     
+    
     
 }
 

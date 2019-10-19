@@ -178,6 +178,7 @@
                         <outlet property="apiPortMenuItem" destination="hwG-qf-DeZ" id="d6K-i7-yCo"/>
                         <outlet property="autoStartMenuItem" destination="B1J-XB-BiZ" id="xaS-h5-qd0"/>
                         <outlet property="buildApiModeMenuitem" destination="xG5-B4-mlw" id="1Fy-UQ-jFs"/>
+                        <outlet property="configSeparatorLine" destination="WzG-og-OyZ" id="hhn-AP-zKJ"/>
                         <outlet property="dashboardMenuItem" destination="XG6-2M-PNi" id="hzn-77-3Uc"/>
                         <outlet property="httpPortMenuItem" destination="WNw-8Y-VFw" id="ldW-Gw-Q9L"/>
                         <outlet property="logLevelMenuItem" destination="3Da-fL-Mzr" id="ZCW-Il-fOZ"/>
@@ -193,7 +194,6 @@
                         <outlet property="showProxyGroupCurrentMenuItem" destination="j9o-36-NTd" id="5jc-iE-bou"/>
                         <outlet property="socksPortMenuItem" destination="Uy1-g8-r6Q" id="NiI-Gy-9Sa"/>
                         <outlet property="statusMenu" destination="Afa-lD-EbR" id="cov-E9-WrO"/>
-                        <outlet property="switchConfigMenuItem" destination="jdX-Cx-5pe" id="Jrm-lU-CfJ"/>
                     </connections>
                 </customObject>
                 <menu id="Afa-lD-EbR">
@@ -269,9 +269,16 @@
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <menu key="submenu" title="Config" id="tck-zU-JKQ">
                                 <items>
-                                    <menuItem title="Switch Configs" id="jdX-Cx-5pe">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                        <menu key="submenu" title="Switch Configs" id="dcz-b4-hVy"/>
+                                    <menuItem isSeparatorItem="YES" id="WzG-og-OyZ"/>
+                                    <menuItem title="Open config Folder" keyEquivalent="o" id="DwE-WX-ETZ">
+                                        <connections>
+                                            <action selector="openConfigFolder:" target="Voe-Tx-rLC" id="6Ke-Bi-AAZ"/>
+                                        </connections>
+                                    </menuItem>
+                                    <menuItem title="Reload config" keyEquivalent="r" id="q3G-VH-eyy">
+                                        <connections>
+                                            <action selector="actionUpdateConfig:" target="Voe-Tx-rLC" id="oW5-Ll-SY8"/>
+                                        </connections>
                                     </menuItem>
                                     <menuItem title="Remote Config" id="h1C-R6-Y9w">
                                         <modifierMask key="keyEquivalentModifierMask"/>
@@ -292,53 +299,6 @@
                                                     <modifierMask key="keyEquivalentModifierMask"/>
                                                     <connections>
                                                         <action selector="actionAutoUpdateRemoteConfig:" target="Voe-Tx-rLC" id="YMu-H3-jf6"/>
-                                                    </connections>
-                                                </menuItem>
-                                            </items>
-                                        </menu>
-                                    </menuItem>
-                                    <menuItem title="Open config Folder" keyEquivalent="o" id="DwE-WX-ETZ">
-                                        <connections>
-                                            <action selector="openConfigFolder:" target="Voe-Tx-rLC" id="6Ke-Bi-AAZ"/>
-                                        </connections>
-                                    </menuItem>
-                                    <menuItem title="Reload config" keyEquivalent="r" id="q3G-VH-eyy">
-                                        <connections>
-                                            <action selector="actionUpdateConfig:" target="Voe-Tx-rLC" id="oW5-Ll-SY8"/>
-                                        </connections>
-                                    </menuItem>
-                                    <menuItem title="Log level" id="3Da-fL-Mzr">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                        <menu key="submenu" title="Log level" id="wqo-3T-4qO">
-                                            <items>
-                                                <menuItem title="ERROR" id="0iu-lB-eZN">
-                                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                                    <connections>
-                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="KEd-c4-cB8"/>
-                                                    </connections>
-                                                </menuItem>
-                                                <menuItem title="WARNING" id="ko2-Ir-DxA">
-                                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                                    <connections>
-                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="V2s-Xc-8lq"/>
-                                                    </connections>
-                                                </menuItem>
-                                                <menuItem title="INFO" id="d8V-h0-0zF">
-                                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                                    <connections>
-                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="jeM-b7-3h6"/>
-                                                    </connections>
-                                                </menuItem>
-                                                <menuItem title="DEBUG" id="XIR-Go-fWA">
-                                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                                    <connections>
-                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="wcc-7Y-8Ke"/>
-                                                    </connections>
-                                                </menuItem>
-                                                <menuItem title="SILENT" id="dVr-Xp-C0C" userLabel="Silent">
-                                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                                    <connections>
-                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="0dh-zw-qRi"/>
                                                     </connections>
                                                 </menuItem>
                                             </items>
@@ -386,6 +346,43 @@
                                         <connections>
                                             <action selector="checkForUpdates:" target="fth-rt-saN" id="gaF-35-d7h"/>
                                         </connections>
+                                    </menuItem>
+                                    <menuItem title="Log level" id="3Da-fL-Mzr">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menu key="submenu" title="Log level" id="wqo-3T-4qO">
+                                            <items>
+                                                <menuItem title="ERROR" id="0iu-lB-eZN">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="KEd-c4-cB8"/>
+                                                    </connections>
+                                                </menuItem>
+                                                <menuItem title="WARNING" id="ko2-Ir-DxA">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="V2s-Xc-8lq"/>
+                                                    </connections>
+                                                </menuItem>
+                                                <menuItem title="INFO" id="d8V-h0-0zF">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="jeM-b7-3h6"/>
+                                                    </connections>
+                                                </menuItem>
+                                                <menuItem title="DEBUG" id="XIR-Go-fWA">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="wcc-7Y-8Ke"/>
+                                                    </connections>
+                                                </menuItem>
+                                                <menuItem title="SILENT" id="dVr-Xp-C0C" userLabel="Silent">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="actionSetLogLevel:" target="Voe-Tx-rLC" id="0dh-zw-qRi"/>
+                                                    </connections>
+                                                </menuItem>
+                                            </items>
+                                        </menu>
                                     </menuItem>
                                     <menuItem title="Show Log" keyEquivalent="l" id="xxZ-9l-69m">
                                         <connections>
@@ -591,7 +588,7 @@
                                             <tableColumns>
                                                 <tableColumn identifier="url" editable="NO" width="176" minWidth="40" maxWidth="1000" id="C79-J5-30z">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Url">
-                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -631,7 +628,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="configName" width="86" minWidth="40" maxWidth="1000" id="lRE-Xa-euB">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Config Name">
-                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -671,7 +668,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="updateTime" width="95" minWidth="40" maxWidth="1000" id="xoc-hs-9qa">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Update Time">
-                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>

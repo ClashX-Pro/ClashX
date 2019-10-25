@@ -33,6 +33,12 @@
 "Config loading Fail!" = "配置文件加载失败";
 
 /* No comment provided by engineer. */
+"Copy Shell Export Command" = "复制终端代理命令";
+
+/* No comment provided by engineer. */
+"Copy Shell Export Command with External IP" = "复制终端代理命令(外部IP)";
+
+/* No comment provided by engineer. */
 "Direct" = "直连";
 
 /* No comment provided by engineer. */

@@ -33,6 +33,12 @@
 "Config loading Fail!" = "Config loading Fail!";
 
 /* No comment provided by engineer. */
+"Copy Shell Export Command" = "Copy Shell Export Command";
+
+/* No comment provided by engineer. */
+"Copy Shell Export Command with External IP" = "Copy Shell Export Command with External IP";
+
+/* No comment provided by engineer. */
 "Direct" = "Direct";
 
 /* No comment provided by engineer. */

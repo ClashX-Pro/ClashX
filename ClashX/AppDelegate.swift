@@ -43,14 +43,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var remoteConfigAutoupdateMenuItem: NSMenuItem!
     @IBOutlet var buildApiModeMenuitem: NSMenuItem!
     @IBOutlet var showProxyGroupCurrentMenuItem: NSMenuItem!
+    @IBOutlet var copyExportCommandMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
     var isSpeedTesting = false
+    var isMenuOptionEnter = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
-
         checkOnlyOneClashX()
 
         // setup menu item first
@@ -395,7 +396,10 @@ extension AppDelegate {
         pasteboard.clearContents()
         let port = ConfigManager.shared.currentConfig?.port ?? 0
         let socksport = ConfigManager.shared.currentConfig?.socketPort ?? 0
-        pasteboard.setString("export https_proxy=http://127.0.0.1:\(port);export http_proxy=http://127.0.0.1:\(port);export all_proxy=socks5://127.0.0.1:\(socksport)", forType: .string)
+        let localhost = "127.0.0.1"
+
+        let ip = isMenuOptionEnter ? NetworkChangeNotifier.getPrimaryIPAddress() ?? localhost : localhost
+        pasteboard.setString("export https_proxy=http://\(ip):\(port);export http_proxy=http://\(ip):\(port);export all_proxy=socks5://\(ip):\(socksport)", forType: .string)
     }
 
     @IBAction func actionSpeedTest(_ sender: Any) {
@@ -564,6 +568,11 @@ extension AppDelegate {
             self?.syncConfig()
         }
     }
+
+    func updateCopyProxyItem() {
+        isMenuOptionEnter = NSEvent.modifierFlags == [.option]
+        copyExportCommandMenuItem.title = isMenuOptionEnter ? NSLocalizedString("Copy Shell Export Command with External IP", comment: "") : NSLocalizedString("Copy Shell Export Command", comment: "")
+    }
 }
 
 // MARK: NSMenuDelegate
@@ -574,6 +583,7 @@ extension AppDelegate: NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         syncConfig()
         updateConfigFiles()
+        updateCopyProxyItem()
     }
 }
 

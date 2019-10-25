@@ -33,4 +33,59 @@ class NetworkChangeNotifier {
         let httpsProxy = proxiesSetting[kCFNetworkProxiesHTTPSPort as String] as? UInt ?? 0
         return (httpProxy, httpsProxy, socksProxy)
     }
+
+    static func getPrimaryIPAddress() -> String? {
+        let key: CFString
+        let store: SCDynamicStore?
+        let dict: [String: String]?
+        let primaryIntf: String?
+
+        store = SCDynamicStoreCreate(nil, "ClashX" as CFString, nil, nil)
+        if store == nil {
+            return nil
+        }
+
+        key = SCDynamicStoreKeyCreateNetworkGlobalEntity(nil, kSCDynamicStoreDomainState, kSCEntNetIPv4)
+        dict = SCDynamicStoreCopyValue(store, key) as? [String: String]
+        primaryIntf = dict?[kSCDynamicStorePropNetPrimaryInterface as String]
+        guard let primary = primaryIntf else {
+            return nil
+        }
+
+        var ipv6: String?
+
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        defer {
+            freeifaddrs(ifaddr)
+        }
+        if getifaddrs(&ifaddr) == 0 {
+            var ptr = ifaddr
+            while ptr != nil {
+                defer { ptr = ptr?.pointee.ifa_next }
+                guard let interface = ptr?.pointee else { continue }
+                let addrFamily = interface.ifa_addr.pointee.sa_family
+                if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
+                    let name = String(cString: interface.ifa_name)
+                    if name == primary {
+                        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                        getnameinfo(interface.ifa_addr,
+                                    socklen_t(interface.ifa_addr.pointee.sa_len),
+                                    &hostname,
+                                    socklen_t(hostname.count),
+                                    nil,
+                                    socklen_t(0),
+                                    NI_NUMERICHOST)
+
+                        let ip = String(cString: hostname)
+                        if addrFamily == UInt8(AF_INET) {
+                            return ip
+                        } else {
+                            ipv6 = "[\(ip)]"
+                        }
+                    }
+                }
+            }
+        }
+        return ipv6
+    }
 }

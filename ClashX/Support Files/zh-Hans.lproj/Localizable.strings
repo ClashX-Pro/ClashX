@@ -66,6 +66,9 @@
 "OK" = "确定";
 
 /* No comment provided by engineer. */
+"Prelease" = "Prelease";
+
+/* No comment provided by engineer. */
 "Proxy Mode" = "出站模式";
 
 /* No comment provided by engineer. */
@@ -90,6 +93,9 @@
 "Rule" = "规则";
 
 /* No comment provided by engineer. */
+"Stable" = "Stable";
+
+/* No comment provided by engineer. */
 "Succeed!" = "成功！";
 
 /* No comment provided by engineer. */
@@ -106,6 +112,9 @@
 
 /* No comment provided by engineer. */
 "Updating" = "更新中";
+
+/* No comment provided by engineer. */
+"Upgrade Channel" = "更新通道";
 
 /* No comment provided by engineer. */
 "URL is not valid" = "链接不合法";

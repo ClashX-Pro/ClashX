@@ -41,7 +41,7 @@ jobs:
         python SMJobBlessUtil.py check ${build_dir}
 
     - name: setup node
-      # if: startsWith(github.ref, 'refs/tags/')
+      if: startsWith(github.ref, 'refs/tags/')
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
@@ -68,7 +68,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         files: ClashX-action.dmg
-        draft: true
+        # draft: true
         prerelease: true
 
     - name: update gitpage

@@ -44,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var buildApiModeMenuitem: NSMenuItem!
     @IBOutlet var showProxyGroupCurrentMenuItem: NSMenuItem!
     @IBOutlet var copyExportCommandMenuItem: NSMenuItem!
+    @IBOutlet var experimentalMenu: NSMenu!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
@@ -61,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItemView = StatusItemView.create(statusItem: statusItem)
         statusItemView.frame = CGRect(x: 0, y: 0, width: statusItemLengthWithSpeed, height: 22)
         statusMenu.delegate = self
-        updateExperimentalFeatureStatus()
+        setupExperimentalMenuItem()
 
         // crash recorder
         failLaunchProtect()
@@ -324,6 +325,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+    }
+
+    func setupExperimentalMenuItem() {
+        AutoUpgardeManager.shared.setup()
+        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
+        updateExperimentalFeatureStatus()
     }
 
     func updateExperimentalFeatureStatus() {

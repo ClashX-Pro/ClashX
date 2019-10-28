@@ -66,6 +66,9 @@
 "OK" = "OK";
 
 /* No comment provided by engineer. */
+"Prelease" = "Prelease";
+
+/* No comment provided by engineer. */
 "Proxy Mode" = "Proxy Mode";
 
 /* No comment provided by engineer. */
@@ -90,6 +93,9 @@
 "Rule" = "Rule";
 
 /* No comment provided by engineer. */
+"Stable" = "Stable";
+
+/* No comment provided by engineer. */
 "Succeed!" = "Succeed!";
 
 /* No comment provided by engineer. */
@@ -106,6 +112,9 @@
 
 /* No comment provided by engineer. */
 "Updating" = "Updating";
+
+/* No comment provided by engineer. */
+"Upgrade Channel" = "Upgrade Channel";
 
 /* No comment provided by engineer. */
 "URL is not valid" = "URL is not valid";

@@ -52,6 +52,7 @@ deploy:
     repo: yichengchen/clashX
     branch: master
     tags: true
+    prerelease: true
 
 after_deploy:
 - 'curl -u yichengchen:$GitHub_Token -X POST https://api.github.com/repos/yichengchen/clashX/pages/builds -H "Accept: application/vnd.github.mister-fantastic-preview+json"'

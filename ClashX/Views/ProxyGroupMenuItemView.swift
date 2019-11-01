@@ -11,13 +11,21 @@ import Cocoa
 class ProxyGroupMenuItemView: NSView {
     let groupNameLabel: NSTextField
     let selectProxyLabel: NSTextField
-    let arrowImageView = NSTextField(labelWithString: "▶")
+    let arrowLabel = NSTextField(labelWithString: "▶")
     var isMouseInsideView = false
     var isMenuOpen = false
+    let effectView: NSVisualEffectView = {
+        let effectView = NSVisualEffectView()
+        effectView.material = .popover
+        effectView.state = .active
+        effectView.isEmphasized = true
+        effectView.blendingMode = .behindWindow
+        return effectView
+    }()
 
     init(group: ClashProxyName, targetProxy: ClashProxyName) {
-        groupNameLabel = NSTextField(labelWithString: group)
-        selectProxyLabel = NSTextField(labelWithString: targetProxy)
+        groupNameLabel = VibrancyTextField(labelWithString: group)
+        selectProxyLabel = VibrancyTextField(labelWithString: targetProxy)
         if #available(macOS 10.15, *) {
             super.init(frame: .zero)
         } else {
@@ -27,23 +35,31 @@ class ProxyGroupMenuItemView: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: 20).isActive = true
 
+        // background
+        addSubview(effectView)
+        effectView.translatesAutoresizingMaskIntoConstraints = false
+        effectView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        effectView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        effectView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        effectView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+
         // arrow
-        addSubview(arrowImageView)
-        arrowImageView.translatesAutoresizingMaskIntoConstraints = false
-        arrowImageView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        arrowImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        effectView.addSubview(arrowLabel)
+        arrowLabel.translatesAutoresizingMaskIntoConstraints = false
+        arrowLabel.rightAnchor.constraint(equalTo: effectView.rightAnchor, constant: -10).isActive = true
+        arrowLabel.centerYAnchor.constraint(equalTo: effectView.centerYAnchor).isActive = true
 
         // group
         groupNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(groupNameLabel)
-        groupNameLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        groupNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-
+        effectView.addSubview(groupNameLabel)
+        groupNameLabel.leftAnchor.constraint(equalTo: effectView.leftAnchor, constant: 20).isActive = true
+        groupNameLabel.centerYAnchor.constraint(equalTo: effectView.centerYAnchor).isActive = true
         // select
         selectProxyLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(selectProxyLabel)
-        selectProxyLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -30).isActive = true
-        selectProxyLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
+        effectView.addSubview(selectProxyLabel)
+        selectProxyLabel.rightAnchor.constraint(equalTo: effectView.rightAnchor, constant: -30).isActive = true
+        selectProxyLabel.centerYAnchor.constraint(equalTo: effectView.centerYAnchor).isActive = true
 
         // space
         selectProxyLabel.leftAnchor.constraint(greaterThanOrEqualTo: groupNameLabel.rightAnchor, constant: 30).isActive = true
@@ -52,6 +68,10 @@ class ProxyGroupMenuItemView: NSView {
         let font = NSFont.menuFont(ofSize: 14)
         groupNameLabel.font = font
         selectProxyLabel.font = font
+        
+        groupNameLabel.textColor = NSColor.labelColor
+        selectProxyLabel.textColor = NSColor.secondaryLabelColor
+        arrowLabel.textColor = NSColor.labelColor
     }
 
     required init?(coder: NSCoder) {
@@ -99,18 +119,11 @@ class ProxyGroupMenuItemView: NSView {
         } else {
             isHighlighted = menu.isHighlighted
         }
-        if isHighlighted {
-            NSColor.selectedMenuItemColor.setFill()
-            groupNameLabel.textColor = NSColor.white
-            selectProxyLabel.textColor = NSColor.white
-            arrowImageView.textColor = NSColor.white
-        } else {
-            NSColor.clear.setFill()
-            groupNameLabel.textColor = NSColor.labelColor
-            arrowImageView.textColor = NSColor.labelColor
-            selectProxyLabel.textColor = NSColor.secondaryLabelColor
-        }
-        dirtyRect.fill()
+        let labelBgStyle: NSView.BackgroundStyle = isHighlighted ? .emphasized : .normal
+        groupNameLabel.cell?.backgroundStyle = labelBgStyle
+        selectProxyLabel.cell?.backgroundStyle = labelBgStyle
+        arrowLabel.cell?.backgroundStyle = labelBgStyle
+        effectView.material = isHighlighted ? .selection : .popover
     }
 }
 
@@ -129,3 +142,5 @@ extension ProxyGroupMenuItemView: NSMenuDelegate {
         }
     }
 }
+
+

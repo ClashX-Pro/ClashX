@@ -452,9 +452,7 @@ extension AppDelegate {
 
 extension AppDelegate: ApiRequestStreamDelegate {
     func didUpdateTraffic(up: Int, down: Int) {
-        DispatchQueue.main.async {
-            self.statusItemView.updateSpeedLabel(up: up, down: down)
-        }
+        statusItemView.updateSpeedLabel(up: up, down: down)
     }
 
     func didGetLog(log: String, level: String) {

@@ -17,7 +17,6 @@ class StatusItemView: NSView {
     @IBOutlet var uploadSpeedLabel: NSTextField!
     @IBOutlet var downloadSpeedLabel: NSTextField!
     @IBOutlet var speedContainerView: NSView!
-    var updating = false
 
     weak var statusItem: NSStatusItem?
 
@@ -38,11 +37,19 @@ class StatusItemView: NSView {
     }
 
     func setupView() {
-        if #available(OSX 10.11, *) {
-            let font = NSFont.systemFont(ofSize: 9, weight: .regular)
-            uploadSpeedLabel.font = font
-            downloadSpeedLabel.font = font
+        let fontSize: CGFloat = 9
+        let font: NSFont
+        if let fontName = UserDefaults.standard.string(forKey: "kStatusMenuFontName"),
+            let f = NSFont(name: fontName, size: fontSize) {
+            font = f
+        } else {
+            font = NSFont.menuBarFont(ofSize: fontSize)
         }
+        uploadSpeedLabel.font = font
+        downloadSpeedLabel.font = font
+        
+        uploadSpeedLabel.textColor = NSColor.black
+        downloadSpeedLabel.textColor = NSColor.black
     }
 
     func updateViewStatus(enableProxy: Bool) {
@@ -55,8 +62,6 @@ class StatusItemView: NSView {
         }
 
         imageView.image = menuImage.tint(color: enableProxy ? selectedColor : unselectedColor)
-        uploadSpeedLabel.textColor = NSColor.black
-        downloadSpeedLabel.textColor = uploadSpeedLabel.textColor
         updateStatusItemView()
     }
 
@@ -78,15 +83,15 @@ class StatusItemView: NSView {
         } else {
             finalDownStr = String(format: "%.2fMB/s", Double(kbdown) / 1024.0)
         }
-        DispatchQueue.main.async {
-            self.downloadSpeedLabel.stringValue = finalDownStr
-            self.uploadSpeedLabel.stringValue = finalUpStr
-            if self.updating { Logger.log("update during update"); return }
-            self.updating = true
-            self.updateStatusItemView()
-            self.updating = false
+        
+        if downloadSpeedLabel.stringValue == finalDownStr && uploadSpeedLabel.stringValue == finalUpStr {
+            return
         }
+        downloadSpeedLabel.stringValue = finalDownStr
+        uploadSpeedLabel.stringValue = finalUpStr
+        updateStatusItemView()
     }
+    
 
     func showSpeedContainer(show: Bool) {
         speedContainerView.isHidden = !show
@@ -99,8 +104,13 @@ class StatusItemView: NSView {
 }
 
 extension NSStatusItem {
-    func updateImage(withView: NSView) {
-        image = NSImage(data: withView.dataWithPDF(inside: withView.bounds))
-        image?.isTemplate = true
+    func updateImage(withView view: NSView) {
+        if let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) {
+            view.cacheDisplay(in: view.bounds, to: rep)
+            let img = NSImage(size: view.bounds.size)
+            img.addRepresentation(rep)
+            img.isTemplate = true
+            image = img
+        }
     }
 }

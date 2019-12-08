@@ -9,7 +9,7 @@
 import Cocoa
 
 class RemoteConfigModel: Codable {
-    let url: String
+    var url: String
     let name: String
     var updateTime: Date?
     var updating = false

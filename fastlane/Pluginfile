@@ -4,3 +4,4 @@
 
 gem 'fastlane-plugin-notarize'
 gem 'fastlane-plugin-appcenter'
+gem 'fastlane-plugin-versioning'

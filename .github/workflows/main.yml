@@ -19,11 +19,19 @@ jobs:
         security set-keychain-settings -t 3600 -u build.keychain
         security import "./.github/certs/dist.p12" -k build.keychain -T /usr/bin/codesign -P ""
         bash .github/enableKeyChain.sh
+        gem install bundler:1.16.2
+        gem install gym
+        bundle install
 
     - name: setup Go
       uses: actions/setup-go@v1
       with:
         go-version: 1.13.x
+
+    - name: update beta build version
+      if: contains(github.event.head_commit.message, '[beta]') && !startsWith(github.ref, 'refs/tags/')
+      run: |
+        fastlane beta
 
     - name: build
       run: |
@@ -31,9 +39,6 @@ jobs:
         cd ClashX
         python3 build_clash.py
         cd ..
-        gem install bundler:1.16.2
-        gem install gym
-        bundle install
         fastlane gym -s ClashX
         echo "Checking SMJobBless Vailded"
         python SMJobBlessUtil.py check ClashX.app
@@ -60,7 +65,7 @@ jobs:
         fastlane run notarize package:"./ClashX.dmg" bundle_id:"com.west2online.ClashX"
 
     - name: upload to appcenter 
-      if: startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[appcenter]')
+      if: contains(github.event.head_commit.message, '[appcenter]')
       env:
         APPCENTER_DISTRIBUTE_UPLOAD_BUILD_ONLY: true
         APPCENTER_DISTRIBUTE_DESTINATIONS: Public
@@ -69,11 +74,11 @@ jobs:
         APPCENTER_DISTRIBUTE_FILE: ClashX.dmg
         APPCENTER_OWNER_NAME: ${{ secrets.APPCENTER_OWNER_NAME }}
       run: |
-        bundleVersion=`defaults read \`pwd\`/ClashX.app/Contents/Info.plist CFBundleVersion`
-        timeStamp=`date +"%s"`
+        appversion=`defaults read \`pwd\`/ClashX.app/Contents/Info.plist CFBundleShortVersionString`
+        buildVersion=`defaults read \`pwd\`/ClashX.app/Contents/Info.plist CFBundleVersion`
         branch=${GITHUB_REF##*/}
-        version=$bundleVersion.$branch
-        fastlane run appcenter_upload version:${version} build_number:${timeStamp}
+        version=$appversion.$branch
+        fastlane run appcenter_upload version:${version} build_number:${buildVersion}
 
     - name: upload build to github
       uses: softprops/action-gh-release@v1

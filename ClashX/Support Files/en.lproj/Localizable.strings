@@ -45,6 +45,9 @@
 "Download fail" = "Download fail";
 
 /* No comment provided by engineer. */
+"Fail:" = "Fail:";
+
+/* No comment provided by engineer. */
 "Global" = "Global";
 
 /* No comment provided by engineer. */
@@ -105,6 +108,9 @@
 "Succees" = "Succees";
 
 /* No comment provided by engineer. */
+"Success!" = "Success!";
+
+/* No comment provided by engineer. */
 "Tap to reload config" = "Tap to reload config";
 
 /* No comment provided by engineer. */
@@ -112,6 +118,9 @@
 
 /* No comment provided by engineer. */
 "The remote config name is duplicated" = "The remote config name is duplicated";
+
+/* No comment provided by engineer. */
+"Update GEOIP Database" = "Update GEOIP Database";
 
 /* No comment provided by engineer. */
 "Updating" = "Updating";

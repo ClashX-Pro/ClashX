@@ -347,6 +347,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ConnectionManager.addCloseOptionMenuItem(&experimentalMenu)
         AutoUpgardeManager.shared.setup()
         AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
+        ClashResourceManager.addUpdateMMDBMenuItem(&experimentalMenu)
         if WebPortalManager.hasWebProtal {
             WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
         }

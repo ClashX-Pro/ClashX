@@ -45,6 +45,9 @@
 "Download fail" = "下载失败";
 
 /* No comment provided by engineer. */
+"Fail:" = "失败：";
+
+/* No comment provided by engineer. */
 "Global" = "全局";
 
 /* No comment provided by engineer. */
@@ -105,6 +108,9 @@
 "Succees" = "成功";
 
 /* No comment provided by engineer. */
+"Success!" = "成功！";
+
+/* No comment provided by engineer. */
 "Tap to reload config" = "点击重载配置文件";
 
 /* No comment provided by engineer. */
@@ -112,6 +118,9 @@
 
 /* No comment provided by engineer. */
 "The remote config name is duplicated" = "托管配置文件名称重复";
+
+/* No comment provided by engineer. */
+"Update GEOIP Database" = "更新IP数据库";
 
 /* No comment provided by engineer. */
 "Updating" = "更新中";

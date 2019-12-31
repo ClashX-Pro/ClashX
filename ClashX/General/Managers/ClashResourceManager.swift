@@ -1,4 +1,5 @@
 
+import Alamofire
 import AppKit
 import Foundation
 
@@ -84,5 +85,31 @@ class ClashResourceManager {
         alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
         alert.runModal()
         NSApplication.shared.terminate(nil)
+    }
+}
+
+extension ClashResourceManager {
+    static func addUpdateMMDBMenuItem(_ menu: inout NSMenu) {
+        let item = NSMenuItem(title: NSLocalizedString("Update GEOIP Database", comment: ""), action: #selector(updateGeoIP), keyEquivalent: "")
+        item.target = self
+        menu.addItem(item)
+    }
+
+    @objc private static func updateGeoIP() {
+        let url = "https://static.clash.to/GeoIP2/GeoIP2-Country.mmdb"
+        AF.download(url) { (_, _) -> (destinationURL: URL, options: DownloadRequest.Options) in
+            let path = ClashResourceManager.kProxyConfigFolder.appending("/Country.mmdb")
+            return (URL(fileURLWithPath: path), .removePreviousFile)
+        }.response { res in
+            let title = NSLocalizedString("Update GEOIP Database", comment: "")
+            let info: String
+            switch res.result {
+            case .success:
+                info = NSLocalizedString("Success!", comment: "")
+            case let .failure(err):
+                info = NSLocalizedString("Fail:", comment: "") + err.localizedDescription
+            }
+            NSUserNotificationCenter.default.post(title: title, info: info)
+        }
     }
 }

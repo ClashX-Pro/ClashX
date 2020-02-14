@@ -95,7 +95,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                              andSelector: #selector(handleURL(event:reply:)),
                              forEventClass: AEEventClass(kInternetEventClass),
                              andEventID: AEEventID(kAEGetURL))
-
         setupNetworkNotifier()
     }
 
@@ -216,13 +215,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .delay(.milliseconds(200), scheduler: MainScheduler.instance)
             .bind { _ in
                 guard NetworkChangeNotifier.getPrimaryInterface() != nil else { return }
-                let (http, https, socks) = NetworkChangeNotifier.currentSystemProxySetting()
-                let currentPort = ConfigManager.shared.currentConfig?.port ?? 0
-                let currentSocks = ConfigManager.shared.currentConfig?.socketPort ?? 0
-
-                let proxySetted = http == currentPort && https == currentPort && socks == currentSocks
+                let proxySetted = NetworkChangeNotifier.isCurrentSystemSetToClash()
                 ConfigManager.shared.isProxySetByOtherVariable.accept(!proxySetted)
+                if !proxySetted {
+                    let proxiesSetting = NetworkChangeNotifier.getRawProxySetting()
+                    Logger.log("Proxy changed by other process!, current:\(proxiesSetting)", level: .warning)
+                }
             }.disposed(by: disposeBag)
+
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self, selector: #selector(resetProxySettingOnWakeupFromSleep),
+            name: NSWorkspace.didWakeNotification, object: nil
+        )
     }
 
     func updateProxyList() {
@@ -362,6 +366,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         buildApiModeMenuitem.state = ConfigManager.builtInApiMode ? .on : .off
         showProxyGroupCurrentMenuItem.state = ConfigManager.shared.disableShowCurrentProxyInMenu ? .off : .on
     }
+
+    @objc func resetProxySettingOnWakeupFromSleep() {
+        guard !ConfigManager.shared.isProxySetByOtherVariable.value,
+            ConfigManager.shared.proxyPortAutoSet else { return }
+        guard NetworkChangeNotifier.getPrimaryInterface() != nil else { return }
+        if !NetworkChangeNotifier.isCurrentSystemSetToClash() {
+            let rawProxy = NetworkChangeNotifier.getRawProxySetting()
+            Logger.log("Resting proxy setting, current:\(rawProxy)", level: .warning)
+            SystemProxyManager.shared.disableProxy()
+            SystemProxyManager.shared.enableProxy()
+        }
+    }
 }
 
 // MARK: Main actions
@@ -416,10 +432,14 @@ extension AppDelegate {
     }
 
     @IBAction func actionSetSystemProxy(_ sender: Any) {
+        var canSaveProxy = true
         if ConfigManager.shared.isProxySetByOtherVariable.value {
             // should reset proxy to clashx
             ConfigManager.shared.isProxySetByOtherVariable.accept(false)
             ConfigManager.shared.proxyPortAutoSet = true
+            // clear then reset.
+            canSaveProxy = false
+            SystemProxyManager.shared.disableProxy(port: 0, socksPort: 0, forceDisable: true)
         } else {
             ConfigManager.shared.proxyPortAutoSet = !ConfigManager.shared.proxyPortAutoSet
         }
@@ -427,7 +447,9 @@ extension AppDelegate {
         let socketPort = ConfigManager.shared.currentConfig?.socketPort ?? 0
 
         if ConfigManager.shared.proxyPortAutoSet {
-            SystemProxyManager.shared.saveProxy()
+            if canSaveProxy {
+                SystemProxyManager.shared.saveProxy()
+            }
             SystemProxyManager.shared.enableProxy(port: port, socksPort: socketPort)
         } else {
             SystemProxyManager.shared.disableProxy(port: port, socksPort: socketPort)

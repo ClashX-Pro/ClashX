@@ -68,6 +68,12 @@ class SystemProxyManager: NSObject {
         })
     }
 
+    func enableProxy() {
+        let port = ConfigManager.shared.currentConfig?.port ?? 0
+        let socketPort = ConfigManager.shared.currentConfig?.socketPort ?? 0
+        SystemProxyManager.shared.enableProxy(port: port, socksPort: socketPort)
+    }
+
     func enableProxy(port: Int, socksPort: Int) {
         Logger.log("enableProxy", level: .debug)
         helper()?.enableProxy(withPort: Int32(port), socksPort: Int32(socksPort), authData: authData(), error: { error in
@@ -77,10 +83,16 @@ class SystemProxyManager: NSObject {
         })
     }
 
-    func disableProxy(port: Int, socksPort: Int) {
+    func disableProxy() {
+        let port = ConfigManager.shared.currentConfig?.port ?? 0
+        let socketPort = ConfigManager.shared.currentConfig?.socketPort ?? 0
+        SystemProxyManager.shared.disableProxy(port: port, socksPort: socketPort)
+    }
+
+    func disableProxy(port: Int, socksPort: Int, forceDisable: Bool = false) {
         Logger.log("disableProxy", level: .debug)
 
-        if disableRestoreProxy {
+        if disableRestoreProxy || forceDisable {
             helper()?.disableProxy(withAuthData: authData(), error: { error in
                 if let error = error {
                     Logger.log("disableProxy \(error)", level: .error)

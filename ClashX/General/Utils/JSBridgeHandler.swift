@@ -46,17 +46,13 @@ class JsBridgeUtil {
         bridge.registerHandler("setSystemProxy") { anydata, responseCallback in
             if let enable = anydata as? Bool {
                 ConfigManager.shared.proxyPortAutoSet = enable
-                if let config = ConfigManager.shared.currentConfig {
-                    if enable {
-                        SystemProxyManager.shared.saveProxy()
-                        SystemProxyManager.shared.enableProxy(port: config.port, socksPort: config.socketPort)
-                    } else {
-                        SystemProxyManager.shared.disableProxy(port: config.port, socksPort: config.socketPort)
-                    }
-                    responseCallback?(true)
+                if enable {
+                    SystemProxyManager.shared.saveProxy()
+                    SystemProxyManager.shared.enableProxy()
                 } else {
-                    responseCallback?(false)
+                    SystemProxyManager.shared.disableProxy()
                 }
+                responseCallback?(true)
             } else {
                 responseCallback?(false)
             }

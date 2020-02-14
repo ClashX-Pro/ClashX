@@ -37,12 +37,25 @@ class NetworkChangeNotifier {
         }
     }
 
+    static func getRawProxySetting() -> [String: AnyObject] {
+        return CFNetworkCopySystemProxySettings()?.takeRetainedValue() as! [String: AnyObject]
+    }
+
     static func currentSystemProxySetting() -> (UInt, UInt, UInt) {
-        let proxiesSetting = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as! [String: AnyObject]
+        let proxiesSetting = getRawProxySetting()
         let httpProxy = proxiesSetting[kCFNetworkProxiesHTTPPort as String] as? UInt ?? 0
         let socksProxy = proxiesSetting[kCFNetworkProxiesSOCKSPort as String] as? UInt ?? 0
         let httpsProxy = proxiesSetting[kCFNetworkProxiesHTTPSPort as String] as? UInt ?? 0
         return (httpProxy, httpsProxy, socksProxy)
+    }
+
+    static func isCurrentSystemSetToClash() -> Bool {
+        let (http, https, socks) = NetworkChangeNotifier.currentSystemProxySetting()
+        let currentPort = ConfigManager.shared.currentConfig?.port ?? 0
+        let currentSocks = ConfigManager.shared.currentConfig?.socketPort ?? 0
+
+        let proxySetted = http == currentPort && https == currentPort && socks == currentSocks
+        return proxySetted
     }
 
     static func getPrimaryInterface() -> String? {

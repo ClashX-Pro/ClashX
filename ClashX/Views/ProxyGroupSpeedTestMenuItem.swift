@@ -104,7 +104,7 @@ fileprivate class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
         for proxyName in proxies {
             testGroup.enter()
             ApiRequest.getProxyDelay(proxyName: proxyName) { delay in
-                let delayStr = delay == 0 ? "fail" : "\(delay) ms"
+                let delayStr = delay == 0 ? NSLocalizedString("fail", comment: "") : "\(delay) ms"
                 NotificationCenter.default.post(name: kSpeedTestFinishForProxy,
                                                 object: nil,
                                                 userInfo: ["proxyName": proxyName, "delay": delayStr])

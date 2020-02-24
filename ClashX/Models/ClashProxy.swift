@@ -57,7 +57,7 @@ class ClashProxySpeedHistory: Codable {
 
     lazy var delayDisplay: String = {
         switch delay {
-        case 0: return "fail"
+        case 0: return NSLocalizedString("fail", comment: "")
         default: return "\(delay) ms"
         }
     }()

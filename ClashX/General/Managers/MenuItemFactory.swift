@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class MenuItemFactory {
     private static var cachedProxyMenuItem: [NSMenuItem]?
-    private static var showSpeedTestItemAtTop: Bool = UserDefaults.standard.bool(forKey: "kShowSpeedTestItemAtTop") {
+    private static var showSpeedTestItemAtTop: Bool = UserDefaults.standard.object(forKey: "kShowSpeedTestItemAtTop") as? Bool ?? true {
         didSet {
             UserDefaults.standard.set(showSpeedTestItemAtTop, forKey: "kShowSpeedTestItemAtTop")
         }

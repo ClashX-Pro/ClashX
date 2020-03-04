@@ -14,7 +14,7 @@ target 'ClashX' do
   inhibit_all_warnings!
   use_frameworks!
   pod 'LetsMove'
-  pod 'Alamofire', '~> 5.0.0-rc.3'
+  pod 'Alamofire', '~> 5.0'
   pod 'SwiftyJSON'
   pod 'RxSwift'
   pod 'RxCocoa'

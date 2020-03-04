@@ -13,7 +13,9 @@ class Logger {
     var fileLogger: DDFileLogger = DDFileLogger()
 
     private init() {
-        DDLog.add(DDTTYLogger.sharedInstance) // TTY = Xcode console
+        if let tty = DDTTYLogger.sharedInstance {
+            DDLog.add(tty) // TTY = Xcode console
+        }
         fileLogger.rollingFrequency = TimeInterval(60 * 60 * 24) // 24 hours
         fileLogger.logFileManager.maximumNumberOfLogFiles = 3
         DDLog.add(fileLogger)

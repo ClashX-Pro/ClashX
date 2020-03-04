@@ -244,7 +244,11 @@ extension ApiRequest {
     }
 
     static func closeConnection(_ conn: ClashConnectionSnapShot.Connection) {
-        req("/connections/".appending(conn.id), method: .delete)
+        req("/connections/".appending(conn.id), method: .delete).response { _ in }
+    }
+
+    static func closeAllConnection() {
+        req("/connections", method: .delete).response { _ in }
     }
 }
 

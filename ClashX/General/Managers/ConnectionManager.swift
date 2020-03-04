@@ -33,23 +33,8 @@ class ConnectionManager {
         }
     }
 
-    static func closeConnectionExpectDirect() {
-        guard enableAutoClose else { return }
-        ApiRequest.getConnections { conns in
-            for conn in conns {
-                if !conn.chains.contains("DIRECT") {
-                    ApiRequest.closeConnection(conn)
-                }
-            }
-        }
-    }
-
     static func closeAllConnection() {
-        ApiRequest.getConnections { conns in
-            for conn in conns {
-                ApiRequest.closeConnection(conn)
-            }
-        }
+        ApiRequest.closeAllConnection()
     }
 }
 

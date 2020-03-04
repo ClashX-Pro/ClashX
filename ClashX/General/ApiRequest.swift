@@ -200,7 +200,7 @@ class ApiRequest {
     static func getProxyDelay(proxyName: String, callback: @escaping ((Int) -> Void)) {
         req("/proxies/\(proxyName.encoded)/delay",
             method: .get,
-            parameters: ["timeout": 5000, "url": "http://www.gstatic.com/generate_204"])
+            parameters: ["timeout": 5000, "url": ConfigManager.shared.benchMarkUrl])
             .responseJSON { res in
                 switch res.result {
                 case let .success(value):

@@ -27,7 +27,7 @@
 "ClashX fail to create ~/.config/clash folder. Please check privileges or manually create folder and restart ClashX." = "ClashX 创建 ~/.config/clash 文件夹失败，请检查权限设置或者手动创建文件夹后重启 ClashX";
 
 /* No comment provided by engineer. */
-"ClashX needs to install a helper tool with administrator privileges to set system proxy quickly." = "ClashX 需要使用管理员权限安装一个帮助程序来帮助设置系统代理。";
+"ClashX needs to install a helper tool with administrator privileges to set system proxy quickly.If not helper tool installed, ClashX won't be able to set your system proxy" = "ClashX 需要使用管理员权限安装一个帮助程序来帮助设置系统代理。如不安装,ClashX的设置系统代理功能将失效。";
 
 /* No comment provided by engineer. */
 "ClashX Start Error!" = "ClashX 启动出错";

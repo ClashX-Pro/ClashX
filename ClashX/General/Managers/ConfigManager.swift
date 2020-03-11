@@ -19,7 +19,7 @@ class ConfigManager {
 
     init() {
         let defaultValue: Bool
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.14, *) {
             defaultValue = false
         } else {
             defaultValue = true

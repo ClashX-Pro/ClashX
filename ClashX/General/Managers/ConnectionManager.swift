@@ -15,10 +15,13 @@ class ConnectionManager {
         }
     }
 
+    private static var closeMenuItem: NSMenuItem?
+
     static func addCloseOptionMenuItem(_ menu: inout NSMenu) {
         let item = NSMenuItem(title: NSLocalizedString("Auto Close Connection", comment: ""), action: #selector(optionMenuItemTap(sender:)), keyEquivalent: "")
         item.target = ConnectionManager.self
         menu.addItem(item)
+        closeMenuItem = item
         updateMenuItemStatus(item)
     }
 
@@ -38,9 +41,9 @@ class ConnectionManager {
     }
 }
 
-private extension ConnectionManager {
-    static func updateMenuItemStatus(_ item: NSMenuItem) {
-        item.state = enableAutoClose ? .on : .off
+extension ConnectionManager {
+    static func updateMenuItemStatus(_ item: NSMenuItem? = closeMenuItem) {
+        item?.state = enableAutoClose ? .on : .off
     }
 
     @objc static func optionMenuItemTap(sender: NSMenuItem) {

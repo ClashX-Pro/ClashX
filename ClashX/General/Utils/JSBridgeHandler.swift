@@ -85,6 +85,20 @@ class JsBridgeUtil {
             }
         }
 
+        bridge.registerHandler("getBreakConnections") { _, responseCallback in
+            responseCallback?(ConnectionManager.enableAutoClose)
+        }
+
+        bridge.registerHandler("setBreakConnections") { anydata, responseCallback in
+            if let enable = anydata as? Bool {
+                ConnectionManager.enableAutoClose = enable
+                ConnectionManager.updateMenuItemStatus()
+                responseCallback?(true)
+            } else {
+                responseCallback?(false)
+            }
+        }
+
         bridge.registerHandler("speedTest") { anydata, responseCallback in
             if let proxyName = anydata as? String {
                 ApiRequest.getProxyDelay(proxyName: proxyName) { delay in

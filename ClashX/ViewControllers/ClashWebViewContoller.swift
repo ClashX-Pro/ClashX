@@ -42,6 +42,7 @@ class ClashWebViewContoller: NSViewController {
     let webview: CustomWKWebView = CustomWKWebView()
     var bridge: WebViewJavascriptBridge?
     let disposeBag = DisposeBag()
+    let minSize = NSSize(width: 920, height: 580)
 
     let effectView = NSVisualEffectView()
 
@@ -54,7 +55,7 @@ class ClashWebViewContoller: NSViewController {
     }
 
     override func loadView() {
-        view = NSView(frame: NSRect(x: 0, y: 0, width: 920, height: 580))
+        view = NSView(frame: NSRect(origin: .zero, size: minSize))
     }
 
     override func viewDidLoad() {
@@ -98,9 +99,11 @@ class ClashWebViewContoller: NSViewController {
         view.window?.isOpaque = false
         view.window?.backgroundColor = NSColor.clear
         view.window?.styleMask.insert(.closable)
-        view.window?.styleMask.remove(.resizable)
-        view.window?.styleMask.remove(.miniaturizable)
+        view.window?.styleMask.insert(.resizable)
+        view.window?.styleMask.insert(.miniaturizable)
         view.window?.center()
+        
+        view.window?.minSize = minSize
 
         if NSApp.activationPolicy() == .accessory {
             NSApp.setActivationPolicy(.regular)
@@ -108,10 +111,15 @@ class ClashWebViewContoller: NSViewController {
     }
 
     func setupView() {
-        effectView.frame = view.bounds
         view.addSubview(effectView)
-        webview.frame = view.bounds
         view.addSubview(webview)
+    }
+    
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        effectView.frame = view.bounds
+        webview.frame = view.bounds
+
     }
 
     func loadWebRecourses() {

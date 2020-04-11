@@ -7,7 +7,10 @@
 //
 import Foundation
 
-let kConfigFileChange = Notification.Name("kConfigFileChange")
-let kSystemNetworkStatusDidChange = Notification.Name("kSystemNetworkStatusDidChange")
-let kSpeedTestFinishForProxy = Notification.Name("kSpeedTestFinishForProxy")
-let kReloadDashboard = Notification.Name("kReloadDashboard")
+extension Notification.Name {
+    static let configFileChange = Notification.Name("kConfigFileChange")
+    static let speedTestFinishForProxy = Notification.Name("kSpeedTestFinishForProxy")
+    static let reloadDashboard = Notification.Name("kReloadDashboard")
+    static let systemNetworkStatusIPUpdate = Notification.Name("systemNetworkStatusIPUpdate")
+    static let systemNetworkStatusDidChange = Notification.Name("kSystemNetworkStatusDidChange")
+}

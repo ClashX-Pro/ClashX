@@ -77,12 +77,12 @@ class ClashWebViewContoller: NSViewController {
 
         webview.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
 
-        NotificationCenter.default.rx.notification(kConfigFileChange).bind {
+        NotificationCenter.default.rx.notification(.configFileChange).bind {
             [weak self] _ in
             self?.bridge?.callHandler("onConfigChange")
         }.disposed(by: disposeBag)
 
-        NotificationCenter.default.rx.notification(kReloadDashboard).bind {
+        NotificationCenter.default.rx.notification(.reloadDashboard).bind {
             [weak self] _ in
             self?.webview.reload()
         }.disposed(by: disposeBag)

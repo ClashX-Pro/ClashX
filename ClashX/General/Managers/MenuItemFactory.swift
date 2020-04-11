@@ -184,7 +184,7 @@ class MenuItemFactory {
 
     private static func generateHistoryMenu(_ proxy: ClashProxy) -> NSMenu? {
         let historyMenu = NSMenu(title: "")
-        for his in proxy.history {
+        for his in proxy.history.reversed() {
             historyMenu.addItem(
                 NSMenuItem(title: "\(his.dateDisplay) \(his.delayDisplay)", action: nil, keyEquivalent: ""))
         }

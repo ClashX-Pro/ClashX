@@ -33,12 +33,23 @@ class ConfigFileManager {
                     NSUserNotificationCenter.default
                         .postConfigFileChangeDetectionNotice()
                     NotificationCenter.default
-                        .post(Notification(name: kConfigFileChange))
+                        .post(Notification(name: .configFileChange))
                     break
                 }
             }
         }
     }
+    
+    @discardableResult
+    static func backupAndRemoveConfigFile() -> Bool {
+        let path = kDefaultConfigFilePath
+        if FileManager.default.fileExists(atPath: path) {
+            let newPath = "\(kConfigFolderPath)config_\(Date().timeIntervalSince1970).yaml"
+            try? FileManager.default.moveItem(atPath: path, toPath: newPath)
+        }
+        return true
+    }
+
 
     static func copySampleConfigIfNeed() {
         if !FileManager.default.fileExists(atPath: kDefaultConfigFilePath) {

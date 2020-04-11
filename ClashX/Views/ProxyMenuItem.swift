@@ -39,7 +39,7 @@ class ProxyMenuItem: NSMenuItem {
             state = selected ? .on : .off
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateDelayNotification(note:)), name: kSpeedTestFinishForProxy, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDelayNotification(note:)), name: .speedTestFinishForProxy, object: nil)
     }
 
     required init(coder decoder: NSCoder) {

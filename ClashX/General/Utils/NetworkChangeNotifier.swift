@@ -11,18 +11,29 @@ import SystemConfiguration
 
 class NetworkChangeNotifier {
     static func start() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            Thread {
+                startProxiesWatch()
+            }.start()
+            Thread {
+                startIPChangeWatch()
+            }.start()
+        }
+    }
+
+    private static func startProxiesWatch() {
         NSWorkspace.shared.notificationCenter.addObserver(
             self, selector: #selector(onWakeNote(note:)),
             name: NSWorkspace.didWakeNotification, object: nil
         )
 
         let changed: SCDynamicStoreCallBack = { dynamicStore, _, _ in
-            NotificationCenter.default.post(name: kSystemNetworkStatusDidChange, object: nil)
+            NotificationCenter.default.post(name: .systemNetworkStatusDidChange, object: nil)
         }
         var dynamicContext = SCDynamicStoreContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
         let dcAddress = withUnsafeMutablePointer(to: &dynamicContext, { UnsafeMutablePointer<SCDynamicStoreContext>($0) })
 
-        if let dynamicStore = SCDynamicStoreCreate(kCFAllocatorDefault, "com.clashx.networknotification" as CFString, changed, dcAddress) {
+        if let dynamicStore = SCDynamicStoreCreate(kCFAllocatorDefault, "com.clashx.proxy.networknotification" as CFString, changed, dcAddress) {
             let keysArray = ["State:/Network/Global/Proxies" as CFString] as CFArray
             SCDynamicStoreSetNotificationKeys(dynamicStore, nil, keysArray)
             let loop = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynamicStore, 0)
@@ -31,9 +42,27 @@ class NetworkChangeNotifier {
         }
     }
 
+    private static func startIPChangeWatch() {
+        let changed: SCDynamicStoreCallBack = { dynamicStore, _, _ in
+            NotificationCenter.default.post(name: .systemNetworkStatusIPUpdate, object: nil)
+        }
+        var dynamicContext = SCDynamicStoreContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
+        let dcAddress = withUnsafeMutablePointer(to: &dynamicContext, { UnsafeMutablePointer<SCDynamicStoreContext>($0) })
+
+        if let dynamicStore = SCDynamicStoreCreate(kCFAllocatorDefault, "com.clashx.ipv4.networknotification" as CFString, changed, dcAddress) {
+            let keysArray = ["State:/Network/Global/IPv4" as CFString] as CFArray
+            SCDynamicStoreSetNotificationKeys(dynamicStore, nil, keysArray)
+            let loop = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynamicStore, 0)
+            CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, .defaultMode)
+            CFRunLoopRun()
+        }
+    }
+
     @objc static func onWakeNote(note: NSNotification) {
+        NotificationCenter.default.post(name: .systemNetworkStatusIPUpdate, object: nil)
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            NotificationCenter.default.post(name: kSystemNetworkStatusDidChange, object: nil)
+            NotificationCenter.default.post(name: .systemNetworkStatusDidChange, object: nil)
         }
     }
 

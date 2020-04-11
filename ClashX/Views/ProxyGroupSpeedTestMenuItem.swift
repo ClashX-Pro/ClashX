@@ -15,12 +15,11 @@ class ProxyGroupSpeedTestMenuItem: NSMenuItem {
 
     init(group: ClashProxy) {
         proxyGroup = group
-        switch group.type {
-        case .urltest, .fallback:
+        if group.type.isAutoGroup {
             testType = .reTest
-        case .select:
+        } else if group.type == .select {
             testType = .benchmark
-        default:
+        } else {
             testType = .unknown
         }
 
@@ -105,7 +104,7 @@ fileprivate class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
             testGroup.enter()
             ApiRequest.getProxyDelay(proxyName: proxyName) { delay in
                 let delayStr = delay == 0 ? NSLocalizedString("fail", comment: "") : "\(delay) ms"
-                NotificationCenter.default.post(name: kSpeedTestFinishForProxy,
+                NotificationCenter.default.post(name: .speedTestFinishForProxy,
                                                 object: nil,
                                                 userInfo: ["proxyName": proxyName, "delay": delayStr])
                 testGroup.leave()

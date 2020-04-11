@@ -226,16 +226,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setupNetworkNotifier() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            Thread {
-                NetworkChangeNotifier.start()
-            }.start()
-        }
+        NetworkChangeNotifier.start()
 
         NotificationCenter
             .default
             .rx
-            .notification(kSystemNetworkStatusDidChange)
+            .notification(.systemNetworkStatusDidChange)
             .observeOn(MainScheduler.instance)
             .delay(.milliseconds(200), scheduler: MainScheduler.instance)
             .bind { _ in
@@ -252,6 +248,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self, selector: #selector(resetProxySettingOnWakeupFromSleep),
             name: NSWorkspace.didWakeNotification, object: nil
         )
+
+        NotificationCenter
+            .default
+            .rx
+            .notification(.systemNetworkStatusIPUpdate)
+            .observeOn(MainScheduler.instance).debounce(.seconds(5), scheduler: MainScheduler.instance).bind { [weak self] _ in
+                self?.healthHeckOnNetworkChange()
+            }.disposed(by: disposeBag)
 
         ConfigManager.shared
             .isProxySetByOtherVariable
@@ -303,7 +307,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for item in logLevelMenuItem.submenu?.items ?? [] {
             item.state = item.title.lowercased() == ConfigManager.selectLoggingApiLevel.rawValue ? .on : .off
         }
-        NotificationCenter.default.post(name: kReloadDashboard, object: nil)
+        NotificationCenter.default.post(name: .reloadDashboard, object: nil)
     }
 
     func startProxy() {
@@ -384,7 +388,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     ConfigManager.selectConfigName = newConfigName
                 }
                 self.selectProxyGroupWithMemory()
-                NotificationCenter.default.post(name: kReloadDashboard, object: nil)
+                NotificationCenter.default.post(name: .reloadDashboard, object: nil)
             }
         }
     }
@@ -416,6 +420,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Logger.log("Resting proxy setting, current:\(rawProxy)", level: .warning)
             SystemProxyManager.shared.disableProxy()
             SystemProxyManager.shared.enableProxy()
+        }
+    }
+
+    @objc func healthHeckOnNetworkChange() {
+        guard NetworkChangeNotifier.getPrimaryIPAddress() != nil else { return }
+        ApiRequest.requestProxyGroupList {
+            res in
+            for group in res.proxyGroups {
+                if group.type.isAutoGroup {
+                    Logger.log("Start Auto Health check for \(group.name)")
+                    ApiRequest.healthCheck(proxy: group.name)
+                }
+            }
         }
     }
 }

@@ -46,10 +46,13 @@ func checkPortAvailable(port int, lan bool) bool {
 	return true
 }
 
-func parseConfig(checkPort bool) (*config.Config, error) {
+//export initClashCore
+func initClashCore() {
 	configFile := filepath.Join(constant.Path.HomeDir(), constant.Path.Config())
 	constant.SetConfig(configFile)
+}
 
+func parseConfig(checkPort bool) (*config.Config, error) {
 	cfg, err := executor.Parse()
 	if err != nil {
 		return nil, err

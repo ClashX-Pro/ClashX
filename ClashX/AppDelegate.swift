@@ -94,6 +94,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         removeUnExistProxyGroups()
 
         // start proxy
+        initClashCore()
         setupData()
         updateConfig(showNotification: false)
         updateLoggingLevel()

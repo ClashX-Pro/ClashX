@@ -21,6 +21,13 @@
 
 @implementation ProxySettingTool
 
+- (instancetype)init {
+    if (self = [super init]) {
+        [self localAuth];
+    }
+    return self;
+}
+
 // MARK: - Public
 
 - (void)enableProxyWithport:(int)port socksPort:(int)socksPort {
@@ -242,6 +249,7 @@
     return authFlags;
 }
 
+/*
 - (NSString *)setupAuth:(NSData *)authData {
     if (authData.length == 0 || authData.length != kAuthorizationExternalFormLength) {
         return @"PrivilegedTaskRunnerHelper: Authorization data is malformed";
@@ -274,6 +282,23 @@
     self.authRef = authRef;
     return nil;
 }
+ */
+
+- (void)localAuth {
+    OSStatus myStatus;
+    AuthorizationFlags myFlags = [self authFlags];
+    myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, myFlags, &_authRef);
+    
+    if (myStatus != errAuthorizationSuccess)
+    {
+        return;
+    }
+    
+    AuthorizationItem myItems = {kAuthorizationRightExecute, 0, NULL, 0};
+    AuthorizationRights myRights = {1, &myItems};
+    myStatus = AuthorizationCopyRights (self.authRef, &myRights, NULL, myFlags, NULL );
+}
+
 
 - (void)freeAuth {
     if (self.authRef) {

@@ -90,25 +90,14 @@ ProxyConfigRemoteProcessProtocol
 
 - (void)enableProxyWithPort:(int)port
                   socksPort:(int)socksPort
-                   authData:(NSData *)authData
                       error:(stringReplyBlock)reply {
     ProxySettingTool *tool = [ProxySettingTool new];
-    NSString *err = [tool setupAuth:authData];
-    if (err != nil) {
-        reply(err);
-        return;
-    }
     [tool enableProxyWithport:port socksPort:socksPort];
     reply(nil);
 }
 
-- (void)disableProxyWithAuthData:(NSData *)authData error:(stringReplyBlock)reply {
+- (void)disableProxy:(stringReplyBlock)reply {
     ProxySettingTool *tool = [ProxySettingTool new];
-    NSString *err = [tool setupAuth:authData];
-    if (err != nil) {
-        reply(err);
-        return;
-    }
     [tool disableProxy];
     reply(nil);
 }
@@ -117,14 +106,8 @@ ProxyConfigRemoteProcessProtocol
 - (void)restoreProxyWithCurrentPort:(int)port
                           socksPort:(int)socksPort
                                info:(NSDictionary *)dict
-                           authData:(NSData *)authData
                               error:(stringReplyBlock)reply {
     ProxySettingTool *tool = [ProxySettingTool new];
-    NSString *err = [tool setupAuth:authData];
-    if (err != nil) {
-        reply(err);
-        return;
-    }
     [tool restoreProxySettint:dict currentPort:port currentSocksPort:socksPort];
     reply(nil);
 }

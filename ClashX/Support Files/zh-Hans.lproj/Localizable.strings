@@ -66,6 +66,9 @@
 "Invalid input" = "输入不合法";
 
 /* No comment provided by engineer. */
+"Lecgy Install" = "传统安装";
+
+/* No comment provided by engineer. */
 "Need to Restart the ClashX to Take effect, Please start clashX manually" = "需要重启ClashX生效，请手动启动ClashX";
 
 /* No comment provided by engineer. */

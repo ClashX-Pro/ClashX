@@ -11,6 +11,8 @@ import ServiceManagement
 
 class PrivilegedHelperManager {
     private var cancelInstallCheck = false
+    private var useLecgyInstall = false
+
     private var authRef: AuthorizationRef?
     private var connection: NSXPCConnection?
     private var _helper: ProxyConfigRemoteProcessProtocol?
@@ -38,6 +40,12 @@ class PrivilegedHelperManager {
         }
     }
 
+    func resetConnection() {
+        connection?.invalidate()
+        connection = nil
+        _helper = nil
+    }
+
     private func initAuthorizationRef() {
         // Create an empty AuthorizationRef
         let status = AuthorizationCreate(nil, nil, AuthorizationFlags(), &authRef)
@@ -52,9 +60,7 @@ class PrivilegedHelperManager {
         Logger.log("installHelperDaemon", level: .info)
 
         defer {
-            connection?.invalidate()
-            connection = nil
-            _helper = nil
+            resetConnection()
         }
 
         // Create authorization reference for the user
@@ -69,7 +75,7 @@ class PrivilegedHelperManager {
 
         // Ask user for the admin privileges to install the
         var authItem = AuthorizationItem(name: (kSMRightBlessPrivilegedHelper as NSString).utf8String!, valueLength: 0, value: nil, flags: 0)
-        var authRights = withUnsafeMutablePointer(to: &authItem) { pointer  in
+        var authRights = withUnsafeMutablePointer(to: &authItem) { pointer in
             AuthorizationRights(count: 1, items: pointer)
         }
         let flags: AuthorizationFlags = [[], .interactionAllowed, .extendRights, .preAuthorize]
@@ -96,37 +102,6 @@ class PrivilegedHelperManager {
 
         Logger.log("\(PrivilegedHelperManager.machServiceName) installed successfully", level: .info)
         return .success
-    }
-
-    func authData() -> Data? {
-        guard let authRef = authRef else { return nil }
-        var authRefExtForm = AuthorizationExternalForm()
-
-        // Make an external form of the AuthorizationRef
-        var status = AuthorizationMakeExternalForm(authRef, &authRefExtForm)
-        if status != OSStatus(errAuthorizationSuccess) {
-            Logger.log("AppviewController: AuthorizationMakeExternalForm failed", level: .error)
-            return nil
-        }
-
-        // Add all or update required authorization right definition to the authorization database
-        var currentRight: CFDictionary?
-
-        // Try to get the authorization right definition from the database
-        status = AuthorizationRightGet(AppAuthorizationRights.rightName.utf8String!, &currentRight)
-
-        if status == errAuthorizationDenied {
-            let defaultRules = AppAuthorizationRights.rightDefaultRule
-            status = AuthorizationRightSet(authRef,
-                                           AppAuthorizationRights.rightName.utf8String!,
-                                           defaultRules as CFDictionary,
-                                           AppAuthorizationRights.rightDescription,
-                                           nil, "Common" as CFString)
-        }
-
-        // We need to put the AuthorizationRef to a form that can be passed through inter process call
-        let authData = NSData(bytes: &authRefExtForm, length: kAuthorizationExternalFormLength)
-        return authData as Data
     }
 
     private func helperConnection() -> NSXPCConnection? {
@@ -193,11 +168,18 @@ extension PrivilegedHelperManager {
             return
         }
 
+        if useLecgyInstall {
+            useLecgyInstall = false
+            legacyInstallHelper()
+            return
+        }
+
         let result = installHelperDaemon()
         if case .success = result {
             return
         }
         result.alertAction()
+        useLecgyInstall = result.shouldRetryLegacyWay()
         NSAlert.alert(with: result.alertContent)
     }
 
@@ -205,7 +187,11 @@ extension PrivilegedHelperManager {
         let alert = NSAlert()
         alert.messageText = NSLocalizedString("ClashX needs to install/update a helper tool with administrator privileges to set system proxy quickly.If not helper tool installed, ClashX won't be able to set your system proxy", comment: "")
         alert.alertStyle = .warning
-        alert.addButton(withTitle: NSLocalizedString("Install", comment: ""))
+        if useLecgyInstall {
+            alert.addButton(withTitle: NSLocalizedString("Lecgy Install", comment: ""))
+        } else {
+            alert.addButton(withTitle: NSLocalizedString("Install", comment: ""))
+        }
         alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         switch alert.runModal() {
@@ -257,6 +243,21 @@ fileprivate enum DaemonInstallResult {
             default:
                 return "bless unknown error:\(code)"
             }
+        }
+    }
+
+    func shouldRetryLegacyWay() -> Bool {
+        switch self {
+        case .success: return false
+        case let .blessError(code):
+            switch code {
+            case kSMErrorJobMustBeEnabled:
+                return false
+            default:
+                return true
+            }
+        default:
+            return true
         }
     }
 

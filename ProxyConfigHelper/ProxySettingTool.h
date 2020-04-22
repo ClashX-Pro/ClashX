@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProxySettingTool : NSObject
 
-- (NSString *)setupAuth:(NSData *)authData;
 - (void)enableProxyWithport:(int)port socksPort:(int)socksPort;
 - (void)disableProxy;
 

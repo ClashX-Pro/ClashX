@@ -19,15 +19,13 @@ typedef void(^dictReplyBlock)(NSDictionary *);
 
 - (void)enableProxyWithPort:(int)port
           socksPort:(int)socksPort
-           authData:(NSData *)authData
             error:(stringReplyBlock)reply;
 
-- (void)disableProxyWithAuthData:(NSData *)authData error:(stringReplyBlock)reply;
+- (void)disableProxy:(stringReplyBlock)reply;
 
 - (void)restoreProxyWithCurrentPort:(int)port
                           socksPort:(int)socksPort
                                info:(NSDictionary *)dict
-                           authData:(NSData *)authData
                               error:(stringReplyBlock)reply;
 
 - (void)getCurrentProxySetting:(dictReplyBlock)reply;

@@ -34,8 +34,6 @@ class SystemProxyManager: NSObject {
         PrivilegedHelperManager.shared.helper()
     }
 
-    private let authData = PrivilegedHelperManager.shared.authData
-
     func saveProxy() {
         guard !disableRestoreProxy else { return }
         Logger.log("saveProxy", level: .debug)
@@ -59,7 +57,7 @@ class SystemProxyManager: NSObject {
             return
         }
         Logger.log("enableProxy", level: .debug)
-        helper?.enableProxy(withPort: Int32(port), socksPort: Int32(socksPort), authData: authData(), error: { error in
+        helper?.enableProxy(withPort: Int32(port), socksPort: Int32(socksPort), error: { error in
             if let error = error {
                 Logger.log("enableProxy \(error)", level: .error)
             }
@@ -76,15 +74,15 @@ class SystemProxyManager: NSObject {
         Logger.log("disableProxy", level: .debug)
 
         if disableRestoreProxy || forceDisable {
-            helper?.disableProxy(withAuthData: authData(), error: { error in
+            helper?.disableProxy { error in
                 if let error = error {
                     Logger.log("disableProxy \(error)", level: .error)
                 }
-            })
+            }
             return
         }
 
-        helper?.restoreProxy(withCurrentPort: Int32(port), socksPort: Int32(socksPort), info: savedProxyInfo, authData: authData(), error: { error in
+        helper?.restoreProxy(withCurrentPort: Int32(port), socksPort: Int32(socksPort), info: savedProxyInfo, error: { error in
             if let error = error {
                 Logger.log("restoreProxy \(error)", level: .error)
             }

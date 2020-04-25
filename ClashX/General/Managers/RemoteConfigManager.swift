@@ -166,7 +166,9 @@ class RemoteConfigManager {
 
             if let suggestName = suggestedFilename, config.isPlaceHolderName {
                 let name = URL(fileURLWithPath: suggestName).deletingPathExtension().lastPathComponent
-                config.name = name
+                if !shared.configs.contains(where: { $0.name == name }) {
+                    config.name = name
+                }
             }
             config.isPlaceHolderName = false
 

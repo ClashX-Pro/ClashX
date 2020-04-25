@@ -18,7 +18,7 @@ extension AppDelegate {
         }
         return false
     }
-    
+
     static var isAboveMacOS152: Bool {
         if #available(macOS 10.15.3, *) {
             return true

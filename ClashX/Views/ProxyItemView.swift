@@ -15,9 +15,13 @@ class ProxyItemView: MenuItemBaseView {
 
     static let fixedPlaceHolderWidth: CGFloat = 20 + 50 + 25
 
-    init(name: ClashProxyName, selected: Bool, delay: String?) {
-        nameLabel = VibrancyTextField(labelWithString: name)
-        delayLabel = VibrancyTextField(labelWithString: delay ?? "")
+    init(proxy: ClashProxy, selected: Bool) {
+        nameLabel = VibrancyTextField(labelWithString: proxy.name)
+        delayLabel = VibrancyTextField(labelWithString: "")
+        let cell = PaddedNSTextFieldCell()
+        cell.widthPadding = 2
+        cell.heightPadding = 1
+        delayLabel.cell = cell
         if selected {
             imageView = NSImageView(image: NSImage(named: NSImage.menuOnStateTemplateName)!)
         } else {
@@ -35,12 +39,15 @@ class ProxyItemView: MenuItemBaseView {
         delayLabel.translatesAutoresizingMaskIntoConstraints = false
 
         nameLabel.font = type(of: self).labelFont
-        delayLabel.font = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .regular)
+        delayLabel.font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
         nameLabel.alignment = .left
         delayLabel.alignment = .right
 
-//        delayLabel.wantsLayer = true
-//        delayLabel.layer?.backgroundColor = NSColor.red.cgColor
+        delayLabel.wantsLayer = true
+        delayLabel.layer?.cornerRadius = 2
+        delayLabel.textColor = NSColor.white
+
+        update(str: proxy.history.last?.delayDisplay, value: proxy.history.last?.delay)
     }
 
     override func layout() {
@@ -58,9 +65,22 @@ class ProxyItemView: MenuItemBaseView {
                                   height: delayLabel.bounds.height)
     }
 
-    func update(delay: String?) {
-        delayLabel.stringValue = delay ?? ""
+    func update(str: String?, value: Int?) {
+        delayLabel.stringValue = str ?? ""
         needsLayout = true
+
+        guard let delay = value, str != nil else {
+            delayLabel.layer?.backgroundColor = NSColor.clear.cgColor
+            return
+        }
+        switch delay {
+        case 0:
+            delayLabel.layer?.backgroundColor = CGColor.fail
+        case 0..<300:
+            delayLabel.layer?.backgroundColor = CGColor.good
+        default:
+            delayLabel.layer?.backgroundColor = CGColor.meduim
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -72,6 +92,12 @@ class ProxyItemView: MenuItemBaseView {
     }
 
     override var cells: [NSCell?] {
-        return [nameLabel.cell, delayLabel.cell, imageView?.cell]
+        return [nameLabel.cell, imageView?.cell]
     }
+}
+
+fileprivate extension CGColor {
+    static let good = CGColor(red: 81.0 / 255, green: 210.0 / 255, blue: 0, alpha: 1)
+    static let meduim = CGColor(red: 1, green: 135.0 / 255, blue: 0, alpha: 1)
+    static let fail = CGColor(red: 218.0 / 255, green: 0.0, blue: 3.0 / 255, alpha: 1)
 }

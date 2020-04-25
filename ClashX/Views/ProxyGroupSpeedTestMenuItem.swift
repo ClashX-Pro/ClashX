@@ -106,7 +106,7 @@ fileprivate class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
                 let delayStr = delay == 0 ? NSLocalizedString("fail", comment: "") : "\(delay) ms"
                 NotificationCenter.default.post(name: .speedTestFinishForProxy,
                                                 object: nil,
-                                                userInfo: ["proxyName": proxyName, "delay": delayStr])
+                                                userInfo: ["proxyName": proxyName, "delay": delayStr, "rawValue": delay])
                 testGroup.leave()
             }
         }

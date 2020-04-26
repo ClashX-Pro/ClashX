@@ -152,21 +152,17 @@ class MenuItemFactory {
         }
         let submenu = ProxyGroupMenu(title: proxyGroup.name)
 
-        let isSpeedtestAble = proxyGroup.speedtestAble.count > 0
-
         for proxy in proxyGroup.all ?? [] {
             guard let proxyModel = proxyMap[proxy] else { continue }
             let proxyItem = ProxyMenuItem(proxy: proxyModel,
                                           group: proxyGroup,
-                                          action: #selector(MenuItemFactory.actionSelectProxy(sender:)),
-                                          speedtestAble: isSpeedtestAble,
-                                          maxProxyNameLength: proxyGroup.maxProxyNameLength)
+                                          action: #selector(MenuItemFactory.actionSelectProxy(sender:)))
             proxyItem.target = MenuItemFactory.self
             submenu.add(delegate: proxyItem)
             submenu.addItem(proxyItem)
         }
 
-        if isSpeedtestAble && useViewToRenderProxy {
+        if proxyGroup.isSpeedTestable && useViewToRenderProxy {
             submenu.minimumWidth = proxyGroup.maxProxyNameLength + ProxyItemView.fixedPlaceHolderWidth
         }
 
@@ -189,7 +185,7 @@ class MenuItemFactory {
 
         for proxyName in proxyGroup.all ?? [] {
             guard let proxy = proxyMap[proxyName] else { continue }
-            let proxyMenuItem = NSMenuItem(title: proxy.name, action: #selector(empty), keyEquivalent: "")
+            let proxyMenuItem = ProxyMenuItem(proxy: proxy, group: proxyGroup, action: #selector(empty), simpleItem: true)
             proxyMenuItem.target = MenuItemFactory.self
             if proxy.name == selectedName {
                 proxyMenuItem.state = .on
@@ -224,19 +220,16 @@ class MenuItemFactory {
         let menu = NSMenuItem(title: proxyGroup.name, action: nil, keyEquivalent: "")
         let submenu = ProxyGroupMenu(title: proxyGroup.name)
 
-        let isSpeedTestAble = proxyGroup.speedtestAble.count > 0
         for proxy in proxyGroup.all ?? [] {
             guard let proxyModel = proxyMap[proxy] else { continue }
             let proxyItem = ProxyMenuItem(proxy: proxyModel,
                                           group: proxyGroup,
-                                          action: #selector(empty),
-                                          speedtestAble: isSpeedTestAble,
-                                          maxProxyNameLength: proxyGroup.maxProxyNameLength)
+                                          action: #selector(empty))
             proxyItem.target = MenuItemFactory.self
             submenu.add(delegate: proxyItem)
             submenu.addItem(proxyItem)
         }
-        if isSpeedTestAble && useViewToRenderProxy {
+        if proxyGroup.isSpeedTestable && useViewToRenderProxy {
             submenu.minimumWidth = proxyGroup.maxProxyNameLength + ProxyItemView.fixedPlaceHolderWidth
         }
         addSpeedTestMenuItem(submenu, proxyGroup: proxyGroup)
@@ -255,8 +248,7 @@ class MenuItemFactory {
             let proxyItem = ProxyMenuItem(proxy: proxyModel,
                                           group: proxyGroup,
                                           action: #selector(empty),
-                                          speedtestAble: false,
-                                          maxProxyNameLength: proxyGroup.maxProxyNameLength)
+                                          simpleItem: true)
             proxyItem.target = MenuItemFactory.self
             submenu.add(delegate: proxyItem)
             submenu.addItem(proxyItem)

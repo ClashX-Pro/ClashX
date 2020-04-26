@@ -23,24 +23,27 @@ class ProxyMenuItem: NSMenuItem {
     init(proxy: ClashProxy,
          group: ClashProxy,
          action selector: Selector?,
-         speedtestAble: Bool,
-         maxProxyNameLength: CGFloat) {
+         simpleItem: Bool = false) {
         proxyName = proxy.name
-        let selected = group.now == proxy.name
-        self.maxProxyNameLength = maxProxyNameLength
-        super.init(title: proxyName, action: selector, keyEquivalent: "")
-        if speedtestAble && enableShowUsingView {
-            view = ProxyItemView(proxy: proxy, selected: selected)
-        } else {
-            if speedtestAble {
-                attributedTitle = getAttributedTitle(name: proxyName, delay: proxy.history.last?.delayDisplay)
-            }
-            state = selected ? .on : .off
-        }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateDelayNotification(note:)), name: .speedTestFinishForProxy, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(proxyInfoUpdate(note:)), name: .proxyUpdate(for: proxy.name), object: nil)
+        maxProxyNameLength = simpleItem ? 0 : group.maxProxyNameLength
+
+        super.init(title: proxyName, action: selector, keyEquivalent: "")
+
+        if !simpleItem && enableShowUsingView && group.isSpeedTestable {
+            view = ProxyItemView(proxy: proxy)
+        } else if !simpleItem {
+            attributedTitle = getAttributedTitle(name: proxyName, delay: proxy.history.last?.delayDisplay)
+        }
+        let selected = group.now == proxy.name
+        updateSelected(selected)
+
         NotificationCenter.default.addObserver(self, selector: #selector(proxyGroupInfoUpdate(note:)), name: .proxyUpdate(for: group.name), object: nil)
+
+        if !simpleItem {
+            NotificationCenter.default.addObserver(self, selector: #selector(updateDelayNotification(note:)), name: .speedTestFinishForProxy, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(proxyInfoUpdate(note:)), name: .proxyUpdate(for: proxy.name), object: nil)
+        }
     }
 
     required init(coder decoder: NSCoder) {
@@ -74,8 +77,15 @@ class ProxyMenuItem: NSMenuItem {
     @objc private func proxyGroupInfoUpdate(note: Notification) {
         guard let group = note.object as? ClashProxy else { return }
         let selected = group.now == proxyName
-        state = selected ? .on : .off
-        (view as? ProxyItemView)?.update(selected: selected)
+        updateSelected(selected)
+    }
+
+    private func updateSelected(_ selected: Bool) {
+        if let v = view as? ProxyItemView {
+            v.update(selected: selected)
+        } else {
+            state = selected ? .on : .off
+        }
     }
 
     private func updateDelay(_ delay: String?, rawValue: Int?) {

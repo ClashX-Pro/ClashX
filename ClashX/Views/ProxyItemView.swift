@@ -15,7 +15,7 @@ class ProxyItemView: MenuItemBaseView {
 
     static let fixedPlaceHolderWidth: CGFloat = 20 + 50 + 25
 
-    init(proxy: ClashProxy, selected: Bool) {
+    init(proxy: ClashProxy) {
         nameLabel = VibrancyTextField(labelWithString: proxy.name)
         delayLabel = VibrancyTextField(labelWithString: "").setup(allowsVibrancy: false)
         let cell = PaddedNSTextFieldCell()
@@ -23,7 +23,6 @@ class ProxyItemView: MenuItemBaseView {
         cell.heightPadding = 1
         delayLabel.cell = cell
         super.init(autolayout: false)
-        update(selected: selected)
         effectView.addSubview(nameLabel)
         effectView.addSubview(delayLabel)
 

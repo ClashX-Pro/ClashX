@@ -30,7 +30,7 @@ class ProxyItemView: MenuItemBaseView {
         delayLabel.translatesAutoresizingMaskIntoConstraints = false
 
         nameLabel.font = type(of: self).labelFont
-        delayLabel.font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
+        delayLabel.font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .medium)
         nameLabel.alignment = .left
         delayLabel.alignment = .right
 

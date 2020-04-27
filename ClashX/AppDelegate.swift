@@ -112,12 +112,46 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupNetworkNotifier()
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        let group = DispatchGroup()
+        var shouldWait = false
+        
         if ConfigManager.shared.proxyPortAutoSet && !ConfigManager.shared.isProxySetByOtherVariable.value {
+            Logger.log("ClashX quit need clean proxy setting")
+            shouldWait = true
+            group.enter()
             let port = ConfigManager.shared.currentConfig?.port ?? 0
             let socketPort = ConfigManager.shared.currentConfig?.socketPort ?? 0
-            SystemProxyManager.shared.disableProxy(port: port, socksPort: socketPort)
+            SystemProxyManager.shared.disableProxy(port: port, socksPort: socketPort) {
+                group.leave()
+            }
         }
+
+        if !shouldWait {
+            Logger.log("ClashX quit without clean waiting")
+            return .terminateNow
+        }
+
+        statusItem.menu = nil
+
+        DispatchQueue.global(qos: .default).async {
+            let res = group.wait(timeout: .now() + 5)
+            switch res {
+            case .success:
+                Logger.log("ClashX quit after clean up finish")
+            case .timedOut:
+                Logger.log("ClashX quit after clean up timeout")
+            }
+            DispatchQueue.main.async {
+                NSApp.reply(toApplicationShouldTerminate: true)
+            }
+        }
+
+        Logger.log("ClashX quit wait for clean up")
+        return .terminateLater
+    }
+
+    func applicationWillTerminate(_ aNotification: Notification) {
         UserDefaults.standard.set(0, forKey: "launch_fail_times")
     }
 

@@ -70,7 +70,7 @@ class SystemProxyManager: NSObject {
         SystemProxyManager.shared.disableProxy(port: port, socksPort: socketPort)
     }
 
-    func disableProxy(port: Int, socksPort: Int, forceDisable: Bool = false) {
+    func disableProxy(port: Int, socksPort: Int, forceDisable: Bool = false, complete: (() -> Void)? = nil) {
         Logger.log("disableProxy", level: .debug)
 
         if disableRestoreProxy || forceDisable {
@@ -78,6 +78,7 @@ class SystemProxyManager: NSObject {
                 if let error = error {
                     Logger.log("disableProxy \(error)", level: .error)
                 }
+                complete?()
             }
             return
         }
@@ -86,6 +87,7 @@ class SystemProxyManager: NSObject {
             if let error = error {
                 Logger.log("restoreProxy \(error)", level: .error)
             }
+            complete?()
         })
     }
 

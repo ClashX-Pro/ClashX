@@ -13,12 +13,6 @@ import SwiftyJSON
 class MenuItemFactory {
     private static var cachedProxyData: ClashProxyResp?
 
-    private static var showSpeedTestItemAtTop: Bool = UserDefaults.standard.object(forKey: "kShowSpeedTestItemAtTop") as? Bool ?? AppDelegate.isAboveMacOS14 {
-        didSet {
-            UserDefaults.standard.set(showSpeedTestItemAtTop, forKey: "kShowSpeedTestItemAtTop")
-        }
-    }
-
     static var useViewToRenderProxy: Bool = UserDefaults.standard.object(forKey: "useViewToRenderProxy") as? Bool ?? AppDelegate.isAboveMacOS152 {
         didSet {
             UserDefaults.standard.set(useViewToRenderProxy, forKey: "useViewToRenderProxy")
@@ -204,13 +198,8 @@ class MenuItemFactory {
         guard proxyGroup.speedtestAble.count > 0 else { return }
         let speedTestItem = ProxyGroupSpeedTestMenuItem(group: proxyGroup)
         let separator = NSMenuItem.separator()
-        if showSpeedTestItemAtTop {
-            menu.insertItem(separator, at: 0)
-            menu.insertItem(speedTestItem, at: 0)
-        } else {
-            menu.addItem(separator)
-            menu.addItem(speedTestItem)
-        }
+        menu.insertItem(separator, at: 0)
+        menu.insertItem(speedTestItem, at: 0)
         (menu as? ProxyGroupMenu)?.add(delegate: speedTestItem)
     }
 
@@ -262,30 +251,14 @@ class MenuItemFactory {
 
 extension MenuItemFactory {
     static func addExperimentalMenuItem(_ menu: inout NSMenu) {
-        let speedtestItem = NSMenuItem(title: NSLocalizedString("Show speedTest at top", comment: ""), action: #selector(optionSpeedtestMenuItemTap(sender:)), keyEquivalent: "")
-        speedtestItem.target = self
-        menu.addItem(speedtestItem)
-        updateSpeedtestMenuItemStatus(speedtestItem)
-
         let useViewRender = NSMenuItem(title: NSLocalizedString("Enhance proxy list render", comment: ""), action: #selector(optionUseViewRenderMenuItemTap(sender:)), keyEquivalent: "")
         useViewRender.target = self
         menu.addItem(useViewRender)
         updateUseViewRenderMenuItem(useViewRender)
     }
 
-    static func updateSpeedtestMenuItemStatus(_ item: NSMenuItem) {
-        item.state = showSpeedTestItemAtTop ? .on : .off
-    }
-
     static func updateUseViewRenderMenuItem(_ item: NSMenuItem) {
         item.state = useViewToRenderProxy ? .on : .off
-    }
-
-    @objc static func optionSpeedtestMenuItemTap(sender: NSMenuItem) {
-        showSpeedTestItemAtTop = !showSpeedTestItemAtTop
-        updateSpeedtestMenuItemStatus(sender)
-        refreshExistingMenuItems()
-        recreateProxyMenuItems()
     }
 
     @objc static func optionUseViewRenderMenuItemTap(sender: NSMenuItem) {

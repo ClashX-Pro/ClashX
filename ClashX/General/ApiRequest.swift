@@ -25,6 +25,8 @@ class ApiRequest {
 
     private lazy var logQueue = DispatchQueue(label: "com.ClashX.core.log")
 
+    static let clashRequestQueue = DispatchQueue(label: "com.clashx.clashRequestQueue")
+
     private init() {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 604800
@@ -113,11 +115,13 @@ class ApiRequest {
         }
 
         // NORMAL MODE: Use internal api
-        let res = clashUpdateConfig(filePath.goStringBuffer())?.toString() ?? placeHolderErrorDesp
-        if res == "success" {
-            callback(nil)
-        } else {
-            callback(res)
+        clashRequestQueue.async {
+            let res = clashUpdateConfig(filePath.goStringBuffer())?.toString() ?? placeHolderErrorDesp
+            if res == "success" {
+                callback(nil)
+            } else {
+                callback(res)
+            }
         }
     }
 

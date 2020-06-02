@@ -109,9 +109,8 @@ class ApiRequest {
             let filePath = Paths.localConfigPath(for: configName)
             requestConfigUpdate(configPath: filePath, callback: callback)
         }
-
     }
-    
+
     static func requestConfigUpdate(configPath: String, callback: @escaping ((ErrorString?) -> Void)) {
         let placeHolderErrorDesp = "Error occoured, Please try to fix it by restarting ClashX. "
 

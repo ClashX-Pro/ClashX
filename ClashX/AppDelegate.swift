@@ -108,7 +108,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateLoggingLevel()
 
         // start watch config file change
-        ConfigFileManager.shared.watchConfigFile(configName: ConfigManager.selectConfigName)
+        ConfigManager.watchCurrentConfigFile()
 
         RemoteConfigManager.shared.autoUpdateCheck()
 

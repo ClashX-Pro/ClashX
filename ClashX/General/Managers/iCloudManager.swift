@@ -56,7 +56,7 @@ class iCloudManager {
                     return
                 }
                 let files = try? FileManager.default.contentsOfDirectory(atPath: url.path)
-                if let count = files?.count,count == 0 {
+                if let count = files?.count, count == 0 {
                     let path = Bundle.main.path(forResource: "sampleConfig", ofType: "yaml")!
                     try? FileManager.default.copyItem(atPath: path, toPath: kDefaultConfigFilePath)
                     try? FileManager.default.copyItem(atPath: Bundle.main.path(forResource: "sampleConfig", ofType: "yaml")!, toPath: url.appendingPathComponent("config.yaml").path)
@@ -99,25 +99,8 @@ class iCloudManager {
         NotificationCenter.default.addObserver(self, selector: #selector(iCloudAccountAvailabilityChanged), name: NSNotification.Name.NSUbiquityIdentityDidChange, object: nil)
     }
 
-    func watchConfigFile(name: String) {
-        metaQuery?.stop()
-        NotificationCenter.default.removeObserver(self, name: .NSMetadataQueryDidUpdate, object: metaQuery)
-        metaQuery = nil
-        let query = NSMetadataQuery()
-        query.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope]
-        query.predicate = NSPredicate(format: "%K like %@", NSMetadataItemFSNameKey, "\(name).yaml")
-        if query.start() {
-            NotificationCenter.default.addObserver(self, selector: #selector(fileDidUpdate(_:)), name: .NSMetadataQueryDidUpdate, object: query)
-            metaQuery = query
-        }
-    }
-
     @objc func iCloudAccountAvailabilityChanged() {
         icloudAvailable = isICloudAvailable()
-    }
-
-    @objc func fileDidUpdate(_ note:NSNotification) {
-        print("fileDidUpdate")
     }
 }
 

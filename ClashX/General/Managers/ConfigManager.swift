@@ -48,11 +48,19 @@ class ConfigManager {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "selectConfigName")
-            if iCloudManager.shared.isICloudEnable() {
-                iCloudManager.shared.watchConfigFile(name: newValue)
-            } else {
-                ConfigFileManager.shared.watchConfigFile(configName: newValue)
+            watchCurrentConfigFile()
+        }
+    }
+
+    static func watchCurrentConfigFile() {
+        if iCloudManager.shared.isICloudEnable() {
+            iCloudManager.shared.getUrl { url in
+                guard let url = url else { return }
+                let configUrl = url.appendingPathComponent(Paths.configFileName(for: selectConfigName))
+                ConfigFileManager.shared.watchFile(path: configUrl.path)
             }
+        } else {
+            ConfigFileManager.shared.watchFile(path: Paths.localConfigPath(for: selectConfigName))
         }
     }
 

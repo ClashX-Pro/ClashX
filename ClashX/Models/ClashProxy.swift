@@ -144,10 +144,8 @@ class ClashProxy: Codable {
 }
 
 class ClashProxyResp {
-    // proxies without provider
-    let proxies: [ClashProxy]
+    var proxies: [ClashProxy]
 
-    // proxiesmap with provider included
     var proxiesMap: [ClashProxyName: ClashProxy]
 
     var enclosingProviderResp: ClashProviderResp?
@@ -192,6 +190,7 @@ class ClashProxyResp {
             for proxy in provider.proxies {
                 proxy.enclosingProvider = provider
                 proxiesMap[proxy.name] = proxy
+                proxies.append(proxy)
             }
         }
     }

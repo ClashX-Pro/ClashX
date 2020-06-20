@@ -30,8 +30,8 @@ class MenuItemFactory {
                 return
             }
 
-            for (name, proxy) in info?.proxiesMap ?? [:] {
-                NotificationCenter.default.post(name: .proxyUpdate(for: name), object: proxy, userInfo: nil)
+            for proxy in info?.proxies ?? [] {
+                NotificationCenter.default.post(name: .proxyUpdate(for: proxy.name), object: proxy, userInfo: nil)
             }
         }
     }

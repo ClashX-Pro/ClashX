@@ -76,6 +76,7 @@ class ProxyMenuItem: NSMenuItem {
 
     @objc private func proxyGroupInfoUpdate(note: Notification) {
         guard let group = note.object as? ClashProxy else { return }
+        guard ClashProxyType.isProxyGroup(group) else { return }
         let selected = group.now == proxyName
         updateSelected(selected)
     }

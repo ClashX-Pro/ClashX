@@ -119,8 +119,10 @@
         CFRelease(store);
         return nil;
     }
-    CFRelease(result);
-    result = NULL;
+    if (result != NULL) {
+        CFRelease(result);
+        result = NULL;
+    }
     CFRelease(store);
     char *dir = getpwuid(uid)->pw_dir;
     NSString *path = [NSString stringWithUTF8String:dir];

@@ -43,7 +43,8 @@ class AppVersionUtil: NSObject {
 
 extension AppVersionUtil {
     static func showUpgradeAlert() {
-        if hasVersionChanged && currentVersion.hasPrefix("1.30.0") && !isFirstLaunch {
+        if let lastVersion = shared.lastVersionNumber, hasVersionChanged {
+            guard lastVersion.compare("1.30.0", options: .numeric) == .orderedAscending else { return }
             let alert = NSAlert()
             alert.messageText = NSLocalizedString("This version of ClashX contains a break change due to clash core 1.0 released. Check if your config is not working properly.", comment: "")
             alert.alertStyle = .informational

@@ -478,7 +478,7 @@
                                     <constraint firstAttribute="width" constant="90" id="FDV-Kt-1r8"/>
                                     <constraint firstAttribute="height" constant="90" id="JiZ-gC-JO8"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Icon" id="Vx1-G4-Xby"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIcon" id="Vx1-G4-Xby"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="prU-ck-7Na">
                                 <rect key="frame" x="199" y="165" width="53" height="17"/>
@@ -872,7 +872,7 @@
         <!--External Control-->
         <scene sceneID="TO5-jN-VsZ">
             <objects>
-                <viewController title="External Manager" identifier="ExternalControlViewController" storyboardIdentifier="ExternalControlViewController" showSeguePresentationStyle="single" id="s6y-wL-pnr" userLabel="External Control" customClass="ExternalControlViewController" customModule="ClashX_Pro" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="External Manager" identifier="ExternalControlViewController" storyboardIdentifier="ExternalControlViewController" showSeguePresentationStyle="single" id="s6y-wL-pnr" userLabel="External Control" customClass="ExternalControlViewController" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Gao-fa-Dwr">
                         <rect key="frame" x="0.0" y="0.0" width="520" height="257"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1104,6 +1104,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Icon" width="512" height="512"/>
+        <image name="AppIcon" width="128" height="128"/>
     </resources>
 </document>

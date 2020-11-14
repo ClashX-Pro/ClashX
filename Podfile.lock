@@ -1,44 +1,44 @@
 PODS:
   - Alamofire (5.4.0)
-  - AppCenter/Analytics (3.3.4):
+  - AppCenter/Analytics (4.0.0):
     - AppCenter/Core
-  - AppCenter/Core (3.3.4)
+  - AppCenter/Core (4.0.0)
   - CocoaLumberjack/Core (3.7.0)
   - CocoaLumberjack/Swift (3.7.0):
     - CocoaLumberjack/Core
-  - Firebase/CoreOnly (7.0.0):
-    - FirebaseCore (= 7.0.0)
-  - Firebase/Crashlytics (7.0.0):
+  - Firebase/CoreOnly (7.1.0):
+    - FirebaseCore (= 7.1.0)
+  - Firebase/Crashlytics (7.1.0):
     - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 7.0.0)
-  - FirebaseCore (7.0.0):
+    - FirebaseCrashlytics (~> 7.1.0)
+  - FirebaseCore (7.1.0):
     - FirebaseCoreDiagnostics (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
-  - FirebaseCoreDiagnostics (7.0.0):
+  - FirebaseCoreDiagnostics (7.1.0):
     - GoogleDataTransport (~> 8.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
     - nanopb (~> 2.30906.0)
-  - FirebaseCrashlytics (7.0.0):
+  - FirebaseCrashlytics (7.1.0):
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
     - GoogleDataTransport (~> 8.0)
     - nanopb (~> 2.30906.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseInstallations (7.0.0):
+  - FirebaseInstallations (7.1.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
   - FlexibleDiff (0.0.8)
-  - GoogleDataTransport (8.0.0):
+  - GoogleDataTransport (8.0.1):
     - nanopb (~> 2.30906.0)
-  - GoogleUtilities/Environment (7.0.0):
+  - GoogleUtilities/Environment (7.1.0):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.0.0):
+  - GoogleUtilities/Logger (7.1.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/UserDefaults (7.0.0):
+  - GoogleUtilities/UserDefaults (7.1.0):
     - GoogleUtilities/Logger
   - LetsMove (1.25)
   - nanopb (2.30906.0):
@@ -98,16 +98,16 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
-  AppCenter: 0487be185c038ed2ecc5ed38219af1dcd280af23
+  AppCenter: 51351e0121e40ba75e28ecb7de5c2e69d480df5e
   CocoaLumberjack: e8955b9d337ac307103b0a34fd141c32f27e53c5
-  Firebase: 50be68416f50eb4eb2ecb0e78acab9a051ef95df
-  FirebaseCore: cf3122185fce1cf71cedbbc498ea84d2b3e7cb69
-  FirebaseCoreDiagnostics: 5f4aa04fdb04923693cc704c7ef9158bdf41a48b
-  FirebaseCrashlytics: bd430b7323e8b49492a93e563e81899d0615f917
-  FirebaseInstallations: c28d4bcbb5c6884d1a39afbc0bd7fc590e31e9b7
+  Firebase: 78e8dd2e39d653de6270432ad84fe8b59f7bf4e8
+  FirebaseCore: 20046127eef0fcb8fa25df7fc12f7b97d4e48611
+  FirebaseCoreDiagnostics: 872cdb9b749b23346dddd5c1014d1babd2257de3
+  FirebaseCrashlytics: c722e4ca283272eb90eb5bc245fdc6588e2f22c2
+  FirebaseInstallations: 3de38553e86171b5f81d83cdeef63473d37bfdb0
   FlexibleDiff: 4f487778bd152088a9528a0a9be06eba7952bb00
-  GoogleDataTransport: 6ce8004a961db1b905740d7be106c61ba7e89c21
-  GoogleUtilities: ffb2f4159f2c897c6e8992bd7fbcdef8a300589c
+  GoogleDataTransport: e4085e6762f36a6141738f46b0153473ce57fb18
+  GoogleUtilities: f734da554aade8cc7928a31c2f3311897933a1bd
   LetsMove: 7b9fe44737707d984fbd3f47af46609a9a07b461
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
@@ -121,4 +121,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 55231dc4c252f6cb913256ff99a4df3a110a7ead
 
-COCOAPODS: 1.9.2
+COCOAPODS: 1.7.5

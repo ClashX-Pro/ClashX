@@ -19,11 +19,14 @@ class ClashStatusTool {
             alert.informativeText = NSLocalizedString("Ports Open Fail, Please try to restart ClashX", comment: "")
             alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
             alert.addButton(withTitle: "Edit Config")
-            let ret = alert.runModal()
-            if ret == .alertSecondButtonReturn {
-                NSWorkspace.shared.openFile(Paths.localConfigPath(for: "config"))
+            DispatchQueue.main.async {
+                let ret = alert.runModal()
+                if ret == .alertSecondButtonReturn {
+                    NSWorkspace.shared.openFile(Paths.localConfigPath(for: "config"))
+                }
+                NSApp.terminate(nil)
             }
-            NSApp.terminate(nil)
+           
         }
     }
 }

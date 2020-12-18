@@ -61,7 +61,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
-        checkOnlyOneClashX()
         // crash recorder
         failLaunchProtect()
         registCrashLogger()
@@ -286,19 +285,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             PrivilegedHelperManager.shared.isHelperCheckFinished
                 .filter({$0})
                 .take(1)
+                .observeOn(MainScheduler.instance)
                 .subscribe { [weak self] _ in
                     guard let self = self else { return }
                     self.proxySettingMenuItem.target = self
                 }.disposed(by: disposeBag)
-        }
-    }
-
-    func checkOnlyOneClashX() {
-        let runningCount = NSRunningApplication.runningApplications(withBundleIdentifier: Bundle.main.bundleIdentifier ?? "").count
-        if runningCount > 1 {
-            Logger.log("running count => \(runningCount), exit")
-            assertionFailure()
-            NSApp.terminate(nil)
         }
     }
 

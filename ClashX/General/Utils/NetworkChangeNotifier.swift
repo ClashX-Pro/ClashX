@@ -82,7 +82,9 @@ class NetworkChangeNotifier {
         let (http, https, socks) = NetworkChangeNotifier.currentSystemProxySetting()
         let currentPort = ConfigManager.shared.currentConfig?.usedHttpPort ?? 0
         let currentSocks = ConfigManager.shared.currentConfig?.usedSocksPort ?? 0
-
+        if currentPort == currentSocks, currentPort == 0 {
+            return false
+        }
         if looser {
             return http == currentPort || https == currentPort || socks == currentSocks
         } else {

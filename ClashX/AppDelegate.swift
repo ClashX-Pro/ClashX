@@ -298,7 +298,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setupNetworkNotifier() {
-        NetworkChangeNotifier.start()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            NetworkChangeNotifier.start()
+        }
 
         NotificationCenter
             .default

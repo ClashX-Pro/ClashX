@@ -16,6 +16,7 @@ class ExternalControlViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateButtonStatus()
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     func updateButtonStatus() {

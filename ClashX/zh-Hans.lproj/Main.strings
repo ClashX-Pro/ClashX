@@ -180,10 +180,13 @@
 "yO6-uZ-IRv.headerCell.title" = "Api Url";
 
 /* Class = "NSMenu"; title = "Remote Controller"; ObjectID = "1He-Eq-fSy"; */
-"1He-Eq-fSy.title" = "远程控制";
+"1He-Eq-fSy.title" = "远程控制器";
 
 /* Class = "NSMenuItem"; title = "Remote Controller"; ObjectID = "BRR-WK-aeP"; */
-"BRR-WK-aeP.title" = "远程控制";
+"BRR-WK-aeP.title" = "远程控制器";
 
 /* Class = "NSMenuItem"; title = " Manage"; ObjectID = "hlb-KQ-Fdr"; */
 "hlb-KQ-Fdr.title" = "管理";
+
+/* Class = "NSTextFieldCell"; title = "This allows you to control the clash core running in the different machine"; ObjectID = "WkL-aX-66E"; */
+"WkL-aX-66E.title" = "远程控制器允许你控制其他设备上的 Clash 状态。";

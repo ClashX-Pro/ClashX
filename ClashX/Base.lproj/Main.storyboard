@@ -1074,17 +1074,28 @@
                                     </connections>
                                 </buttonCell>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NYx-qw-0FN">
+                                <rect key="frame" x="18" y="208" width="444" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="This allows you to control the clash core running in the different machine" id="WkL-aX-66E">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="qwK-rg-RXo" secondAttribute="bottom" constant="20" id="1Dj-gP-2GM"/>
                             <constraint firstItem="Fs7-Ym-fVr" firstAttribute="leading" secondItem="qwK-rg-RXo" secondAttribute="trailing" constant="20" id="2VK-Ze-a7K"/>
+                            <constraint firstItem="NYx-qw-0FN" firstAttribute="top" secondItem="Apx-gL-RAm" secondAttribute="bottom" constant="8" symbolic="YES" id="3Jj-6X-1DG"/>
                             <constraint firstItem="qwK-rg-RXo" firstAttribute="leading" secondItem="hOe-c3-RXT" secondAttribute="leading" id="4Ls-h5-MsD"/>
+                            <constraint firstItem="NYx-qw-0FN" firstAttribute="leading" secondItem="Gao-fa-Dwr" secondAttribute="leading" constant="20" symbolic="YES" id="4QN-kP-92F"/>
                             <constraint firstItem="h2z-Vu-j5M" firstAttribute="leading" secondItem="Gao-fa-Dwr" secondAttribute="leading" constant="20" id="664-zM-zta"/>
                             <constraint firstItem="Apx-gL-RAm" firstAttribute="leading" secondItem="Gao-fa-Dwr" secondAttribute="leading" constant="20" id="Bqp-RP-QGF"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NYx-qw-0FN" secondAttribute="trailing" constant="20" symbolic="YES" id="NDT-P5-GuC"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fs7-Ym-fVr" secondAttribute="trailing" constant="100" id="Rnw-mk-spV"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Apx-gL-RAm" secondAttribute="trailing" constant="20" symbolic="YES" id="T4S-3l-S7C"/>
                             <constraint firstItem="Fs7-Ym-fVr" firstAttribute="width" secondItem="qwK-rg-RXo" secondAttribute="width" multiplier="0.971429" id="a5a-pA-stH"/>
-                            <constraint firstItem="h2z-Vu-j5M" firstAttribute="top" secondItem="Apx-gL-RAm" secondAttribute="bottom" constant="20" id="icD-eo-Zvk"/>
+                            <constraint firstItem="h2z-Vu-j5M" firstAttribute="top" secondItem="NYx-qw-0FN" secondAttribute="bottom" constant="8" symbolic="YES" id="jG7-GJ-c7d"/>
                             <constraint firstAttribute="trailing" secondItem="h2z-Vu-j5M" secondAttribute="trailing" constant="20" id="lJG-V8-SxD"/>
                             <constraint firstItem="Apx-gL-RAm" firstAttribute="top" secondItem="Gao-fa-Dwr" secondAttribute="top" constant="20" id="mWI-7y-euZ"/>
                             <constraint firstItem="qwK-rg-RXo" firstAttribute="top" secondItem="h2z-Vu-j5M" secondAttribute="bottom" constant="20" id="pZe-fl-hIB"/>

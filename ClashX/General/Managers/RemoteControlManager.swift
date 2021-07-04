@@ -23,6 +23,12 @@ class RemoteControl: Codable {
 }
 
 class RemoteControlManager {
+    enum Recorder {
+        @UserDefault("selectedRemoteControlConfigID", defaultValue: "")
+        static var selected: String
+    }
+
+    
     static let shared = RemoteControlManager()
     static var configs: [RemoteControl] = loadConfig() {
         didSet {
@@ -33,7 +39,12 @@ class RemoteControlManager {
         }
     }
 
-    static var selectConfig: RemoteControl?
+    static var selectConfig: RemoteControl? {
+        didSet {
+            Recorder.selected = selectConfig?.uuid ?? ""
+        }
+    }
+    
     private static var menuSeparator: NSMenuItem?
 
     static func loadConfig() -> [RemoteControl] {
@@ -52,6 +63,21 @@ class RemoteControlManager {
         menuSeparator = separator
         updateMenuItems()
         updateDropDownMenuItems()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            RemoteControlManager.recoverSelection()
+        }
+    }
+    
+    static private func recoverSelection() {
+        if Recorder.selected != "" {
+            if let config = configs.first(where: { $0.uuid == Recorder.selected }) {
+                selectConfig = config
+                updateRemoteControl()
+                updateMenuItems()
+            } else {
+                Recorder.selected = ""
+            }
+        }
     }
 
     static func updateMenuItems() {

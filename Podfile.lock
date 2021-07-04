@@ -1,8 +1,8 @@
 PODS:
   - Alamofire (5.4.3)
-  - AppCenter/Analytics (4.1.1):
+  - AppCenter/Analytics (4.2.0):
     - AppCenter/Core
-  - AppCenter/Core (4.1.1)
+  - AppCenter/Core (4.2.0)
   - CocoaLumberjack/Core (3.7.2)
   - CocoaLumberjack/Swift (3.7.2):
     - CocoaLumberjack/Core
@@ -52,7 +52,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
-  AppCenter: cd53e3ed3563cc720bcb806c9731a12389b40d44
+  AppCenter: 87ef6eefd8ade4df59e88951288587429f3dd2a5
   CocoaLumberjack: b7e05132ff94f6ae4dfa9d5bce9141893a21d9da
   FlexibleDiff: b9ee9b8305b42c784f5dd40589203c97c55bbaa0
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa

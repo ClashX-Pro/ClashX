@@ -168,6 +168,7 @@
         proxySettings[(__bridge NSString *)kCFNetworkProxiesHTTPPort] = @(port);
         proxySettings[(__bridge NSString *)kCFNetworkProxiesHTTPSPort] = @(port);
         proxySettings[(__bridge NSString *)kCFNetworkProxiesSOCKSPort] = @(socksPort);
+        proxySettings[(__bridge NSString *)kCFNetworkProxiesExcludeSimpleHostnames] = @(YES);
     } else {
         proxySettings[(__bridge NSString *)kCFNetworkProxiesHTTPPort] = nil;
         proxySettings[(__bridge NSString *)kCFNetworkProxiesHTTPSPort] = nil;

@@ -62,7 +62,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         signal(SIGPIPE, SIG_IGN)
         // crash recorder
         failLaunchProtect()
-        registCrashLogger()
+        NSAppleEventManager.shared()
+            .setEventHandler(self,
+                             andSelector: #selector(handleURL(event:reply:)),
+                             forEventClass: AEEventClass(kInternetEventClass),
+                             andEventID: AEEventID(kAEGetURL))
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -75,6 +79,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItemView = StatusItemView.create(statusItem: statusItem)
         statusItemView.frame = CGRect(x: 0, y: 0, width: statusItemLengthWithSpeed, height: 22)
         statusMenu.delegate = self
+        registCrashLogger()
         startAnrDetect()
         DispatchQueue.main.async {
             self.postFinishLaunching()
@@ -118,11 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         RemoteConfigManager.shared.autoUpdateCheck()
 
-        NSAppleEventManager.shared()
-            .setEventHandler(self,
-                             andSelector: #selector(handleURL(event:reply:)),
-                             forEventClass: AEEventClass(kInternetEventClass),
-                             andEventID: AEEventID(kAEGetURL))
+
         setupNetworkNotifier()
     }
 

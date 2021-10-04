@@ -5,7 +5,7 @@
 //  GitHub: https://github.com/clipy
 //  HP: https://clipy-app.com
 //
-//  Copyright © 2015-2019 Clipy Project.
+//  Copyright © 2015-2020 Clipy Project.
 //
 
 //
@@ -58,32 +58,24 @@ public extension LoginServiceKit {
     @discardableResult
     static func addLoginItems(at path: String = Bundle.main.bundlePath) -> Bool {
         guard !isExistLoginItems(at: path) else { return false }
+        guard let snapshots = loginItemsListSnapshots() else { return false }
 
-        guard let sharedFileList = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil) else { return false }
-        let loginItemList = sharedFileList.takeRetainedValue()
         let url = URL(fileURLWithPath: path)
-        if #available(macOS 11, *) {
-            LSSharedFileListInsertItemURL(loginItemList, nil, nil, nil, url as CFURL, nil, nil)
-        } else {
-            LSSharedFileListInsertItemURL(loginItemList, kLSSharedFileListItemBeforeFirst.takeRetainedValue(), nil, nil, url as CFURL, nil, nil)
-        }
+        LSSharedFileListInsertItemURL(snapshots.fileList, snapshots.items.last, nil, nil, url as CFURL, nil, nil)
         return true
     }
 
     @discardableResult
     static func removeLoginItems(at path: String = Bundle.main.bundlePath) -> Bool {
         guard isExistLoginItems(at: path) else { return false }
+        guard let snapshots = loginItemsListSnapshots() else { return false }
 
-        guard let sharedFileList = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil) else { return false }
-        let loginItemList = sharedFileList.takeRetainedValue()
         let url = URL(fileURLWithPath: path)
-        let loginItemsListSnapshot: NSArray = LSSharedFileListCopySnapshot(loginItemList, nil).takeRetainedValue()
-        guard let loginItems = loginItemsListSnapshot as? [LSSharedFileListItem] else { return false }
-        for loginItem in loginItems {
+        for loginItem in snapshots.items {
             guard let resolvedUrl = LSSharedFileListItemCopyResolvedURL(loginItem, 0, nil) else { continue }
             let itemUrl = resolvedUrl.takeRetainedValue() as URL
             guard url.absoluteString == itemUrl.absoluteString else { continue }
-            LSSharedFileListItemRemove(loginItemList, loginItem)
+            LSSharedFileListItemRemove(snapshots.fileList, loginItem)
         }
         return true
     }
@@ -92,18 +84,23 @@ public extension LoginServiceKit {
 private extension LoginServiceKit {
     static func loginItem(at path: String) -> LSSharedFileListItem? {
         guard !path.isEmpty else { return nil }
+        guard let snapshots = loginItemsListSnapshots() else { return nil }
 
-        guard let sharedFileList = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil) else { return nil }
-        let loginItemList = sharedFileList.takeRetainedValue()
         let url = URL(fileURLWithPath: path)
-        let loginItemsListSnapshot: NSArray = LSSharedFileListCopySnapshot(loginItemList, nil).takeRetainedValue()
-        guard let loginItems = loginItemsListSnapshot as? [LSSharedFileListItem] else { return nil }
-        for loginItem in loginItems {
+        for loginItem in snapshots.items {
             guard let resolvedUrl = LSSharedFileListItemCopyResolvedURL(loginItem, 0, nil) else { continue }
             let itemUrl = resolvedUrl.takeRetainedValue() as URL
             guard url.absoluteString == itemUrl.absoluteString else { continue }
             return loginItem
         }
         return nil
+    }
+
+    static func loginItemsListSnapshots() -> (fileList: LSSharedFileList, items: [LSSharedFileListItem])? {
+        guard let sharedFileList = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil) else { return nil }
+        let fileList = sharedFileList.takeRetainedValue()
+        let loginItemsListSnapshot: NSArray = LSSharedFileListCopySnapshot(fileList, nil).takeRetainedValue()
+        let loginItems = loginItemsListSnapshot as? [LSSharedFileListItem]
+        return (fileList, loginItems ?? [])
     }
 }

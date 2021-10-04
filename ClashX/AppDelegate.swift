@@ -459,7 +459,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             if let error = err {
                 NSUserNotificationCenter.default
-                    .post(title: NSLocalizedString("Reload Config Fail", comment: ""),
+                    .postNotificationAlert(title: NSLocalizedString("Reload Config Fail", comment: ""),
                           info: error)
             } else {
                 self.syncConfig()

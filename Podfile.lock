@@ -1,10 +1,10 @@
 PODS:
-  - Alamofire (5.4.4)
-  - AppCenter/Analytics (4.3.0):
+  - Alamofire (5.5.0)
+  - AppCenter/Analytics (4.4.1):
     - AppCenter/Core
-  - AppCenter/Core (4.3.0)
-  - CocoaLumberjack/Core (3.7.2)
-  - CocoaLumberjack/Swift (3.7.2):
+  - AppCenter/Core (4.4.1)
+  - CocoaLumberjack/Core (3.7.4)
+  - CocoaLumberjack/Swift (3.7.4):
     - CocoaLumberjack/Core
   - FlexibleDiff (0.0.9)
   - GzipSwift (5.1.1)
@@ -29,7 +29,7 @@ DEPENDENCIES:
   - LetsMove
   - RxCocoa
   - RxSwift
-  - Sparkle
+  - Sparkle (~> 1.0)
   - Starscream (= 3.1.1)
   - SwiftyJSON
   - WebViewJavascriptBridge
@@ -51,9 +51,9 @@ SPEC REPOS:
     - WebViewJavascriptBridge
 
 SPEC CHECKSUMS:
-  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
-  AppCenter: 883369ab78427b0561c688158d689dfe1f993ea9
-  CocoaLumberjack: b7e05132ff94f6ae4dfa9d5bce9141893a21d9da
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  AppCenter: b0b6f1190215b5f983c42934db718f3b46fff3c0
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
   FlexibleDiff: b9ee9b8305b42c784f5dd40589203c97c55bbaa0
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
   LetsMove: 7b9fe44737707d984fbd3f47af46609a9a07b461
@@ -65,6 +65,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
 
-PODFILE CHECKSUM: 936b952dde2cf453379d56bfe0bf53f793449956
+PODFILE CHECKSUM: 3d889ed6c786fdaa0a2b35a70d4c5abcb240da2b
 
 COCOAPODS: 1.11.0

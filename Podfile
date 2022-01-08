@@ -27,7 +27,7 @@ target 'ClashX' do
   pod 'WebViewJavascriptBridge'
   pod 'Starscream','3.1.1'
   pod 'AppCenter/Analytics'
-  pod 'Sparkle'
+  pod 'Sparkle','~>1.0'
   pod "FlexibleDiff"
   pod 'GzipSwift'
 end

@@ -9,12 +9,12 @@ PODS:
   - FlexibleDiff (0.0.9)
   - GzipSwift (5.1.1)
   - LetsMove (1.25)
-  - RxCocoa (6.2.0):
-    - RxRelay (= 6.2.0)
-    - RxSwift (= 6.2.0)
-  - RxRelay (6.2.0):
-    - RxSwift (= 6.2.0)
-  - RxSwift (6.2.0)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
   - Sparkle (1.27.1)
   - Starscream (3.1.1)
   - SwiftyJSON (5.0.1)
@@ -57,9 +57,9 @@ SPEC CHECKSUMS:
   FlexibleDiff: b9ee9b8305b42c784f5dd40589203c97c55bbaa0
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
   LetsMove: 7b9fe44737707d984fbd3f47af46609a9a07b461
-  RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
-  RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
-  RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   Sparkle: 23f98b268284c8c03e6228230fc8f1807ef041d5
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
@@ -67,4 +67,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 3d889ed6c786fdaa0a2b35a70d4c5abcb240da2b
 
-COCOAPODS: 1.11.0
+COCOAPODS: 1.11.2

@@ -65,10 +65,12 @@ public final class LoginServiceKit: NSObject {
         guard isExistLoginItems(at: path) == false else {
             return false
         }
-        guard let (list, items) = snapshot, let item = items.last else {
+        guard let (list, _) = snapshot else {
             return false
         }
-        return LSSharedFileListInsertItemURL(list, item, nil, nil, URL(fileURLWithPath: path) as CFURL, nil, nil) != nil
+        let res = LoginKitWrapper.setLogin(list, path: path)
+        Logger.log("set launch at login success: \(res)")
+        return res
     }
 
     @discardableResult

@@ -34,6 +34,7 @@
 		49722FF0211F338B00650A41 /* EventStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49722FEB211F338B00650A41 /* EventStream.swift */; };
 		49722FF1211F338B00650A41 /* Witness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49722FEC211F338B00650A41 /* Witness.swift */; };
 		49761DA721C9497000AE13EF /* dashboard in Resources */ = {isa = PBXBuildFile; fileRef = 49761DA621C9497000AE13EF /* dashboard */; };
+		49769FB427E9B3E400E3D664 /* LoginKitWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D8276727E9B01700159D93 /* LoginKitWrapper.m */; };
 		4981C88B216BAE4A008CC14A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4981C88D216BAE4A008CC14A /* Localizable.strings */; };
 		4982F51F2344A216008804B0 /* Cgo+Convert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4982F51E2344A216008804B0 /* Cgo+Convert.swift */; };
 		49862FA0218418C600A1D5EC /* ClashRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49862F9F218418C600A1D5EC /* ClashRule.swift */; };
@@ -66,6 +67,7 @@
 		8ACD21BB27A04C7800BC4632 /* ProxySettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */; };
 		8ACD21BD27A04ED500BC4632 /* ProxyModeChangeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */; };
 		9E0E2F1481CB327D3753969D /* libPods-ClashX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE7981A9F34B5E210C549CB /* libPods-ClashX.a */; };
+		F90CC7FA2436116B001BA012 /* TunManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90CC7F92436116B001BA012 /* TunManager.swift */; };
 		F910AA24240134AF00116E95 /* ProxyGroupMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F910AA23240134AF00116E95 /* ProxyGroupMenu.swift */; };
 		F915A4622366ADEF004840BE /* ClashConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F915A4612366ADEF004840BE /* ClashConnection.swift */; };
 		F9203A26236342820020D57D /* AppDelegate+..swift in Sources */ = {isa = PBXBuildFile; fileRef = F9203A25236342820020D57D /* AppDelegate+..swift */; };
@@ -189,6 +191,8 @@
 		49D176A62355FE680093DD7B /* NetworkChangeNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkChangeNotifier.swift; sourceTree = "<group>"; };
 		49D176A8235614340093DD7B /* ProxyGroupSpeedTestMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyGroupSpeedTestMenuItem.swift; sourceTree = "<group>"; };
 		49D176AA23575BB20093DD7B /* ProxyGroupMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyGroupMenuItemView.swift; sourceTree = "<group>"; };
+		49D8276627E9B01700159D93 /* LoginKitWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginKitWrapper.h; sourceTree = "<group>"; };
+		49D8276727E9B01700159D93 /* LoginKitWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginKitWrapper.m; sourceTree = "<group>"; };
 		5217C006C5A22A1CEA24BFC1 /* Pods-ClashX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClashX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ClashX/Pods-ClashX.debug.xcconfig"; sourceTree = "<group>"; };
 		8A2BBEA627A03ACB0081EBEF /* ProxySetting.sdef */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ProxySetting.sdef; sourceTree = "<group>"; };
 		8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxySettingCommand.swift; sourceTree = "<group>"; };
@@ -351,6 +355,8 @@
 				4929F683258CE07500A435F6 /* UserDefaultWrapper.swift */,
 				F976275D23634F18000EDEFE /* LoginServiceKit */,
 				49722FE9211F338B00650A41 /* Witness */,
+				49D8276627E9B01700159D93 /* LoginKitWrapper.h */,
+				49D8276727E9B01700159D93 /* LoginKitWrapper.m */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -750,6 +756,7 @@
 				49B1086A216A356D0064FFCE /* String+Extension.swift in Sources */,
 				F92D0B2C236C7C3600575E15 /* MenuItemBaseView.swift in Sources */,
 				499ADAFD2498CC5900C488FE /* RemoteControlManager.swift in Sources */,
+				49769FB427E9B3E400E3D664 /* LoginKitWrapper.m in Sources */,
 				4960A6DB2136529200B940C9 /* JSBridgeHandler.swift in Sources */,
 				493AEAE5221AE7230016FE98 /* ProxyMenuItem.swift in Sources */,
 				499A485E22ED9B7C00F6C675 /* NSTableView+Reload.swift in Sources */,

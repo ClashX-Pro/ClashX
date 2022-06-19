@@ -10,7 +10,7 @@ import Cocoa
 import UserNotifications
 
 extension NSUserNotificationCenter {
-    func post(title: String, info: String, identifier: String? = nil, notiOnly: Bool = false) {
+    func post(title: String, info: String, identifier: String? = nil, notiOnly: Bool = true) {
         if #available(OSX 10.14, *) {
             let notificationCenter = UNUserNotificationCenter.current()
             notificationCenter.delegate = UserNotificationCenterDelegate.shared
@@ -129,7 +129,7 @@ extension NSUserNotificationCenter {
     
     func postSpeedTestFinishNotice() {
         post(title: NSLocalizedString("Benchmark", comment: ""),
-             info: NSLocalizedString("Benchmark Finished!", comment: ""))
+             info: NSLocalizedString("Benchmark Finished!", comment: ""),notiOnly: false)
     }
     
     func postProxyChangeByOtherAppNotice() {

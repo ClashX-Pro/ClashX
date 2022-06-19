@@ -424,6 +424,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             ConfigManager.shared.isRunning = false
             proxyModeMenuItem.isEnabled = false
+            Logger.log(string,level: .error)
             NSUserNotificationCenter.default.postConfigErrorNotice(msg: string)
         }
         Logger.log("Start proxy done")
@@ -804,7 +805,7 @@ extension AppDelegate {
                     UserDefaults.standard.removePersistentDomain(forName: domain)
                     UserDefaults.standard.synchronize()
                 }
-                NSUserNotificationCenter.default.post(title: "Fail on launch protect", info: "You origin Config has been renamed")
+                NSUserNotificationCenter.default.post(title: "Fail on launch protect", info: "You origin Config has been renamed",notiOnly: false)
             }
             DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + Double(Int64(5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
                 x.set(0, forKey: "launch_fail_times")

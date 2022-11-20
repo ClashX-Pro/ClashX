@@ -65,13 +65,7 @@ Checkout [Clash](https://github.com/Dreamacro/clash) or [SS-Rule-Snippet for Cla
 
 ### Change default system ignore list.
 
-- Download sample plist in the [Here](proxyIgnoreList.plist) and place in the
-
-  ```
-  ~/.config/clash/proxyIgnoreList.plist
-  ```
-
-- Edit the `proxyIgnoreList.plist` to set up your own proxy ignore list
+- Change by menu -> Config -> Setting -> Bypass proxy settings for there Hosts & Domains
 
 ### URL Schemes.
 
@@ -106,11 +100,7 @@ script:
 ### 关闭ClashX的通知
 
 1. 在系统设置中关闭 clashx 的推送权限
-2. 执行
-```
-defaults write com.west2online.ClashX disableNoti -bool true
-defaults write com.west2online.ClashXPro disableNoti -bool true
-```
+2. 在菜单栏->配置->更多设置中选中减少通知
 
 Note：强烈不推荐这么做，这可能导致clashx的很多重要错误提醒无法显示。
 

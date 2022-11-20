@@ -490,7 +490,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if WebPortalManager.hasWebProtal {
             WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
         }
-        ICloudManager.shared.addEnableMenuItem(&experimentalMenu)
         AutoUpgardeManager.shared.setup()
         AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
         updateExperimentalFeatureStatus()
@@ -695,7 +694,7 @@ extension AppDelegate {
 
 extension AppDelegate {
     @IBAction func openConfigFolder(_ sender: Any) {
-        if ICloudManager.shared.isICloudEnable() {
+        if ICloudManager.shared.useiCloud.value {
             ICloudManager.shared.getUrl {
                 url in
                 if let url = url {
@@ -841,7 +840,7 @@ extension AppDelegate {
             }
         }
 
-        if ICloudManager.shared.isICloudEnable() {
+        if ICloudManager.shared.useiCloud.value {
             ICloudManager.shared.getConfigFilesList { list in
                 action(list)
             }

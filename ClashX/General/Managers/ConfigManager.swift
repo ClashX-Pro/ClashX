@@ -55,7 +55,7 @@ class ConfigManager {
     }
 
     static func watchCurrentConfigFile() {
-        if ICloudManager.shared.isICloudEnable() {
+        if ICloudManager.shared.useiCloud.value {
             ICloudManager.shared.getUrl { url in
                 guard let url = url else { return }
                 let configUrl = url.appendingPathComponent(Paths.configFileName(for: selectConfigName))

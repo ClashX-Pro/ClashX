@@ -65,6 +65,9 @@
 "Fail:" = "Fail:";
 
 /* No comment provided by engineer. */
+"fails: %@" = "fails: %@";
+
+/* No comment provided by engineer. */
 "Global" = "Global";
 
 /* No comment provided by engineer. */
@@ -107,6 +110,9 @@
 
 /* No comment provided by engineer. */
 "Quit" = "Quit";
+
+/* No comment provided by engineer. */
+"Reduce alerts if notification permission is disabled" = "Reduce alerts if notification permission is disabled";
 
 /* No comment provided by engineer. */
 "Reload Config Fail" = "Reload Config Fail";

@@ -65,6 +65,9 @@
 "Fail:" = "失败：";
 
 /* No comment provided by engineer. */
+"fails: %@" = "失败: %@";
+
+/* No comment provided by engineer. */
 "Global" = "全局";
 
 /* No comment provided by engineer. */
@@ -107,6 +110,9 @@
 
 /* No comment provided by engineer. */
 "Quit" = "退出";
+
+/* No comment provided by engineer. */
+"Reduce alerts if notification permission is disabled" = "在通知权限关闭时减少提示弹窗";
 
 /* No comment provided by engineer. */
 "Reload Config Fail" = "重载配置文件失败";

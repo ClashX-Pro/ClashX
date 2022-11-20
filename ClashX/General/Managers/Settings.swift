@@ -29,6 +29,8 @@ enum Settings {
                                                    "127.0.0.1",
                                                    "localhost",
                                                    "*.local",
-                                                   "timestamp.apple.com"])
+                                                   "timestamp.apple.com",
+                                                   "sequoia.apple.com",
+                                                   "seed-sequoia.siri.apple.com"])
     static var proxyIgnoreList: [String]
 }

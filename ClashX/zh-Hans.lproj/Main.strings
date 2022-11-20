@@ -190,5 +190,35 @@
 /* Class = "NSTextFieldCell"; title = "This allows you to control the clash core running in the different machine"; ObjectID = "WkL-aX-66E"; */
 "WkL-aX-66E.title" = "远程控制器允许你控制其他设备上的 Clash 状态。";
 
-/* Class = "NSMenuItem"; title = "Set update Interval"; ObjectID = "h1H-7k-9HS"; */
+/* Class = "NSMenuItem"; title = "Set update interval"; ObjectID = "h1H-7k-9HS"; */
 "h1H-7k-9HS.title" = "设置更新间隔";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "Gnh-m8-PAz"; */
+"Gnh-m8-PAz.title" = "";
+
+/* Class = "NSTabViewController"; title = "Settings"; ObjectID = "LAj-p8-9gd"; */
+"LAj-p8-9gd.title" = "ClashX 设置";
+
+/* Class = "NSTabViewItem"; label = "General"; ObjectID = "Ltt-Vq-Hh1"; */
+"Ltt-Vq-Hh1.label" = "通用";
+
+/* Class = "NSTextFieldCell"; title = "Bypass proxy settings for there Hosts & Domains"; ObjectID = "NPu-V9-f3r"; */
+"NPu-V9-f3r.title" = "忽略这些主机与域的代理设置";
+
+/* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "dV6-4Z-2SO"; */
+"dV6-4Z-2SO.title" = "开机启动";
+
+/* Class = "NSViewController"; title = "General"; ObjectID = "kma-mp-ncL"; */
+"kma-mp-ncL.title" = "";
+
+/* Class = "NSMenuItem"; title = "Settings"; ObjectID = "krh-QF-pqZ"; */
+"krh-QF-pqZ.title" = "更多设置";
+
+/* Class = "NSButtonCell"; title = "Use iCloud to store config files"; ObjectID = "p7q-KN-kIv"; */
+"p7q-KN-kIv.title" = "将配置文件存储在iCloud中";
+
+/* Class = "NSButtonCell"; title = "Reduce notifications"; ObjectID = "jsL-HC-6ne"; */
+"jsL-HC-6ne.title" = "减少通知";
+
+/* Class = "NSTextFieldCell"; title = "Separated by commas(,)"; ObjectID = "sfe-wu-UXp"; */
+"sfe-wu-UXp.title" = "使用英文逗号(,)分隔";

@@ -43,15 +43,16 @@ class PrivilegedHelperManager {
                 return
             }
         }
-        getHelperStatus { [weak self] installed in
+        getHelperStatus { [weak self] status in
             guard let self = self else {return}
-            if !installed {
+            if status != .installed {
+                let isUpdate = status == .needUpdate
                 Logger.log("need to install helper", level: .debug)
                 if Thread.isMainThread {
-                    self.notifyInstall()
+                    self.notifyInstall(isUpdate: isUpdate)
                 } else {
                     DispatchQueue.main.async {
-                        self.notifyInstall()
+                        self.notifyInstall(isUpdate: isUpdate)
                     }
                 }
             } else {
@@ -76,7 +77,7 @@ class PrivilegedHelperManager {
     }
 
     /// Install new helper daemon
-    private func installHelperDaemon() -> DaemonInstallResult {
+    private func installHelperDaemon(isUpdate:Bool) -> DaemonInstallResult {
         Logger.log("installHelperDaemon", level: .info)
 
         defer {
@@ -113,7 +114,10 @@ class PrivilegedHelperManager {
 
         // Launch the privileged helper using SMJobBless tool
         var error: Unmanaged<CFError>?
-
+        if isUpdate {
+            Logger.log("disable old daemon")
+            SMJobRemove(kSMDomainSystemLaunchd, PrivilegedHelperManager.machServiceName as CFString, authRef, true, &error)
+        }
         if SMJobBless(kSMDomainSystemLaunchd, PrivilegedHelperManager.machServiceName as CFString, authRef, &error) == false {
             let blessError = error!.takeRetainedValue() as Error
             Logger.log("Bless Error: \(blessError)", level: .error)
@@ -139,13 +143,20 @@ class PrivilegedHelperManager {
     }
 
     var timer: Timer?
-    private func getHelperStatus(callback:@escaping ((Bool) -> Void)) {
+
+    enum HelperStatus {
+        case installed
+        case noFound
+        case needUpdate
+    }
+
+    private func getHelperStatus(callback:@escaping ((HelperStatus) -> Void)) {
         var called = false
-        let reply: ((Bool) -> Void) = {
-            installed in
+        let reply: ((HelperStatus) -> Void) = {
+            status in
             if called {return}
             called = true
-            callback(installed)
+            callback(status)
         }
 
         let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/" + PrivilegedHelperManager.machServiceName)
@@ -153,12 +164,12 @@ class PrivilegedHelperManager {
             let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
             let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String else {
             Logger.log("check helper status fail")
-            reply(false)
+            reply(.noFound)
             return
         }
         let helperFileExists = FileManager.default.fileExists(atPath: "/Library/PrivilegedHelperTools/\(PrivilegedHelperManager.machServiceName)")
         if !helperFileExists {
-            reply(false)
+            reply(.noFound)
             return
         }
         let timeout: TimeInterval = helperFileExists ? 15 : 5
@@ -166,23 +177,23 @@ class PrivilegedHelperManager {
 
         timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { _ in
             Logger.log("check helper timeout time: \(timeout)")
-            reply(false)
+            reply(.noFound)
         }
 
         helper()?.getVersion { [weak timer] installedHelperVersion in
             timer?.invalidate()
             timer = nil
             Logger.log("helper version \(installedHelperVersion ?? "") require version \(helperVersion)", level: .debug)
-            let installed = installedHelperVersion == helperVersion
+            let versionMatch = installedHelperVersion == helperVersion
             let interval = Date().timeIntervalSince(time)
             Logger.log("check helper using time: \(interval)")
-            reply(installed)
+            reply(versionMatch ? .installed : .needUpdate)
         }
     }
 }
 
 extension PrivilegedHelperManager {
-    private func notifyInstall() {
+    private func notifyInstall(isUpdate: Bool) {
         guard showInstallHelperAlert() else { exit(0) }
 
         if cancelInstallCheck {
@@ -198,7 +209,7 @@ extension PrivilegedHelperManager {
             return
         }
 
-        let result = installHelperDaemon()
+        let result = installHelperDaemon(isUpdate: isUpdate)
         if case .success = result {
             return
         }

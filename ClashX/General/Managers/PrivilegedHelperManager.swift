@@ -40,7 +40,6 @@ class PrivilegedHelperManager {
                 alert.addButton(withTitle: NSLocalizedString("Open System Login Item Setting", comment: ""))
                 alert.runModal()
                 SMAppService.openSystemSettingsLoginItems()
-                return
             }
         }
         getHelperStatus { [weak self] status in

@@ -30,37 +30,39 @@ class PrivilegedHelperManager {
 
     func checkInstall() {
         Logger.log("checkInstall", level: .debug)
-
-        if #available(macOS 13, *) {
-            let url = URL(string: "/Library/LaunchDaemons/\(PrivilegedHelperManager.machServiceName).plist")!
-            let status = SMAppService.statusForLegacyPlist(at: url)
-            if status == .requiresApproval {
-                let alert = NSAlert()
-                let notice = NSLocalizedString("ClashX use a daemon helper to setup your system proxy. Please enable ClashX in the Login Items under the Allow in the Background section and relaunch the app", comment: "")
-                let addition = NSLocalizedString("If you can not find ClashX in the settings, you can try reset daemon", comment: "")
-                alert.messageText = notice + "\n" + addition
-                alert.addButton(withTitle: NSLocalizedString("Open System Login Item Setting", comment: ""))
-                alert.addButton(withTitle: NSLocalizedString("Reset Daemon", comment: ""))
-                if alert.runModal() == .alertFirstButtonReturn {
-                    SMAppService.openSystemSettingsLoginItems()
-                } else {
-                    removeInstallHelper()
-                }
-            }
-        }
         getHelperStatus { [weak self] status in
+            Logger.log("check result: \(status)", level: .debug)
             guard let self = self else {return}
-            if status != .installed {
-                let isUpdate = status == .needUpdate
-                Logger.log("need to install helper", level: .debug)
-                if Thread.isMainThread {
-                    self.notifyInstall(isUpdate: isUpdate)
-                } else {
-                    DispatchQueue.main.async {
-                        self.notifyInstall(isUpdate: isUpdate)
+            switch status {
+            case .noFound:
+                if #available(macOS 13, *) {
+                    let url = URL(string: "/Library/LaunchDaemons/\(PrivilegedHelperManager.machServiceName).plist")!
+                    let status = SMAppService.statusForLegacyPlist(at: url)
+                    if status == .requiresApproval {
+                        let alert = NSAlert()
+                        let notice = NSLocalizedString("ClashX use a daemon helper to setup your system proxy. Please enable ClashX in the Login Items under the Allow in the Background section and relaunch the app", comment: "")
+                        let addition = NSLocalizedString("If you can not find ClashX in the settings, you can try reset daemon", comment: "")
+                        alert.messageText = notice + "\n" + addition
+                        alert.addButton(withTitle: NSLocalizedString("Open System Login Item Setting", comment: ""))
+                        alert.addButton(withTitle: NSLocalizedString("Reset Daemon", comment: ""))
+                        if alert.runModal() == .alertFirstButtonReturn {
+                            SMAppService.openSystemSettingsLoginItems()
+                        } else {
+                            self.removeInstallHelper()
+                        }
                     }
                 }
-            } else {
+                fallthrough
+            case .needUpdate:
+                Logger.log("need to install helper", level: .debug)
+                if Thread.isMainThread {
+                    self.notifyInstall()
+                } else {
+                    DispatchQueue.main.async {
+                        self.notifyInstall()
+                    }
+                }
+            case .installed:
                 self.isHelperCheckFinished.accept(true)
             }
         }
@@ -82,7 +84,7 @@ class PrivilegedHelperManager {
     }
 
     /// Install new helper daemon
-    private func installHelperDaemon(isUpdate:Bool) -> DaemonInstallResult {
+    private func installHelperDaemon() -> DaemonInstallResult {
         Logger.log("installHelperDaemon", level: .info)
 
         defer {
@@ -119,10 +121,6 @@ class PrivilegedHelperManager {
 
         // Launch the privileged helper using SMJobBless tool
         var error: Unmanaged<CFError>?
-        if isUpdate {
-            Logger.log("disable old daemon")
-            SMJobRemove(kSMDomainSystemLaunchd, PrivilegedHelperManager.machServiceName as CFString, authRef, true, &error)
-        }
         if SMJobBless(kSMDomainSystemLaunchd, PrivilegedHelperManager.machServiceName as CFString, authRef, &error) == false {
             let blessError = error!.takeRetainedValue() as Error
             Logger.log("Bless Error: \(blessError)", level: .error)
@@ -198,7 +196,7 @@ class PrivilegedHelperManager {
 }
 
 extension PrivilegedHelperManager {
-    private func notifyInstall(isUpdate: Bool) {
+    private func notifyInstall() {
         guard showInstallHelperAlert() else { exit(0) }
 
         if cancelInstallCheck {
@@ -214,7 +212,7 @@ extension PrivilegedHelperManager {
             return
         }
 
-        let result = installHelperDaemon(isUpdate: isUpdate)
+        let result = installHelperDaemon()
         if case .success = result {
             return
         }

@@ -54,8 +54,7 @@ extension PrivilegedHelperManager {
         """
         return bash
     }
-    
-    
+
     func runScriptWithRootPermission(script: String) {
         let tmpPath = FileManager.default.temporaryDirectory.appendingPathComponent(NSUUID().uuidString).appendingPathExtension("sh")
         do {
@@ -82,14 +81,14 @@ extension PrivilegedHelperManager {
         let script = getInstallScript()
         runScriptWithRootPermission(script: script)
     }
-    
-    
+
     func removeInstallHelper() {
         defer {
             resetConnection()
-            Thread.sleep(forTimeInterval: 1)
+            Thread.sleep(forTimeInterval: 5)
         }
         let script = """
+        launchctl remove \(PrivilegedHelperManager.machServiceName) || true
         rm -rf /Library/LaunchDaemons/\(PrivilegedHelperManager.machServiceName).plist
         rm -rf /Library/PrivilegedHelperTools/\(PrivilegedHelperManager.machServiceName)
         """

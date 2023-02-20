@@ -33,7 +33,7 @@ enum Settings {
                                                    "sequoia.apple.com",
                                                    "seed-sequoia.siri.apple.com"])
     static var proxyIgnoreList: [String]
-    
-    @UserDefault("disableMenubarNotice",defaultValue: false)
+
+    @UserDefault("disableMenubarNotice", defaultValue: false)
     static var disableMenubarNotice: Bool
 }

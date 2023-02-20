@@ -11,11 +11,12 @@ def get_version():
                 return line.split("-")[-1].strip()[:6]
     return "unknown"
 
+go_bin = "go"
 
 def build_clash(version,build_time,arch):
     clang = f"{os.getcwd()}/clangWrap.sh"
     command = f"""
-go build -trimpath -ldflags '-X "github.com/Dreamacro/clash/constant.Version={version}" \
+{go_bin} build -trimpath -ldflags '-X "github.com/Dreamacro/clash/constant.Version={version}" \
 -X "github.com/Dreamacro/clash/constant.BuildTime={build_time}"' \
 -buildmode=c-archive -o goClash_{arch}.a """
     envs = os.environ.copy()

@@ -187,8 +187,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             SystemProxyManager.shared.disableProxy()
         }
     }
-    
-    
+
     func buttonRectOnScreen() -> CGRect {
             guard let button = statusItem.button else { return .zero }
             guard let window = button.window else { return .zero }
@@ -199,9 +198,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
      func leftScreenX() -> CGFloat {
             let screens = NSScreen.screens
-            
+
             var left: CGFloat = 0
-            
+
             for screen in screens {
                 if screen.frame.origin.x < left {
                     left = screen.frame.origin.x
@@ -209,7 +208,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             return left
         }
-    
+
     func checkMenuIconVisable() {
         guard let button = statusItem.button else {assertionFailure(); return }
         guard let window = button.window else {assertionFailure(); return }
@@ -222,14 +221,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         let isMenuIconHidden = onScreenRect.midX < leftScreenX
-        
+
         var isCoverdByNotch = false
         if #available(macOS 12, *), NSScreen.screens.count == 1, let screen = NSScreen.screens.first, let leftArea = screen.auxiliaryTopLeftArea, let rightArea = screen.auxiliaryTopRightArea {
             if onScreenRect.minX > leftArea.maxX, onScreenRect.maxX<rightArea.minX {
                 isCoverdByNotch = true
             }
         }
-        
+
         Logger.log("checkMenuIconVisable: \(onScreenRect) \(leftScreenX), hidden: \(isMenuIconHidden), coverd by notch:\(isCoverdByNotch)")
 
         if (isMenuIconHidden || isCoverdByNotch), !Settings.disableMenubarNotice {

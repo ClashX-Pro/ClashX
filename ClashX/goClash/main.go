@@ -4,32 +4,7 @@ package main
 #cgo CFLAGS: -x objective-c
 #cgo LDFLAGS: -framework Foundation
 #import <Foundation/Foundation.h>
-
-typedef void (^NStringCallback)(NSString *,NSString *);
-typedef void (^IntCallback)(int64_t,int64_t);
-NStringCallback logCallback;
-IntCallback     trafficCallback;
-void clash_setLogBlock(NStringCallback block) {
-	logCallback = [block copy];
-}
-
-void clash_setTrafficBlock(IntCallback block) {
-	trafficCallback = [block copy];
-}
-
-static inline void sendLogToUI(char *s, char *level) {
-	@autoreleasepool {
-		if (logCallback) {
-			logCallback([NSString stringWithUTF8String:s], [NSString stringWithUTF8String:level]);
-		}
-	}
-}
-
-static inline void sendTrafficToUI(int64_t up, int64_t down) {
-	if (trafficCallback) {
-		trafficCallback(up, down);
-	}
-}
+#import "UIHelper.h"
 */
 import "C"
 

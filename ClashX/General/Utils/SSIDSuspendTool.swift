@@ -23,8 +23,7 @@ class SSIDSuspendTool {
             .bind { [weak self] _ in
                 self?.update()
             }.disposed(by: disposeBag)
-        
-        
+
         ConfigManager.shared
             .proxyShouldPaused
             .asObservable()
@@ -37,10 +36,10 @@ class SSIDSuspendTool {
                     SystemProxyManager.shared.enableProxy()
                 }
             }.disposed(by: disposeBag)
-        
+
         update()
     }
-    
+
     func update() {
         if shouldSuspend() {
             ConfigManager.shared.proxyShouldPaused.accept(true)
@@ -48,7 +47,7 @@ class SSIDSuspendTool {
             ConfigManager.shared.proxyShouldPaused.accept(false)
         }
     }
-    
+
     func shouldSuspend() -> Bool {
         if let currentSSID = NetworkChangeNotifier.getCurrentSSID() {
             return Settings.disableSSIDList.contains(currentSSID)

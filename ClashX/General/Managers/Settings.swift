@@ -46,19 +46,19 @@ enum Settings {
 
     @UserDefault("apiPortAllowLan", defaultValue: false)
     static var apiPortAllowLan: Bool
-    
+
     @UserDefault("disableSSIDList", defaultValue: [])
-    static var disableSSIDList:[String]
-    
+    static var disableSSIDList: [String]
+
     @UserDefault("useSwiftUiMenuBar", defaultValue: true)
     static var useSwiftUiMenuBar: Bool
-    
+
     static let apiSecretKey = "api-secret"
-    
-    static var isApiSecretSet:Bool {
+
+    static var isApiSecretSet: Bool {
         return UserDefaults.standard.object(forKey: apiSecretKey) != nil
     }
-    
+
     @UserDefault(apiSecretKey, defaultValue: "")
     static var apiSecret: String
 

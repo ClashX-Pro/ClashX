@@ -28,7 +28,6 @@ class DebugSettingViewController: NSViewController {
     @IBAction func actionOpenLocalConfig(_ sender: Any) {
         NSWorkspace.shared.openFile(kConfigFolderPath)
 
-        
     }
     @IBAction func actionOpenIcloudConfig(_ sender: Any) {
         if ICloudManager.shared.icloudAvailable {

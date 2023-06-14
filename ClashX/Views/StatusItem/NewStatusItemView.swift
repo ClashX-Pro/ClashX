@@ -56,10 +56,10 @@ class StatusMenuViewModel: ObservableObject {
 struct SwiftUIView: View {
     @ObservedObject var viewModel: StatusMenuViewModel
     var body: some View {
-        HStack(alignment:.center) {
+        HStack(alignment: .center) {
                 Image(nsImage: $viewModel.image.wrappedValue).renderingMode(.template)
-                    .resizable().aspectRatio(contentMode: .fit).frame(width: 16,height: 16)
-            
+                    .resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16)
+
             if $viewModel.showSpeed.wrappedValue {
                 Spacer(minLength: 0)
                 VStack(alignment: .trailing) {

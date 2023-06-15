@@ -122,7 +122,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Logger.log("setup built in logger/traffic")
             clash_setLogBlock { line, level in
                 let clashLevel = ClashLogLevel(rawValue: level ?? "info")
-                Logger.log(line ?? "", level: clashLevel ?? .info)
+                Logger.log(line ?? "", level: clashLevel ?? .info, function: "")
             }
             clashSetupLogger()
 

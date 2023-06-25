@@ -46,6 +46,7 @@
 		4989F98E20D0AE990001E564 /* sampleConfig.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 4989F98D20D0AE990001E564 /* sampleConfig.yaml */; };
 		498BC2532929CC2A00CA8084 /* SettingTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498BC2522929CC2A00CA8084 /* SettingTabViewController.swift */; };
 		498BC2552929CCAE00CA8084 /* GeneralSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498BC2542929CCAE00CA8084 /* GeneralSettingViewController.swift */; };
+		4994B5522A47C1C900E595B9 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4994B5512A47C1C900E595B9 /* NSMutableArray+Safe.m */; };
 		499976C821359F0400E7BF83 /* ClashWebViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499976C721359F0400E7BF83 /* ClashWebViewContoller.swift */; };
 		499A485522ED707300F6C675 /* RemoteConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A485322ED707300F6C675 /* RemoteConfigViewController.swift */; };
 		499A485822ED715200F6C675 /* RemoteConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A485722ED715200F6C675 /* RemoteConfigModel.swift */; };
@@ -181,6 +182,8 @@
 		4989F98D20D0AE990001E564 /* sampleConfig.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = sampleConfig.yaml; sourceTree = "<group>"; };
 		498BC2522929CC2A00CA8084 /* SettingTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTabViewController.swift; sourceTree = "<group>"; };
 		498BC2542929CCAE00CA8084 /* GeneralSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingViewController.swift; sourceTree = "<group>"; };
+		4994B5502A47C1C900E595B9 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Safe.h"; sourceTree = "<group>"; };
+		4994B5512A47C1C900E595B9 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Safe.m"; sourceTree = "<group>"; };
 		499976C721359F0400E7BF83 /* ClashWebViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashWebViewContoller.swift; sourceTree = "<group>"; };
 		499A485322ED707300F6C675 /* RemoteConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigViewController.swift; sourceTree = "<group>"; };
 		499A485722ED715200F6C675 /* RemoteConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigModel.swift; sourceTree = "<group>"; };
@@ -376,6 +379,7 @@
 		49722FDD211ED2A900650A41 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4994B54F2A47C1A800E595B9 /* Safe */,
 				4929F683258CE07500A435F6 /* UserDefaultWrapper.swift */,
 				F976275D23634F18000EDEFE /* LoginServiceKit */,
 				49722FE9211F338B00650A41 /* Witness */,
@@ -428,6 +432,15 @@
 				4905A2C42A2058B000AEDA2E /* GlobalShortCutViewController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		4994B54F2A47C1A800E595B9 /* Safe */ = {
+			isa = PBXGroup;
+			children = (
+				4994B5502A47C1C900E595B9 /* NSMutableArray+Safe.h */,
+				4994B5512A47C1C900E595B9 /* NSMutableArray+Safe.m */,
+			);
+			path = Safe;
 			sourceTree = "<group>";
 		};
 		4997732220D251A60009B136 /* Basic */ = {
@@ -813,6 +826,7 @@
 				49B4575D244F4A2A00463C39 /* PrivilegedHelperManager.swift in Sources */,
 				49B4575F244FD4D100463C39 /* PrivilegedHelperManager+Legacy.swift in Sources */,
 				4966E9E32118153A00A391FB /* NSUserNotificationCenter+Extension.swift in Sources */,
+				4994B5522A47C1C900E595B9 /* NSMutableArray+Safe.m in Sources */,
 				F9E754D2239CC28D00CEE7CC /* NSAlert+Extension.swift in Sources */,
 				499976C821359F0400E7BF83 /* ClashWebViewContoller.swift in Sources */,
 				49D176A9235614340093DD7B /* ProxyGroupSpeedTestMenuItem.swift in Sources */,

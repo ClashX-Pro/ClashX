@@ -784,9 +784,9 @@
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="UpD-DI-Smv"/>
-                        <menuItem title="Config" id="JMV-Dy-CI0">
+                        <menuItem title="Configs" id="JMV-Dy-CI0">
                             <modifierMask key="keyEquivalentModifierMask"/>
-                            <menu key="submenu" title="Config" id="tck-zU-JKQ">
+                            <menu key="submenu" title="Configs" id="tck-zU-JKQ">
                                 <items>
                                     <menuItem isSeparatorItem="YES" id="WzG-og-OyZ"/>
                                     <menuItem title="Open config folder" keyEquivalent="o" id="DwE-WX-ETZ">
@@ -842,15 +842,15 @@
                                             </items>
                                         </menu>
                                     </menuItem>
-                                    <menuItem title="Settings" id="krh-QF-pqZ">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                        <connections>
-                                            <action selector="actionUpdateConfig:" target="Voe-Tx-rLC" id="L8c-KG-g8D"/>
-                                            <segue destination="LAj-p8-9gd" kind="show" id="BTv-JW-0Fb"/>
-                                        </connections>
-                                    </menuItem>
                                 </items>
                             </menu>
+                        </menuItem>
+                        <menuItem title="Settings" id="krh-QF-pqZ">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="actionUpdateConfig:" target="Voe-Tx-rLC" id="L8c-KG-g8D"/>
+                                <segue destination="LAj-p8-9gd" kind="show" id="BTv-JW-0Fb"/>
+                            </connections>
                         </menuItem>
                         <menuItem title="Help" id="Dd9-2F-FVY">
                             <modifierMask key="keyEquivalentModifierMask"/>

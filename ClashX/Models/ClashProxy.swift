@@ -114,7 +114,7 @@ class ClashProxy: Codable {
         guard let resp = enclosingResp, let allProxys = all else { return [] }
         var proxys = [SpeedtestAbleItem]()
         for proxy in allProxys {
-            if let p = resp.proxiesMap[proxy], !ClashProxyType.isProxyGroup(p) {
+            if let p = resp.proxiesMap[proxy] {
                 if let provider = p.enclosingProvider {
                     proxys.append(.provider(name: p.name, provider: provider.name))
                 } else {

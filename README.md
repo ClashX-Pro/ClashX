@@ -8,7 +8,7 @@
 
 A rule based proxy For Mac base on Clash. 原作者删库。
 
-ClashX 旨在提供一个简单轻量化的代理客户端。
+ClashX 旨在提供一个简单轻量化的代理客户端。[使用教程](https://github.com/bannedbook/fanqiang/blob/master/macos/ClashX.md)
 
 
 ## 注意

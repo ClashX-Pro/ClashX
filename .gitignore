@@ -20,3 +20,4 @@ ClashX/Resources/Country.mmdb.gz
 *.app/**
 ClashX.app.dSYM.zip
 build_derived_data
+gitupdate.bat

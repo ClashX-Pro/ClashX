@@ -56,7 +56,7 @@ The default configuration directory is `$HOME/.config/clash`
 The default name of the configuration file is `config.yaml`. You can use your custom config name and switch config in menu `Config` section.
 
 
-Checkout [SS-Rule-Snippet for Clash](https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml) or [lancellc's gitbook](https://lancellc.gitbook.io/clash/) for more detail.
+Checkout [SS-Rule-Snippet for Clash](https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml) for more detail.
 
 ## Advance Config
 

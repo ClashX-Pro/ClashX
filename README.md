@@ -1,14 +1,14 @@
 <h1 align="center">
-  <img src="https://github.com/Dreamacro/clash/raw/master/docs/logo.png" alt="Clash" width="200">
+  <img src="https://github.com/bannedbook/ClashX/raw/master/clashx.png" alt="Clash" width="200">
   <br>
   ClashX
   <br>
 </h1>
 
 
-A rule based proxy For Mac base on [Clash](https://github.com/Dreamacro/clash).
+A rule based proxy For Mac base on Clash. 原作者删库。
 
-ClashX 旨在提供一个简单轻量化的代理客户端，如果需要更多的定制化，可以考虑使用 [CFW Mac 版](https://github.com/Fndroid/clash_for_windows_pkg/releases) 
+ClashX 旨在提供一个简单轻量化的代理客户端。
 
 
 ## 注意
@@ -25,11 +25,11 @@ ClashX 旨在提供一个简单轻量化的代理客户端，如果需要更多�
 
 ## Install
 
-You can download from [Release](https://github.com/yichengchen/clashX/releases) page
+**ClashX Pro With enhanced mode and other clash premium feature**
 
-**Download ClashX Pro With enhanced mode and other clash premium feature at [AppCenter](https://install.appcenter.ms/users/clashx/apps/clashx-pro/distribution_groups/public) for free permanently.**
+**ClashX Pro版本，支持增强模式以及更多Clash Premium Core特性。**
 
-**在 [AppCenter](https://install.appcenter.ms/users/clashx/apps/clashx-pro/distribution_groups/public) 免费下载ClashX Pro版本，支持增强模式以及更多Clash Premium Core特性。**
+You can download from [Release](https://github.com/bannedbook/ClashX/releases) page
 
 ## Build
 - Make sure have python3 and golang installed in your computer.
@@ -56,7 +56,7 @@ The default configuration directory is `$HOME/.config/clash`
 The default name of the configuration file is `config.yaml`. You can use your custom config name and switch config in menu `Config` section.
 
 
-Checkout [Clash](https://github.com/Dreamacro/clash) or [SS-Rule-Snippet for Clash](https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml) or [lancellc's gitbook](https://lancellc.gitbook.io/clash/) for more detail.
+Checkout [SS-Rule-Snippet for Clash](https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml) or [lancellc's gitbook](https://lancellc.gitbook.io/clash/) for more detail.
 
 ## Advance Config
 

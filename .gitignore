@@ -21,3 +21,9 @@ ClashX/Resources/Country.mmdb.gz
 ClashX.app.dSYM.zip
 build_derived_data
 gitupdate.bat
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Backup files
+*.bak

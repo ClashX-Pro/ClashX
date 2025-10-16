@@ -126,6 +126,9 @@ jobs:
         mkdir -p dmg_temp
         cp -R ClashX.app dmg_temp/
 
+        # Create Applications folder symlink
+        ln -s /Applications dmg_temp/Applications
+
         # Create the DMG
         hdiutil create -volname "ClashX" -srcfolder dmg_temp -ov -format UDZO ClashX.dmg
 

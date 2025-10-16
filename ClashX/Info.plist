@@ -129,6 +129,6 @@
 	<key>SUDisallowSelectChannel</key>
 	<false/>
 	<key>SUFeedURL</key>
-	<string>https://yichengchen.github.io/clashX/appcast.xml</string>
+	<string>https://charlessnow.github.io/ClashX/appcast.xml</string>
 </dict>
 </plist>

@@ -100,15 +100,15 @@ extension AutoUpgardeManager.Channel {
         switch self {
         #if !PRO_VERSION
             case .stable:
-                return "https://yichengchen.github.io/clashX/appcast.xml"
+                return "https://charlessnow.github.io/ClashX/appcast.xml"
             case .prelease:
-                return "https://yichengchen.github.io/clashX/appcast_pre.xml"
+                return "https://charlessnow.github.io/ClashX/appcast.xml"
         #endif
         case .appcenter:
             #if PRO_VERSION
                 return "https://api.appcenter.ms/v0.1/public/sparkle/apps/1cd052f7-e118-4d13-87fb-35176f9702c1"
             #else
-                return "https://api.appcenter.ms/v0.1/public/sparkle/apps/dce6e9a3-b6e3-4fd2-9f2d-35c767a99663"
+                return "https://charlessnow.github.io/ClashX/appcast.xml"
             #endif
         }
     }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>ClashX</title>
+    <link>https://charlessnow.github.io/ClashX/appcast.xml</link>
+    <description>Most recent ClashX updates</description>
+    <language>en</language>
+    <item>
+      <title>Version 1.119.0</title>
+      <description><![CDATA[
+        <h2>🎉 macOS 26 (Sequoia) Compatibility Release</h2>
+        <p>This release primarily focuses on <strong>fixing critical crashes and compatibility issues on macOS 26 (Sequoia)</strong> and newer versions.</p>
+        
+        <h3>🐛 Critical Bug Fixes</h3>
+        <ul>
+          <li>✅ Fixed critical startup crash on macOS 26 (Sequoia)</li>
+          <li>Removed background colors from proxy list menu items</li>
+          <li>Fixed menu item click crashes</li>
+          <li>Disabled auto-update checker for fork project</li>
+        </ul>
+        
+        <h3>⚠️ Important Notice</h3>
+        <p><strong>All macOS 26 (Sequoia) users must update to this version</strong> to avoid crashes and ensure proper functionality.</p>
+      ]]></description>
+      <pubDate>Thu, 16 Oct 2025 07:00:00 +0800</pubDate>
+      <sparkle:version>1.119.0</sparkle:version>
+      <sparkle:shortVersionString>1.119.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
+      <enclosure 
+        url="https://github.com/charlessnow/ClashX/releases/download/1.119.0/ClashX.dmg" 
+        sparkle:version="1.119.0" 
+        sparkle:shortVersionString="1.119.0" 
+        type="application/octet-stream" 
+      />
+    </item>
+  </channel>
+</rss>

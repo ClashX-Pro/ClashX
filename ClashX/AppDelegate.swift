@@ -102,10 +102,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if WebPortalManager.hasWebProtal {
             WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
         }
-        // 禁用自动更新检查（fork项目不需要检查原作者的更新服务器）
-        // AutoUpgardeManager.shared.setup()
-        // AutoUpgardeManager.shared.setupCheckForUpdatesMenuItem(checkForUpdateMenuItem)
-        checkForUpdateMenuItem.isHidden = true // 隐藏菜单项
+        // 启用自动更新检查（使用fork项目的GitHub Pages）
+        AutoUpgardeManager.shared.setup()
+        AutoUpgardeManager.shared.setupCheckForUpdatesMenuItem(checkForUpdateMenuItem)
         // install proxy helper
         _ = ClashResourceManager.check()
         PrivilegedHelperManager.shared.checkInstall()

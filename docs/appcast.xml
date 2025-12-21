@@ -6,35 +6,37 @@
     <description>Most recent ClashX updates</description>
     <language>en</language>
     <item>
-      <title>Version 1.119.0</title>
+      <title>Version 1.120.0</title>
       <description><![CDATA[
-        <h2>🎉 macOS 26 (Sequoia) Compatibility Release</h2>
-        <p>This release primarily focuses on <strong>fixing critical crashes and compatibility issues on macOS 26 (Sequoia)</strong> and newer versions.</p>
+        <h2>🎉 Dashboard Fix Release</h2>
+<p>This release fixes the <strong>Dashboard not available</strong> issue and improves dashboard compatibility.</p>
 
-        <h3>🐛 Critical Bug Fixes</h3>
-        <ul>
-          <li>✅ Fixed critical startup crash on macOS 26 (Sequoia)</li>
-          <li>Removed background colors from proxy list menu items</li>
-          <li>Fixed menu item click crashes</li>
-        </ul>
+<h3>🐛 Bug Fixes</h3>
+<ul>
+  <li>✅ Fixed "Dashboard not available" error caused by defunct upstream repository</li>
+  <li>Replaced Dreamacro/clash-dashboard with MetaCubeX/Yacd-meta</li>
+  <li>Fixed hardcoded API port causing dashboard connection failures</li>
+  <li>Dashboard now auto-detects correct API URL from window.location</li>
+</ul>
 
-        <h3>✨ Improvements</h3>
-        <ul>
-          <li>Enabled auto-update with GitHub Pages</li>
-          <li>Added Applications folder symlink to DMG for easy installation</li>
-        </ul>
+<h3>✨ Improvements</h3>
+<ul>
+  <li>Updated to modern Yacd-meta dashboard with better features</li>
+  <li>Improved dashboard installation robustness</li>
+  <li>Better error handling during dependency installation</li>
+</ul>
 
-        <h3>⚠️ Important Notice</h3>
-        <p><strong>All macOS 26 (Sequoia) users must update to this version</strong> to avoid crashes and ensure proper functionality.</p>
+<h3>📝 Technical Details</h3>
+<p>The original Dreamacro/clash-dashboard repository was deleted from GitHub, causing builds to fail and show a placeholder error page. This release switches to the actively maintained MetaCubeX/Yacd-meta fork with additional enhancements.</p>
       ]]></description>
-      <pubDate>Thu, 16 Oct 2025 16:00:00 +0800</pubDate>
-      <sparkle:version>1.119.0</sparkle:version>
-      <sparkle:shortVersionString>1.119.0</sparkle:shortVersionString>
+      <pubDate>Sun, 21 Dec 2025 10:22:38 +0000</pubDate>
+      <sparkle:version>1.120.0</sparkle:version>
+      <sparkle:shortVersionString>1.120.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/charlessnow/ClashX/releases/download/1.119.0/ClashX.dmg"
-        sparkle:version="1.119.0"
-        sparkle:shortVersionString="1.119.0"
+        url="https://github.com/charlessnow/ClashX/releases/download/1.120.0/ClashX.dmg"
+        sparkle:version="1.120.0"
+        sparkle:shortVersionString="1.120.0"
         type="application/octet-stream"
       />
     </item>

@@ -7,15 +7,14 @@
 //
 
 import Alamofire
+import AppCenter
+import AppCenterAnalytics
+import AppCenterCrashes
 import Cocoa
 import CocoaLumberjack
 import LetsMove
 import RxCocoa
 import RxSwift
-
-import AppCenter
-import AppCenterAnalytics
-import AppCenterCrashes
 
 let statusItemLengthWithSpeed: CGFloat = 72
 
@@ -93,8 +92,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         if #unavailable(macOS 10.15) {
             // dashboard is not support in macOS 10.15 below
-            self.dashboardMenuItem.isHidden = true
-            self.connectionsMenuItem.isHidden = true
+            dashboardMenuItem.isHidden = true
+            connectionsMenuItem.isHidden = true
         }
         AppVersionUtil.showUpgradeAlert()
         ICloudManager.shared.setup()

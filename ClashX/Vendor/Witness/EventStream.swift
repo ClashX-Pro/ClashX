@@ -8,7 +8,7 @@
 
 import Foundation
 
-/**
+/* 
  * The type of event stream to be used. For more information, please refer to the File System Events Programming Guide: https://developer.apple.com/library/mac/documentation/Darwin/Conceptual/FSEvents_ProgGuide/UsingtheFSEventsFramework/UsingtheFSEventsFramework.html#//apple_ref/doc/uid/TP40005289-CH4-SW6
  */
 
@@ -79,8 +79,13 @@ class EventStream {
 
 public struct EventStreamCreateFlags: OptionSet {
     public let rawValue: FSEventStreamCreateFlags
-    public init(rawValue: FSEventStreamCreateFlags) { self.rawValue = rawValue }
-    init(_ value: Int) { rawValue = FSEventStreamCreateFlags(value) }
+    public init(rawValue: FSEventStreamCreateFlags) {
+        self.rawValue = rawValue
+    }
+
+    init(_ value: Int) {
+        rawValue = FSEventStreamCreateFlags(value)
+    }
 
     public static let None = EventStreamCreateFlags(kFSEventStreamCreateFlagNone)
 

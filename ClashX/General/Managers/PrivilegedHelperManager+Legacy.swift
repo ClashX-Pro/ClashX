@@ -11,7 +11,7 @@ import Cocoa
 extension PrivilegedHelperManager {
     func getInstallScript() -> String {
         let appPath = Bundle.main.bundlePath
-        let bash = """
+        return """
         #!/bin/bash
         set -e
 
@@ -52,7 +52,6 @@ extension PrivilegedHelperManager {
 
         launchctl load -w ${plistPath}
         """
-        return bash
     }
 
     func runScriptWithRootPermission(script: String) {

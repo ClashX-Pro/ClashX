@@ -106,9 +106,9 @@ public enum LoginServiceKit {
         guard let (list, items) = snapshot else {
             return false
         }
-        return items.filter({
-            LSSharedFileListItemCopyResolvedURL($0, 0, nil)?.takeRetainedValue() == (URL(fileURLWithPath: path) as CFURL) }
-        ).allSatisfy {
+        return items.filter {
+            LSSharedFileListItemCopyResolvedURL($0, 0, nil)?.takeRetainedValue() == (URL(fileURLWithPath: path) as CFURL)
+        }.allSatisfy {
             LSSharedFileListItemRemove(list, $0) == noErr
         }
     }

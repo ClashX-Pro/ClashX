@@ -98,7 +98,6 @@ class ClashConfig: Codable {
 
     func copy() -> ClashConfig? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
-        let copy = try? JSONDecoder().decode(ClashConfig.self, from: data)
-        return copy
+        return try? JSONDecoder().decode(ClashConfig.self, from: data)
     }
 }

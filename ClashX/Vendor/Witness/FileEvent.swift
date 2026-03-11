@@ -15,8 +15,13 @@ public struct FileEvent {
 
 public struct FileEventFlags: OptionSet {
     public let rawValue: FSEventStreamEventFlags
-    public init(rawValue: FSEventStreamEventFlags) { self.rawValue = rawValue }
-    init(_ value: Int) { rawValue = FSEventStreamEventFlags(value) }
+    public init(rawValue: FSEventStreamEventFlags) {
+        self.rawValue = rawValue
+    }
+
+    init(_ value: Int) {
+        rawValue = FSEventStreamEventFlags(value)
+    }
 
     public static let None = FileEventFlags(kFSEventStreamEventFlagNone)
 

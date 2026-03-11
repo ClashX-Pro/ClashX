@@ -104,13 +104,12 @@ class SSIDSuspendTool: NSObject {
         if #available(macOS 14, *) {
             if locationManager.authorizationStatus != .authorized {
                 let info = Command(cmd: "/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport", args: ["-I"]).run()
-                let ssid = info.components(separatedBy: "\n")
+                return info.components(separatedBy: "\n")
                     .lazy
                     .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                     .first { $0.starts(with: "SSID:") }?
                     .components(separatedBy: ":")
                     .last?.trimmingCharacters(in: .whitespacesAndNewlines)
-                return ssid
             }
         }
         return CWWiFiClient.shared().interface()?.ssid()

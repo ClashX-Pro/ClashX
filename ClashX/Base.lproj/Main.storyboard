@@ -703,6 +703,7 @@
                         <outlet property="copyExportCommandExternalMenuItem" destination="7wl-vK-5JO" id="1Lu-Tu-FJy"/>
                         <outlet property="copyExportCommandMenuItem" destination="Jmb-PK-rMW" id="tiF-vV-Sqh"/>
                         <outlet property="dashboardMenuItem" destination="XG6-2M-PNi" id="hzn-77-3Uc"/>
+                        <outlet property="enhancedModeMenuItem" destination="enh-Mo-de1" id="enh-ot-lt1"/>
                         <outlet property="externalControlSeparator" destination="tXn-AQ-OT3" id="ddo-u2-wUb"/>
                         <outlet property="httpPortMenuItem" destination="WNw-8Y-VFw" id="ldW-Gw-Q9L"/>
                         <outlet property="ipMenuItem" destination="D2R-eG-cms" id="ugc-iD-j9T"/>
@@ -751,6 +752,12 @@
                         <menuItem title="Set as system proxy" keyEquivalent="s" id="8se-yr-wmp">
                             <connections>
                                 <action selector="actionSetSystemProxy:" target="Voe-Tx-rLC" id="jrp-iz-ljC"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Enhanced Mode" keyEquivalent="e" id="enh-Mo-de1">
+                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                            <connections>
+                                <action selector="actionToggleEnhancedMode:" target="Voe-Tx-rLC" id="enh-ac-tn1"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Copy shell command" keyEquivalent="c" id="Jmb-PK-rMW">

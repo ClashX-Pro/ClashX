@@ -31,6 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var proxyModeDirectMenuItem: NSMenuItem!
     @IBOutlet var proxyModeRuleMenuItem: NSMenuItem!
     @IBOutlet var allowFromLanMenuItem: NSMenuItem!
+    @IBOutlet var enhancedModeMenuItem: NSMenuItem!
 
     @IBOutlet var proxyModeMenuItem: NSMenuItem!
     @IBOutlet var showNetSpeedIndicatorMenuItem: NSMenuItem!
@@ -138,6 +139,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // start proxy
         Logger.log("initClashCore")
         initClashCore()
+        if Settings.enhancedMode {
+            Logger.log("Restoring Enhanced Mode state")
+            clashPresetTunEnabled(true.goObject())
+        }
         Logger.log("initClashCore finish")
         setupData()
         runAfterConfigReload = { [weak self] in
@@ -224,6 +229,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }.disposed(by: disposeBag)
 
         statusItemView.updateViewStatus(enableProxy: ConfigManager.shared.proxyPortAutoSet)
+        enhancedModeMenuItem.state = Settings.enhancedMode ? .on : .off
     }
 
     func setupData() {
@@ -595,6 +601,34 @@ extension AppDelegate {
     @IBAction func actionConnections(_ sender: NSMenuItem?) {
         if #available(macOS 10.15, *) {
             ClashWindowController<DashboardViewController>.create().showWindow(sender)
+        }
+    }
+
+    @IBAction func actionToggleEnhancedMode(_ sender: NSMenuItem) {
+        let newState = !Settings.enhancedMode
+        Settings.enhancedMode = newState
+        enhancedModeMenuItem.state = newState ? .on : .off
+
+        guard ConfigManager.shared.isRunning else { return }
+
+        let result = clashSetTunEnabled(newState.goObject())?.toString() ?? ""
+        if result == "success" {
+            Logger.log("Enhanced Mode \(newState ? "enabled" : "disabled")")
+            if newState {
+                NSUserNotificationCenter.default
+                    .post(title: NSLocalizedString("Enhanced Mode", comment: ""),
+                          info: NSLocalizedString("Enhanced Mode Enabled", comment: ""))
+            } else {
+                NSUserNotificationCenter.default
+                    .post(title: NSLocalizedString("Enhanced Mode", comment: ""),
+                          info: NSLocalizedString("Enhanced Mode Disabled", comment: ""))
+            }
+        } else {
+            Settings.enhancedMode = !newState
+            enhancedModeMenuItem.state = !newState ? .on : .off
+            Logger.log("Enhanced Mode toggle failed: \(result)", level: .error)
+            NSUserNotificationCenter.default
+                .postConfigErrorNotice(msg: "Enhanced Mode: \(result)")
         }
     }
 

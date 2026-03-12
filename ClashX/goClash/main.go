@@ -12,28 +12,32 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 	"unsafe"
 
-	"github.com/Dreamacro/clash/component/mmdb"
-	"github.com/Dreamacro/clash/config"
-	"github.com/Dreamacro/clash/constant"
-	"github.com/Dreamacro/clash/hub/executor"
-	"github.com/Dreamacro/clash/hub/route"
-	"github.com/Dreamacro/clash/log"
-	"github.com/Dreamacro/clash/tunnel/statistic"
+	"github.com/metacubex/mihomo/component/mmdb"
+	"github.com/metacubex/mihomo/config"
+	"github.com/metacubex/mihomo/constant"
+	"github.com/metacubex/mihomo/hub/executor"
+	"github.com/metacubex/mihomo/hub/route"
+	"github.com/metacubex/mihomo/log"
+	"github.com/metacubex/mihomo/tunnel/statistic"
 	"github.com/oschwald/geoip2-golang"
 	"github.com/phayes/freeport"
 )
 
-var secretOverride string = ""
-var enableIPV6 bool = false
+var (
+	secretOverride string = ""
+	enableIPV6     bool   = false
+	tunEnabled     bool   = false
+	tunMu          sync.Mutex
+)
 
 func isAddrValid(addr string) bool {
 	if addr != "" {
@@ -81,7 +85,7 @@ func readConfig(path string) ([]byte, error) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return nil, err
 	}
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
@@ -163,13 +167,60 @@ func parseDefaultConfigThenStart(checkPort, allowLan, ipv6 bool, proxyPort uint3
 		}
 	}
 
+	// Apply TUN configuration if enhanced mode is enabled
+	tunMu.Lock()
+	if tunEnabled {
+		applyTunConfig(rawCfg)
+	}
+	tunMu.Unlock()
+
 	cfg, err := config.ParseRawConfig(rawCfg)
 	if err != nil {
 		return nil, err
 	}
-	go route.Start(cfg.General.ExternalController, cfg.General.Secret)
+
+	// Start the RESTful API server
+	route.ReCreateServer(&route.Config{
+		Addr:   cfg.Controller.ExternalController,
+		Secret: cfg.Controller.Secret,
+	})
+
 	executor.ApplyConfig(cfg, true)
 	return cfg, nil
+}
+
+// applyTunConfig configures TUN and DNS settings on a RawConfig for Enhanced Mode.
+// Must be called while tunMu is held.
+func applyTunConfig(rawCfg *config.RawConfig) {
+	rawCfg.Tun.Enable = true
+	rawCfg.Tun.Stack = constant.TunGvisor
+	rawCfg.Tun.AutoRoute = true
+	rawCfg.Tun.AutoDetectInterface = true
+	rawCfg.Tun.DNSHijack = []string{"0.0.0.0:53"}
+
+	// TUN mode requires DNS with fake-ip or redir-host
+	if !rawCfg.DNS.Enable {
+		rawCfg.DNS.Enable = true
+	}
+	if rawCfg.DNS.EnhancedMode == constant.DNSNormal {
+		rawCfg.DNS.EnhancedMode = constant.DNSFakeIP
+	}
+	if rawCfg.DNS.FakeIPRange == "" {
+		rawCfg.DNS.FakeIPRange = "198.18.0.1/16"
+	}
+	if len(rawCfg.DNS.NameServer) == 0 {
+		rawCfg.DNS.NameServer = []string{
+			"https://doh.pub/dns-query",
+			"tls://223.5.5.5:853",
+		}
+	}
+	if len(rawCfg.DNS.DefaultNameserver) == 0 {
+		rawCfg.DNS.DefaultNameserver = []string{
+			"114.114.114.114",
+			"223.5.5.5",
+			"8.8.8.8",
+		}
+	}
 }
 
 //export verifyClashConfig
@@ -192,9 +243,8 @@ func clashSetupLogger() {
 	sub := log.Subscribe()
 	go func() {
 		for elm := range sub {
-			log := elm.(log.Event)
-			cs := C.CString(log.Payload)
-			cl := C.CString(log.Type())
+			cs := C.CString(elm.Payload)
+			cl := C.CString(elm.Type())
 			C.sendLogToUI(cs, cl)
 			C.free(unsafe.Pointer(cs))
 			C.free(unsafe.Pointer(cl))
@@ -242,8 +292,8 @@ func run(checkConfig, allowLan, ipv6 bool, portOverride uint32, externalControll
 	}
 
 	portInfo := map[string]string{
-		"externalController": cfg.General.ExternalController,
-		"secret":             cfg.General.Secret,
+		"externalController": cfg.Controller.ExternalController,
+		"secret":             cfg.Controller.Secret,
 	}
 
 	jsonString, err := json.Marshal(portInfo)
@@ -298,24 +348,77 @@ func verifyGEOIPDataBase() bool {
 
 //export clash_getCountryForIp
 func clash_getCountryForIp(ip *C.char) *C.char {
-	record, _ := mmdb.Instance().Country(net.ParseIP(C.GoString(ip)))
-	if record != nil {
-		return C.CString(record.Country.IsoCode)
+	codes := mmdb.IPInstance().LookupCode(net.ParseIP(C.GoString(ip)))
+	if len(codes) > 0 {
+		return C.CString(strings.ToUpper(codes[0]))
 	}
 	return C.CString("")
 }
 
 //export clash_closeAllConnections
 func clash_closeAllConnections() {
-	snapshot := statistic.DefaultManager.Snapshot()
-	for _, c := range snapshot.Connections {
-		c.Close()
-	}
+	statistic.DefaultManager.Range(func(c statistic.Tracker) bool {
+		_ = c.Close()
+		return true
+	})
 }
 
 //export clash_getProggressInfo
 func clash_getProggressInfo() *C.char {
 	return C.CString(GetTcpNetList() + GetUDpList())
+}
+
+// --- Enhanced Mode (TUN) Control Functions ---
+
+//export clashPresetTunEnabled
+func clashPresetTunEnabled(enabled bool) {
+	tunMu.Lock()
+	tunEnabled = enabled
+	tunMu.Unlock()
+}
+
+//export clashSetTunEnabled
+func clashSetTunEnabled(enabled bool) *C.char {
+	tunMu.Lock()
+	tunEnabled = enabled
+	tunMu.Unlock()
+
+	// Re-parse and apply the config with TUN settings
+	rawCfg, err := getRawCfg()
+	if err != nil {
+		return C.CString(err.Error())
+	}
+
+	// Apply port/secret overrides from the currently running config
+	if secretOverride != "" {
+		rawCfg.Secret = secretOverride
+	}
+	rawCfg.ExternalUI = ""
+	rawCfg.Profile.StoreSelected = false
+	rawCfg.IPv6 = enableIPV6
+
+	tunMu.Lock()
+	if tunEnabled {
+		applyTunConfig(rawCfg)
+	} else {
+		rawCfg.Tun.Enable = false
+	}
+	tunMu.Unlock()
+
+	cfg, err := config.ParseRawConfig(rawCfg)
+	if err != nil {
+		return C.CString(err.Error())
+	}
+
+	executor.ApplyConfig(cfg, false)
+	return C.CString("success")
+}
+
+//export clashGetTunEnabled
+func clashGetTunEnabled() bool {
+	tunMu.Lock()
+	defer tunMu.Unlock()
+	return tunEnabled
 }
 
 func main() {

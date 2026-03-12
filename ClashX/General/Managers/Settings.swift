@@ -9,7 +9,7 @@
 import Foundation
 
 enum Settings {
-    static let defaultMmdbDownloadUrl = "https://github.com/Dreamacro/maxmind-geoip/releases/latest/download/Country.mmdb"
+    static let defaultMmdbDownloadUrl = "https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/geoip.metadb"
     @UserDefault("mmdbDownloadUrl", defaultValue: defaultMmdbDownloadUrl)
     static var mmdbDownloadUrl: String
 
@@ -81,4 +81,7 @@ enum Settings {
 
     @UserDefault("kDisableRestoreProxy", defaultValue: false)
     static var disableRestoreProxy: Bool
+
+    @UserDefault("enhancedMode", defaultValue: false)
+    static var enhancedMode: Bool
 }

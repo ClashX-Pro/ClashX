@@ -77,6 +77,9 @@ func checkPortAvailable(port int) bool {
 
 //export initClashCore
 func initClashCore() {
+	homeDir, _ := os.UserHomeDir()
+	clashHome := filepath.Join(homeDir, ".config", "clash")
+	constant.SetHomeDir(clashHome)
 	configFile := filepath.Join(constant.Path.HomeDir(), constant.Path.Config())
 	constant.SetConfig(configFile)
 }

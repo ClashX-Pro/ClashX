@@ -306,3 +306,42 @@
 
 /* No comment provided by engineer. */
 "Use reload config to try reconnect." = "Use reload config to try reconnect.";
+
+/* No comment provided by engineer. */
+"Enhanced Mode" = "Enhanced Mode";
+
+/* No comment provided by engineer. */
+"Enhanced Mode Enabled" = "Enhanced Mode Enabled";
+
+/* No comment provided by engineer. */
+"Enhanced Mode Disabled" = "Enhanced Mode Disabled";
+
+/* No comment provided by engineer. */
+"Failed to parse enhanced config" = "Failed to parse enhanced config";
+
+/* No comment provided by engineer. */
+"mihomo_core not found" = "mihomo_core binary not found in app bundle";
+
+/* No comment provided by engineer. */
+"Helper not available" = "Privileged helper not available. Please reinstall from Debug settings.";
+
+/* No comment provided by engineer. */
+"Enhanced Mode failed: core not responding" = "Enhanced Mode failed: external core did not respond";
+
+/* No comment provided by engineer. */
+"Failed to restart built-in core" = "Failed to restart built-in core";
+
+/* No comment provided by engineer. */
+"Follow System" = "Follow System";
+
+/* No comment provided by engineer. */
+"Language" = "Language";
+
+/* No comment provided by engineer. */
+"Language change requires restart" = "Language change requires restart. Restart ClashX now?";
+
+/* No comment provided by engineer. */
+"Restart Now" = "Restart Now";
+
+/* No comment provided by engineer. */
+"Later" = "Later";

@@ -132,5 +132,7 @@
 	<string>O+gNSh16a5FEGHwPrffpFzE35WbN/wjOctobXqHrUWU=</string>
 	<key>SUFeedURL</key>
 	<string>https://clashx-pro.github.io/ClashX/appcast.xml</string>
+	<key>coreVersion</key>
+	<string>1.19.21</string>
 </dict>
 </plist>

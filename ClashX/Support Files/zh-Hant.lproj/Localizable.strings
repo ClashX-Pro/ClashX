@@ -306,3 +306,42 @@
 
 /* No comment provided by engineer. */
 "Use reload config to try reconnect." = "使用重新加載配置嘗試重新連接";
+
+/* No comment provided by engineer. */
+"Enhanced Mode" = "增強模式";
+
+/* No comment provided by engineer. */
+"Enhanced Mode Enabled" = "增強模式已開啟";
+
+/* No comment provided by engineer. */
+"Enhanced Mode Disabled" = "增強模式已關閉";
+
+/* No comment provided by engineer. */
+"Failed to parse enhanced config" = "解析增強模式配置失敗";
+
+/* No comment provided by engineer. */
+"mihomo_core not found" = "未找到 mihomo_core 二進位檔案";
+
+/* No comment provided by engineer. */
+"Helper not available" = "輔助程式不可用，請在除錯設定中重新安裝";
+
+/* No comment provided by engineer. */
+"Enhanced Mode failed: core not responding" = "增強模式啟動失敗：外部核心未回應";
+
+/* No comment provided by engineer. */
+"Failed to restart built-in core" = "重新啟動內建核心失敗";
+
+/* No comment provided by engineer. */
+"Follow System" = "跟隨系統";
+
+/* No comment provided by engineer. */
+"Language" = "語言";
+
+/* No comment provided by engineer. */
+"Language change requires restart" = "語言更改需要重新啟動 ClashX，現在重新啟動嗎？";
+
+/* No comment provided by engineer. */
+"Restart Now" = "立即重新啟動";
+
+/* No comment provided by engineer. */
+"Later" = "稍後";

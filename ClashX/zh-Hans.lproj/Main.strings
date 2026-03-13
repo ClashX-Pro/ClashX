@@ -321,3 +321,6 @@
 
 /* Class = "NSButtonCell"; title = "Open"; ObjectID = "Wci-1w-zlx"; */
 "Wci-1w-zlx.title" = "打开";
+
+/* Class = "NSMenuItem"; title = "Enhanced Mode"; ObjectID = "enh-Mo-de1"; */
+"enh-Mo-de1.title" = "增强模式";

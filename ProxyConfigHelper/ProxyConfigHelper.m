@@ -150,6 +150,11 @@ ProxyConfigRemoteProcessProtocol
         task.executableURL = [NSURL fileURLWithPath:binaryPath];
         task.arguments = @[@"-f", configPath, @"-d", homeDir];
 
+        NSString *logPath = [homeDir stringByAppendingPathComponent:@".mihomo_core.log"];
+        [@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        [[NSFileManager defaultManager] setAttributes:@{NSFilePosixPermissions: @(0644)}
+                                         ofItemAtPath:logPath error:nil];
+
         NSPipe *pipe = [NSPipe pipe];
         task.standardOutput = pipe;
         task.standardError = pipe;
@@ -159,6 +164,10 @@ ProxyConfigRemoteProcessProtocol
             if (data.length > 0) {
                 NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 NSLog(@"[mihomo_core] %@", output);
+                NSFileHandle *logHandle = [NSFileHandle fileHandleForWritingAtPath:logPath];
+                [logHandle seekToEndOfFile];
+                [logHandle writeData:data];
+                [logHandle closeFile];
             }
         };
 

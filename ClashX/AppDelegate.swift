@@ -56,6 +56,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var runAfterConfigReload: (() -> Void)?
 
+    private var lastStreamResetTime: Date = .distantPast
+    private var pendingStreamResetWork: DispatchWorkItem?
+
     func applicationWillFinishLaunching(_ notification: Notification) {
         Logger.log("applicationWillFinishLaunching")
         signal(SIGPIPE, SIG_IGN)
@@ -503,8 +506,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func resetStreamApi() {
-        ApiRequest.shared.delegate = self
-        ApiRequest.shared.resetStreamApis()
+        let now = Date()
+        let minInterval: TimeInterval = 0.5
+        pendingStreamResetWork?.cancel()
+
+        let elapsed = now.timeIntervalSince(lastStreamResetTime)
+        if elapsed >= minInterval {
+            lastStreamResetTime = now
+            ApiRequest.shared.delegate = self
+            ApiRequest.shared.resetStreamApis()
+        } else {
+            let work = DispatchWorkItem { [weak self] in
+                guard let self = self else { return }
+                self.lastStreamResetTime = Date()
+                ApiRequest.shared.delegate = self
+                ApiRequest.shared.resetStreamApis()
+            }
+            pendingStreamResetWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + (minInterval - elapsed), execute: work)
+        }
     }
 
     func updateConfig(configName: String? = nil, showNotification: Bool = true, completeHandler: ((ErrorString?) -> Void)? = nil) {
@@ -642,61 +662,72 @@ extension AppDelegate {
     private func enableEnhancedMode(completion: @escaping (String?) -> Void) {
         let tempConfigPath = kConfigFolderPath + ".enhanced_config.yaml"
         let selectedConfigPath = Paths.localConfigPath(for: ConfigManager.selectConfigName)
-        let writeResult = clashWriteEnhancedConfig(selectedConfigPath.goStringBuffer(), tempConfigPath.goStringBuffer())?.toString() ?? ""
-        guard !writeResult.hasPrefix("error:") else {
-            completion(writeResult)
-            return
-        }
 
-        guard let jsonData = writeResult.data(using: .utf8),
-              let portInfo = try? JSONSerialization.jsonObject(with: jsonData) as? [String: String],
-              let extController = portInfo["externalController"],
-              let port = extController.components(separatedBy: ":").last else {
-            completion(NSLocalizedString("Failed to parse enhanced config", comment: ""))
-            return
-        }
-        let secret = portInfo["secret"] ?? ""
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let writeResult = clashWriteEnhancedConfig(
+                selectedConfigPath.goStringBuffer(),
+                tempConfigPath.goStringBuffer()
+            )?.toString() ?? ""
 
-        guard let binaryPath = Bundle.main.path(forResource: "mihomo_core", ofType: nil) else {
-            completion(NSLocalizedString("mihomo_core not found", comment: ""))
-            return
-        }
-
-        guard let helper = PrivilegedHelperManager.shared.helper() else {
-            completion(NSLocalizedString("Helper not available", comment: ""))
-            return
-        }
-
-        clashSuspendCore()
-
-        helper.startMihomoCore(
-            withBinaryPath: binaryPath,
-            configPath: tempConfigPath,
-            homeDir: kConfigFolderPath
-        ) { [weak self] error in
             DispatchQueue.main.async {
-                if let error = error {
-                    _ = clashResumeCore()
-                    completion(error)
-                } else {
-                    ConfigManager.shared.apiPort = port
-                    ConfigManager.shared.apiSecret = secret
-                    ConfigManager.shared.isEnhancedModeActive = true
-                    self?.waitForExternalCore(port: port, secret: secret, retriesLeft: 10) { success in
-                        if success {
-                            self?.syncConfig()
-                            self?.resetStreamApi()
-                            completion(nil)
+                guard let self = self else { return }
+
+                guard !writeResult.hasPrefix("error:") else {
+                    completion(writeResult)
+                    return
+                }
+
+                guard let jsonData = writeResult.data(using: .utf8),
+                      let portInfo = try? JSONSerialization.jsonObject(with: jsonData) as? [String: String],
+                      let extController = portInfo["externalController"],
+                      let port = extController.components(separatedBy: ":").last else {
+                    completion(NSLocalizedString("Failed to parse enhanced config", comment: ""))
+                    return
+                }
+                let secret = portInfo["secret"] ?? ""
+
+                guard let binaryPath = Bundle.main.path(forResource: "mihomo_core", ofType: nil) else {
+                    completion(NSLocalizedString("mihomo_core not found", comment: ""))
+                    return
+                }
+
+                guard let helper = PrivilegedHelperManager.shared.helper() else {
+                    completion(NSLocalizedString("Helper not available", comment: ""))
+                    return
+                }
+
+                clashSuspendCore()
+
+                helper.startMihomoCore(
+                    withBinaryPath: binaryPath,
+                    configPath: tempConfigPath,
+                    homeDir: kConfigFolderPath
+                ) { [weak self] error in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            _ = clashResumeCore()
+                            completion(error)
                         } else {
-                            // External core never responded — roll back
-                            Logger.log("External core failed to start, rolling back", level: .error)
-                            helper.stopMihomoCore { _ in
-                                DispatchQueue.main.async {
-                                    ConfigManager.shared.isEnhancedModeActive = false
-                                    ConfigManager.shared.isRunning = false
-                                    clashReopenCacheDB()
-                                    self?.startProxy()
-                                    completion(NSLocalizedString("Enhanced Mode failed: core not responding", comment: ""))
+                            ConfigManager.shared.apiPort = port
+                            ConfigManager.shared.apiSecret = secret
+                            ConfigManager.shared.isEnhancedModeActive = true
+                            self?.waitForExternalCore(port: port, secret: secret, retriesLeft: 10) { success in
+                                if success {
+                                    self?.syncConfig()
+                                    self?.resetStreamApi()
+                                    self?.verifyTunStatus(port: port, secret: secret)
+                                    completion(nil)
+                                } else {
+                                    Logger.log("External core failed to start, rolling back", level: .error)
+                                    helper.stopMihomoCore { _ in
+                                        DispatchQueue.main.async {
+                                            ConfigManager.shared.isEnhancedModeActive = false
+                                            ConfigManager.shared.isRunning = false
+                                            clashReopenCacheDB()
+                                            self?.startProxy()
+                                            completion(NSLocalizedString("Enhanced Mode failed: core not responding", comment: ""))
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -747,6 +778,83 @@ extension AppDelegate {
                 }
             }
         }
+    }
+
+    private func verifyTunStatus(port: String, secret: String) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.checkTunInterface()
+            self.queryTunFromApi(port: port, secret: secret)
+        }
+    }
+
+    private func checkTunInterface() {
+        var ifaddrPtr: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddrPtr) == 0, let firstAddr = ifaddrPtr else { return }
+        defer { freeifaddrs(ifaddrPtr) }
+
+        var tunInterfaces: [(name: String, hasIPv4: Bool, ipv4: String)] = []
+        var ptr: UnsafeMutablePointer<ifaddrs>? = firstAddr
+        while let addr = ptr {
+            let name = String(cString: addr.pointee.ifa_name)
+            if name.hasPrefix("utun") {
+                let family = addr.pointee.ifa_addr.pointee.sa_family
+                if family == UInt8(AF_INET) {
+                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                    getnameinfo(addr.pointee.ifa_addr, socklen_t(addr.pointee.ifa_addr.pointee.sa_len),
+                                &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST)
+                    let ip = String(cString: hostname)
+                    if let existing = tunInterfaces.firstIndex(where: { $0.name == name }) {
+                        tunInterfaces[existing] = (name, true, ip)
+                    } else {
+                        tunInterfaces.append((name, true, ip))
+                    }
+                } else if !tunInterfaces.contains(where: { $0.name == name }) {
+                    tunInterfaces.append((name, false, ""))
+                }
+            }
+            ptr = addr.pointee.ifa_next
+        }
+
+        for iface in tunInterfaces {
+            if iface.hasIPv4 {
+                Logger.log("TUN interface \(iface.name) has IPv4: \(iface.ipv4)")
+            } else {
+                Logger.log("TUN interface \(iface.name) has NO IPv4", level: .warning)
+            }
+        }
+
+        let mihomoTun = tunInterfaces.first(where: { $0.hasIPv4 && $0.ipv4.hasPrefix("198.18.") })
+        if mihomoTun == nil {
+            let logPath = kConfigFolderPath + ".mihomo_core.log"
+            let coreLog = (try? String(contentsOfFile: logPath, encoding: .utf8)) ?? ""
+            let tunError = coreLog.components(separatedBy: "\n")
+                .first(where: { $0.contains("Start TUN") || $0.contains("operation not permitted") })
+                ?? "Check Console.app for [mihomo_core] logs"
+            Logger.log("TUN failed. Core log: \(tunError)", level: .error)
+            NSUserNotificationCenter.default
+                .post(title: NSLocalizedString("Enhanced Mode", comment: ""),
+                      info: "TUN: \(tunError)")
+        } else {
+            Logger.log("TUN verified: \(mihomoTun!.name) @ \(mihomoTun!.ipv4)")
+        }
+    }
+
+    private func queryTunFromApi(port: String, secret: String) {
+        let url = URL(string: "http://127.0.0.1:\(port)/configs")!
+        var request = URLRequest(url: url, timeoutInterval: 3)
+        if !secret.isEmpty {
+            request.setValue("Bearer \(secret)", forHTTPHeaderField: "Authorization")
+        }
+        URLSession.shared.dataTask(with: request) { data, _, _ in
+            guard let data = data,
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let tun = json["tun"] as? [String: Any] else { return }
+
+            let tunEnabled = tun["enable"] as? Bool ?? false
+            let device = tun["device"] as? String ?? "unknown"
+            let stack = tun["stack"] as? String ?? "unknown"
+            Logger.log("API TUN status: enable=\(tunEnabled), device=\(device), stack=\(stack)")
+        }.resume()
     }
 
     private func restoreEnhancedModeIfNeeded() {

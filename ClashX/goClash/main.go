@@ -201,10 +201,12 @@ func parseDefaultConfigThenStart(checkPort, allowLan, ipv6 bool, proxyPort uint3
 // Must be called while tunMu is held.
 func applyTunConfig(rawCfg *config.RawConfig) {
 	rawCfg.Tun.Enable = true
-	rawCfg.Tun.Stack = constant.TunGvisor
+	rawCfg.Tun.Stack = constant.TunMixed
 	rawCfg.Tun.AutoRoute = true
 	rawCfg.Tun.AutoDetectInterface = true
-	rawCfg.Tun.DNSHijack = []string{"0.0.0.0:53"}
+	rawCfg.Tun.StrictRoute = true
+	rawCfg.Tun.DNSHijack = []string{"any:53", "tcp://any:53"}
+	rawCfg.Tun.MTU = 9000
 
 	// TUN mode requires DNS with fake-ip or redir-host
 	if !rawCfg.DNS.Enable {
@@ -496,10 +498,12 @@ func clashWriteEnhancedConfig(configPath *C.char, outputPath *C.char) *C.char {
 
 	rawMap["tun"] = map[string]interface{}{
 		"enable":                true,
-		"stack":                 "gVisor",
+		"stack":                 "mixed",
 		"auto-route":            true,
 		"auto-detect-interface": true,
-		"dns-hijack":            []string{"0.0.0.0:53"},
+		"strict-route":          true,
+		"dns-hijack":            []string{"any:53", "tcp://any:53"},
+		"mtu":                   9000,
 	}
 
 	dns, _ := rawMap["dns"].(map[string]interface{})
@@ -518,6 +522,12 @@ func clashWriteEnhancedConfig(configPath *C.char, outputPath *C.char) *C.char {
 	}
 	if dns["default-nameserver"] == nil {
 		dns["default-nameserver"] = []string{"114.114.114.114", "223.5.5.5", "8.8.8.8"}
+	}
+	// Use a free port for DNS listen to avoid conflict with in-process clash core
+	if dnsPort, err := freeport.GetFreePort(); err == nil {
+		dns["listen"] = "127.0.0.1:" + strconv.Itoa(dnsPort)
+	} else {
+		dns["listen"] = "127.0.0.1:11053"
 	}
 	rawMap["dns"] = dns
 

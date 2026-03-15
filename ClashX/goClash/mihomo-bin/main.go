@@ -33,6 +33,8 @@ func main() {
 		constant.SetConfig(configPath)
 	}
 
+	fmt.Printf("mihomo-bin euid=%d uid=%d pid=%d\n", os.Geteuid(), os.Getuid(), os.Getpid())
+
 	if err := hub.Parse(nil); err != nil {
 		log.Fatalln("Parse config error: %s", err.Error())
 	}

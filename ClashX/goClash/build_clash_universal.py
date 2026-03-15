@@ -48,7 +48,7 @@ def mergeLibs():
 
 def build_mihomo_bin(version, build_time, arch):
     command = f"""
-{go_bin} build -trimpath -ldflags '-X "github.com/metacubex/mihomo/constant.Version={version}" \
+{go_bin} build -trimpath -tags with_gvisor -ldflags '-X "github.com/metacubex/mihomo/constant.Version={version}" \
 -X "github.com/metacubex/mihomo/constant.BuildTime={build_time}"' \
 -o mihomo_core_{arch} ./mihomo-bin/ """
     envs = os.environ.copy()
@@ -65,6 +65,10 @@ def build_mihomo_bin(version, build_time, arch):
 def mergeMihomoBins():
     command = "lipo mihomo_core_arm64 mihomo_core_amd64 -create -output mihomo_core"
     subprocess.check_output(command, shell=True)
+    subprocess.check_output(
+        "codesign --sign - --force --identifier com.clashx.mihomo-core mihomo_core",
+        shell=True,
+    )
 
 
 def clean():
@@ -102,7 +106,7 @@ def run():
     build_mihomo_bin(version, build_time, "arm64")
     print("create amd64 mihomo-bin")
     build_mihomo_bin(version, build_time, "amd64")
-    print("merge mihomo-bin")
+    print("merge and codesign mihomo-bin")
     mergeMihomoBins()
     print("clean")
     clean()

@@ -2,7 +2,7 @@
 tasks = ["interfaces", "code", "normalize"]
 
 [update.interfaces]
-path = "./ClashX"
+path = "./ClashFX"
 defaultToBase = false
 ignoreEmptyStrings = false
 unstripped = false
@@ -13,19 +13,19 @@ additive = false
 unstripped = false
 
 [update.transform]
-codePath = "./ClashX"
-localizablePath = "./ClashX"
+codePath = "./ClashFX"
+localizablePath = "./ClashFX"
 transformer = "foundation"
-supportedLanguageEnumPath = "./ClashX"
+supportedLanguageEnumPath = "./ClashFX"
 typeName = "BartyCrouch"
 translateMethodName = "translate"
 
 [update.normalize]
-path = "./ClashX"
+path = "./ClashFX"
 harmonizeWithSource = true
 sortByKeys = true
 
 [lint]
-path = "./ClashX"
+path = "./ClashFX"
 duplicateKeys = true
 emptyValues = true

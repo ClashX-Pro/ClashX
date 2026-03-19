@@ -1,25 +1,25 @@
 Pods/
 Country.mmdb
 Carthage
-ClashX.a
-ClashX.h
-ClashX/Resources/dashboard
-ClashX.app
+ClashFX.a
+ClashFX.h
+ClashFX/Resources/dashboard
+ClashFX.app
 *.dmg
 **/xcuserdata/
 .idea
 *.pyc
-ClashX/clash/
+ClashFX/clash/
 .DS_Store
 .vscode
-ClashX/goClash/goClash.h
-ClashX/goClash/goClash.a
-ClashX/goClash/mihomo_core
+ClashFX/goClash/goClash.h
+ClashFX/goClash/goClash.a
+ClashFX/goClash/mihomo_core
 fastlane/report.xml
-ClashX/Resources/Country.mmdb.gz
+ClashFX/Resources/Country.mmdb.gz
 .bundle/config
 *.app/**
-ClashX.app.dSYM.zip
+ClashFX.app.dSYM.zip
 build_derived_data
 gitupdate.bat
 
@@ -30,4 +30,4 @@ gitupdate.bat
 *.bak
 
 # Swift Package Manager
-ClashX.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+ClashFX.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved

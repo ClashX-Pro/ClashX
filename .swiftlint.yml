@@ -14,9 +14,9 @@ opt_in_rules: # some rules are turned off by default, so you need to opt-in
   - empty_count
   - empty_string
 included: # paths to include during linting. `--path` is ignored if present.
-  - ClashX
+  - ClashFX
 excluded: # paths to ignore during linting. Takes precedence over `included`.
-  - ClashX/Vendor
+  - ClashFX/Vendor
   - Pods
 analyzer_rules: # Rules run by `swiftlint analyze`
   - explicit_self

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "49CF3B1C20CD7463001EBF94"
-               BuildableName = "ClashX.app"
-               BlueprintName = "ClashX"
-               ReferencedContainer = "container:ClashX.xcodeproj">
+               BuildableName = "ClashFX.app"
+               BlueprintName = "ClashFX"
+               ReferencedContainer = "container:ClashFX.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -31,9 +31,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "49CF3B1C20CD7463001EBF94"
-            BuildableName = "ClashX.app"
-            BlueprintName = "ClashX"
-            ReferencedContainer = "container:ClashX.xcodeproj">
+            BuildableName = "ClashFX.app"
+            BlueprintName = "ClashFX"
+            ReferencedContainer = "container:ClashFX.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -54,9 +54,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "49CF3B1C20CD7463001EBF94"
-            BuildableName = "ClashX.app"
-            BlueprintName = "ClashX"
-            ReferencedContainer = "container:ClashX.xcodeproj">
+            BuildableName = "ClashFX.app"
+            BlueprintName = "ClashFX"
+            ReferencedContainer = "container:ClashFX.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "49CF3B1C20CD7463001EBF94"
-            BuildableName = "ClashX.app"
-            BlueprintName = "ClashX"
-            ReferencedContainer = "container:ClashX.xcodeproj">
+            BuildableName = "ClashFX.app"
+            BlueprintName = "ClashFX"
+            ReferencedContainer = "container:ClashFX.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

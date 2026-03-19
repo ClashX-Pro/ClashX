@@ -16,7 +16,7 @@ post_install do |installer|
   end
 end
 
-target 'ClashX' do
+target 'ClashFX' do
   platform :osx, '10.14'
   inhibit_all_warnings!
   use_modular_headers!

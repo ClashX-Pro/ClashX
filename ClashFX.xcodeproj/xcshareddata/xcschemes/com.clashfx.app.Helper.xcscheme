@@ -17,7 +17,7 @@
                BlueprintIdentifier = "F9A7C0682306E874007163C7"
                BuildableName = "com.clashfx.app.Helper"
                BlueprintName = "com.clashfx.app.Helper"
-               ReferencedContainer = "container:ClashX.xcodeproj">
+               ReferencedContainer = "container:ClashFX.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "F9A7C0682306E874007163C7"
             BuildableName = "com.clashfx.app.Helper"
             BlueprintName = "com.clashfx.app.Helper"
-            ReferencedContainer = "container:ClashX.xcodeproj">
+            ReferencedContainer = "container:ClashFX.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -65,7 +65,7 @@
             BlueprintIdentifier = "F9A7C0682306E874007163C7"
             BuildableName = "com.clashfx.app.Helper"
             BlueprintName = "com.clashfx.app.Helper"
-            ReferencedContainer = "container:ClashX.xcodeproj">
+            ReferencedContainer = "container:ClashFX.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,0 +1,12 @@
+module Gzip {
+  umbrella header "GzipSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+
+module Gzip.Swift {
+  header "/Users/charles/Documents/Tools Proj/ClashFX/build_output/Swift Compatibility Header/Gzip-Swift.h"
+  requires objc
+}

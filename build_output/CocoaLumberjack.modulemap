@@ -1,0 +1,12 @@
+module CocoaLumberjack {
+  umbrella header "CocoaLumberjack-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+
+module CocoaLumberjack.Swift {
+  header "/Users/charles/Documents/Tools Proj/ClashFX/build_output/Swift Compatibility Header/CocoaLumberjack-Swift.h"
+  requires objc
+}

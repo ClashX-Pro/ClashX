@@ -1,0 +1,12 @@
+module Alamofire {
+  umbrella header "Alamofire-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+
+module Alamofire.Swift {
+  header "/Users/charles/Documents/Tools Proj/ClashFX/build_output/Swift Compatibility Header/Alamofire-Swift.h"
+  requires objc
+}

@@ -1,0 +1,12 @@
+module RxSwift {
+  umbrella header "RxSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+
+module RxSwift.Swift {
+  header "/Users/charles/Documents/Tools Proj/ClashFX/build_output/Swift Compatibility Header/RxSwift-Swift.h"
+  requires objc
+}

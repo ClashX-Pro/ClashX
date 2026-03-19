@@ -1,0 +1,12 @@
+module FlexibleDiff {
+  umbrella header "FlexibleDiff-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+
+module FlexibleDiff.Swift {
+  header "/Users/charles/Documents/Tools Proj/ClashFX/build_output/Swift Compatibility Header/FlexibleDiff-Swift.h"
+  requires objc
+}

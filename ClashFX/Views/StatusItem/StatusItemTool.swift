@@ -10,7 +10,7 @@ import AppKit
 
 enum StatusItemTool {
     static let menuImage: NSImage = {
-        let customImagePath = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash/menuImage.png")
+        let customImagePath = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clashfx/menuImage.png")
         if let image = NSImage(contentsOfFile: customImagePath) {
             image.isTemplate = true
             return image

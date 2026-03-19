@@ -1,0 +1,12 @@
+module SwiftyJSON {
+  umbrella header "SwiftyJSON-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+
+module SwiftyJSON.Swift {
+  header "/Users/charles/Documents/Tools Proj/ClashFX/build_output/Swift Compatibility Header/SwiftyJSON-Swift.h"
+  requires objc
+}

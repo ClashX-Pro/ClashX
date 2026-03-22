@@ -269,15 +269,17 @@ func clashUpdateConfig(path *C.char) *C.char {
 	}
 	cfg.General.IPv6 = enableIPV6
 
-	if cfg.General.MixedPort > 0 && !checkPortAvailable(cfg.General.MixedPort) {
+	currentGeneral := executor.GetGeneral()
+
+	if cfg.General.MixedPort > 0 && cfg.General.MixedPort != currentGeneral.MixedPort && !checkPortAvailable(cfg.General.MixedPort) {
 		if port, err := freeport.GetFreePort(); err == nil {
 			cfg.General.MixedPort = port
 		}
 	}
-	if cfg.General.Port > 0 && !checkPortAvailable(cfg.General.Port) {
+	if cfg.General.Port > 0 && cfg.General.Port != currentGeneral.Port && !checkPortAvailable(cfg.General.Port) {
 		cfg.General.Port = 0
 	}
-	if cfg.General.SocksPort > 0 && !checkPortAvailable(cfg.General.SocksPort) {
+	if cfg.General.SocksPort > 0 && cfg.General.SocksPort != currentGeneral.SocksPort && !checkPortAvailable(cfg.General.SocksPort) {
 		cfg.General.SocksPort = 0
 	}
 

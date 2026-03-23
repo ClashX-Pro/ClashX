@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[English](README.md) | [简体中文](README_zh-CN.md)
+[English](README.md) | [简体中文](README_zh-CN.md) | [繁體中文](README_zh-TW.md) | [日本語](README_ja.md) | [Русский](README_ru.md)
 
 </div>
 
@@ -51,7 +51,7 @@ Download from the [Releases](https://github.com/Clash-FX/ClashFX/releases) page.
 
 3. **Open and build**
    ```bash
-   open ClashX.xcworkspace
+   open ClashFX.xcworkspace
    # Build in Xcode (Cmd+R)
    ```
 

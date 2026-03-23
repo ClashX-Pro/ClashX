@@ -117,7 +117,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         PrivilegedHelperManager.shared.checkInstall()
         ConfigFileManager.copySampleConfigIfNeed()
 
-        PFMoveToApplicationsFolderIfNecessary()
+        // PFMoveToApplicationsFolderIfNecessary() — disabled: App Translocation breaks path detection for ad-hoc signed builds
 
         // claer not existed selected model
         removeUnExistProxyGroups()

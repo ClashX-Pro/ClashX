@@ -1005,7 +1005,7 @@
                             </imageView>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="prU-ck-7Na">
                                 <rect key="frame" x="199" y="165" width="53" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ClashX" id="MzG-sW-3g7">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ClashFX" id="MzG-sW-3g7">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1033,7 +1033,7 @@
                                         <subviews>
                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8pQ-pI-ToK">
                                                 <rect key="frame" x="-2" y="24" width="109" height="16"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="GitHub for Clash:" allowsEditingTextAttributes="YES" id="lsq-AW-K0M">
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="GitHub for mihomo:" allowsEditingTextAttributes="YES" id="lsq-AW-K0M">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1044,7 +1044,7 @@
                                             </textField>
                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kch-A0-ga2">
                                                 <rect key="frame" x="-2" y="0.0" width="117" height="16"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="GitHub for ClashX:" id="89f-5u-Eo0">
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="GitHub for ClashFX:" id="89f-5u-Eo0">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1068,7 +1068,7 @@
                                         <subviews>
                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q4m-SB-uHV" customClass="HyperlinkTextField" customModule="ClashFX" customModuleProvider="target">
                                                 <rect key="frame" x="-2" y="24" width="221" height="16"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/Dreamacro/clash" id="Bej-j7-KKV">
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/MetaCubeX/mihomo" id="Bej-j7-KKV">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1077,12 +1077,12 @@
                                                     <fragment content="#bc-ignore!"/>
                                                 </attributedString>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/Dreamacro/clash"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/MetaCubeX/mihomo"/>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bSi-kz-Dkf" customClass="HyperlinkTextField" customModule="ClashFX" customModuleProvider="target">
                                                 <rect key="frame" x="-2" y="0.0" width="241" height="16"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/yichengchen/clashX" id="9ox-Fc-Wk3">
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/Clash-FX/ClashFX" id="9ox-Fc-Wk3">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1091,7 +1091,7 @@
                                                     <fragment content="#bc-ignore!"/>
                                                 </attributedString>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/yichengchen/clashX"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/Clash-FX/ClashFX"/>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                         </subviews>

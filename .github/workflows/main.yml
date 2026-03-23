@@ -140,44 +140,59 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       run: |
         tag=${GITHUB_REF##*/}
-        CURRENT_DATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
+        python3 - "$tag" "$SPARKLE_SIGNATURE" "$SPARKLE_LENGTH" <<'PYEOF'
+        import sys, re
+        from datetime import datetime, timezone
 
-        RELEASE_NOTES_HTML=$(sed -n '/^### Bug Fixes/,/^---$/p' RELEASE_NOTES.md | head -n -1 | \
-          sed 's/^### \(.*\)/<h3>\1<\/h3>/' | \
-          sed 's/^- \*\*\(.*\)\*\* — \(.*\)/<li><strong>\1<\/strong> — \2<\/li>/' | \
-          sed '1i\<h2>ClashFX v'"$tag"'<\/h2>' | \
-          grep -v '^$' | \
-          awk 'BEGIN{} /<li>/ && !ul_open {print "<ul>"; ul_open=1} {print} END{if(ul_open) print "</ul>"}')
+        tag, signature, length = sys.argv[1], sys.argv[2], sys.argv[3]
+        pub_date = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S %z")
 
-        if [ -z "$RELEASE_NOTES_HTML" ]; then
-          RELEASE_NOTES_HTML="<h2>ClashFX v${tag}</h2><p>See release notes on GitHub.</p>"
-        fi
+        notes_html = f"<h2>ClashFX v{tag}</h2>"
+        try:
+            with open("RELEASE_NOTES.md") as f:
+                content = f.read()
+            en_section = content.split("---")[0]
+            items = re.findall(r"^- \*\*(.+?)\*\* — (.+)$", en_section, re.MULTILINE)
+            if items:
+                notes_html += "<ul>"
+                for title, desc in items:
+                    notes_html += f"<li><strong>{title}</strong> — {desc}</li>"
+                notes_html += "</ul>"
+            else:
+                notes_html += "<p>See release notes on GitHub.</p>"
+        except Exception:
+            notes_html += "<p>See release notes on GitHub.</p>"
 
-        NEW_ITEM="    <item>
-          <title>Version $tag</title>
+        new_item = f"""    <item>
+          <title>Version {tag}</title>
           <description><![CDATA[
-            $RELEASE_NOTES_HTML
+            {notes_html}
           ]]></description>
-          <pubDate>$CURRENT_DATE</pubDate>
-          <sparkle:version>$tag</sparkle:version>
-          <sparkle:shortVersionString>$tag</sparkle:shortVersionString>
+          <pubDate>{pub_date}</pubDate>
+          <sparkle:version>{tag}</sparkle:version>
+          <sparkle:shortVersionString>{tag}</sparkle:shortVersionString>
           <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
           <enclosure
-            url=\"https://github.com/Clash-FX/ClashFX/releases/download/$tag/ClashFX.dmg\"
-            sparkle:version=\"$tag\"
-            sparkle:shortVersionString=\"$tag\"
-            sparkle:edSignature=\"$SPARKLE_SIGNATURE\"
-            length=\"$SPARKLE_LENGTH\"
-            type=\"application/octet-stream\"
+            url="https://github.com/Clash-FX/ClashFX/releases/download/{tag}/ClashFX.dmg"
+            sparkle:version="{tag}"
+            sparkle:shortVersionString="{tag}"
+            sparkle:edSignature="{signature}"
+            length="{length}"
+            type="application/octet-stream"
           />
-        </item>"
+        </item>"""
 
-        MARKER="<language>en</language>"
-        ESCAPED_ITEM=$(echo "$NEW_ITEM" | sed 's/[&/\]/\\&/g')
-        awk -v marker="$MARKER" -v item="$NEW_ITEM" '{print} $0 ~ marker {print item}' docs/appcast.xml > docs/appcast_new.xml
-        mv docs/appcast_new.xml docs/appcast.xml
+        with open("docs/appcast.xml") as f:
+            xml = f.read()
 
-        echo "Updated appcast.xml with version $tag"
+        marker = "<language>en</language>"
+        xml = xml.replace(marker, marker + "\n" + new_item, 1)
+
+        with open("docs/appcast.xml", "w") as f:
+            f.write(xml)
+
+        print(f"Updated appcast.xml with version {tag}")
+        PYEOF
 
     - name: push appcast update
       if: startsWith(github.ref, 'refs/tags/')

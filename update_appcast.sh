@@ -1,39 +1,45 @@
 #!/bin/bash
 
-# Script to update appcast.xml with new version
-# Usage: ./update_appcast.sh VERSION "RELEASE_NOTES"
-# Example: ./update_appcast.sh 1.120.0 "Fixed bugs and improved performance"
+# Update appcast.xml with a new release version.
+# Prepends a new <item> while preserving existing version history.
+#
+# Usage:
+#   ./update_appcast.sh VERSION SIGNATURE LENGTH "RELEASE_NOTES_HTML"
+#
+# Example:
+#   ./update_appcast.sh 1.123.0 "abc123sig==" 28000000 "<h2>v1.123.0</h2><ul><li>Fixed bug</li></ul>"
+#
+# Generate EdDSA signature with Sparkle's sign_update tool:
+#   ./Pods/Sparkle/bin/sign_update ClashFX.dmg
 
-set -e
+set -euo pipefail
 
-VERSION=$1
-RELEASE_NOTES=$2
+VERSION="${1:-}"
+SIGNATURE="${2:-}"
+LENGTH="${3:-}"
+RELEASE_NOTES="${4:-}"
 
-if [ -z "$VERSION" ]; then
-    echo "Error: Version not provided"
-    echo "Usage: ./update_appcast.sh VERSION \"RELEASE_NOTES\""
-    exit 1
-fi
-
-if [ -z "$RELEASE_NOTES" ]; then
-    echo "Error: Release notes not provided"
-    echo "Usage: ./update_appcast.sh VERSION \"RELEASE_NOTES\""
+if [ -z "$VERSION" ] || [ -z "$SIGNATURE" ] || [ -z "$LENGTH" ] || [ -z "$RELEASE_NOTES" ]; then
+    echo "Error: Missing required arguments"
+    echo ""
+    echo "Usage: ./update_appcast.sh VERSION SIGNATURE LENGTH \"RELEASE_NOTES_HTML\""
+    echo ""
+    echo "  VERSION          - Semantic version (e.g. 1.123.0)"
+    echo "  SIGNATURE        - EdDSA signature from: ./Pods/Sparkle/bin/sign_update ClashFX.dmg"
+    echo "  LENGTH           - File size in bytes of ClashFX.dmg"
+    echo "  RELEASE_NOTES    - HTML release notes"
     exit 1
 fi
 
 APPCAST_FILE="docs/appcast.xml"
 CURRENT_DATE=$(date -u +"%a, %d %b %Y %H:%M:%S %z")
 
-echo "Updating appcast.xml with version $VERSION"
+if [ ! -f "$APPCAST_FILE" ]; then
+    echo "Error: $APPCAST_FILE not found. Run from project root."
+    exit 1
+fi
 
-cat > "$APPCAST_FILE" << EOF
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <channel>
-    <title>ClashX</title>
-    <link>https://clashx-pro.github.io/ClashX/appcast.xml</link>
-    <description>Most recent ClashX updates</description>
-    <language>en</language>
+NEW_ITEM=$(cat <<EOF
     <item>
       <title>Version $VERSION</title>
       <description><![CDATA[
@@ -42,21 +48,33 @@ cat > "$APPCAST_FILE" << EOF
       <pubDate>$CURRENT_DATE</pubDate>
       <sparkle:version>$VERSION</sparkle:version>
       <sparkle:shortVersionString>$VERSION</sparkle:shortVersionString>
-      <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/ClashX-Pro/ClashX/releases/download/$VERSION/ClashX.dmg"
+        url="https://github.com/Clash-FX/ClashFX/releases/download/$VERSION/ClashFX.dmg"
         sparkle:version="$VERSION"
         sparkle:shortVersionString="$VERSION"
+        sparkle:edSignature="$SIGNATURE"
+        length="$LENGTH"
         type="application/octet-stream"
       />
     </item>
-  </channel>
-</rss>
 EOF
+)
 
-echo "✅ Updated appcast.xml successfully"
-echo "📝 Next steps:"
-echo "1. Commit the changes: git add docs/appcast.xml && git commit -m 'Update appcast for version $VERSION'"
-echo "2. Push to GitHub: git push origin master"
-echo "3. Make sure GitHub Pages is enabled for the /docs folder"
-echo "4. Create a release with tag $VERSION and upload ClashX.dmg"
+MARKER="<language>en</language>"
+if ! grep -q "$MARKER" "$APPCAST_FILE"; then
+    echo "Error: Cannot find insertion point in $APPCAST_FILE"
+    exit 1
+fi
+
+sed -i '' "/$MARKER/a\\
+$(echo "$NEW_ITEM" | sed 's/$/\\/' | sed '$ s/\\$//')
+" "$APPCAST_FILE"
+
+echo "✅ Added version $VERSION to $APPCAST_FILE"
+echo ""
+echo "Next steps:"
+echo "  1. Review: git diff docs/appcast.xml"
+echo "  2. Commit: git add docs/appcast.xml && git commit -m 'release: update appcast for v$VERSION'"
+echo "  3. Push to GitHub (triggers GitHub Pages deploy)"
+echo "  4. Create GitHub Release with tag $VERSION and upload ClashFX.dmg"

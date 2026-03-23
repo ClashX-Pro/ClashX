@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>ClashX</title>
-    <link>https://clashx-pro.github.io/ClashX/appcast.xml</link>
-    <description>Most recent ClashX updates</description>
+    <title>ClashFX</title>
+    <link>https://clash-fx.github.io/ClashFX/appcast.xml</link>
+    <description>Most recent ClashFX updates</description>
     <language>en</language>
     <item>
       <title>Version 1.122.0</title>
@@ -22,7 +22,7 @@
       <sparkle:shortVersionString>1.122.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/ClashX-Pro/ClashX/releases/download/1.122.0/ClashX.dmg"
+        url="https://github.com/Clash-FX/ClashFX/releases/download/1.122.0/ClashFX.dmg"
         sparkle:version="1.122.0"
         sparkle:shortVersionString="1.122.0"
         sparkle:edSignature="2qfBmQFRAa0EK7wgMusM/n1a8TPbk0WdETuqnH2STu74Jn8bION9bzLCKpDDeQHuc7XSDOrlM0efZTnnTvoKBA=="
@@ -50,7 +50,7 @@
       <sparkle:shortVersionString>1.121.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/ClashX-Pro/ClashX/releases/download/1.121.0/ClashX.dmg"
+        url="https://github.com/Clash-FX/ClashFX/releases/download/1.121.0/ClashFX.dmg"
         sparkle:version="1.121.0"
         sparkle:shortVersionString="1.121.0"
         sparkle:edSignature="XQlEQW9w9wIpCfQMn4vntbbBQrI4rjE43px1/VMQjZphbWZ347JqRcWdCuHAbCdAXH5aif9VnCUzGPktu1B2DQ=="
@@ -84,7 +84,7 @@
       <sparkle:shortVersionString>1.120.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/ClashX-Pro/ClashX/releases/download/1.120.0/ClashX.dmg"
+        url="https://github.com/Clash-FX/ClashFX/releases/download/1.120.0/ClashFX.dmg"
         sparkle:version="1.120.0"
         sparkle:shortVersionString="1.120.0"
         sparkle:edSignature="h6mclWwdTCAtv/UMwKw3ZnikJw/BelDapcEkn1NnL/L6AkTJZ0UgXbqUUoFR2cdGtLm9NpKlz4LC3Itln4OVBA=="

@@ -32,6 +32,71 @@ class ClashWebViewContoller: NSViewController {
 
     let effectView = NSVisualEffectView()
 
+    private static let apiGuardJS: String = """
+    (function() {
+      var BLOCKED = ['/upgrade', '/restart'];
+      var orig = window.fetch;
+      window.fetch = function(input, init) {
+        var url = (typeof input === 'string') ? input : (input.url || '');
+        for (var i = 0; i < BLOCKED.length; i++) {
+          if (url.indexOf(BLOCKED[i]) !== -1) {
+            var method = ((init && init.method) || 'GET').toUpperCase();
+            if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
+              return Promise.resolve(new Response(
+                JSON.stringify({message: 'Managed by ClashFX'}),
+                {status: 403, headers: {'Content-Type': 'application/json'}}
+              ));
+            }
+          }
+        }
+        return orig.apply(this, arguments);
+      };
+      var origXHR = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function(method, url) {
+        for (var i = 0; i < BLOCKED.length; i++) {
+          if (url.indexOf(BLOCKED[i]) !== -1 && /^(POST|PUT|PATCH)$/i.test(method)) {
+            this._blocked = true;
+          }
+        }
+        return origXHR.apply(this, arguments);
+      };
+      var origSend = XMLHttpRequest.prototype.send;
+      XMLHttpRequest.prototype.send = function() {
+        if (this._blocked) {
+          Object.defineProperty(this, 'status', {get: function(){return 403}});
+          Object.defineProperty(this, 'responseText', {get: function(){return '{"message":"Managed by ClashFX"}'}});
+          if (typeof this.onload === 'function') this.onload();
+          return;
+        }
+        return origSend.apply(this, arguments);
+      };
+    })();
+    """
+
+    private static let hideUpgradeJS: String = """
+    (function() {
+      var HIDE_LABELS = ['GEO Databases', 'Dashboard UI', 'Restart', 'Upgrade'];
+      function hideItems(root) {
+        var labels = root.querySelectorAll('div');
+        for (var i = 0; i < labels.length; i++) {
+          var el = labels[i];
+          if (el.children.length > 0) continue;
+          var txt = el.textContent.trim();
+          for (var j = 0; j < HIDE_LABELS.length; j++) {
+            if (txt.indexOf(HIDE_LABELS[j]) !== -1) {
+              var row = el.parentElement;
+              if (row) row.style.display = 'none';
+              break;
+            }
+          }
+        }
+      }
+      var mo = new MutationObserver(function() { hideItems(document); });
+      mo.observe(document.documentElement, {childList: true, subtree: true});
+      document.addEventListener('DOMContentLoaded', function() { hideItems(document); });
+    })();
+    """
+
     override func loadView() {
         view = NSView(frame: NSRect(origin: .zero, size: minSize))
     }
@@ -47,9 +112,11 @@ class ClashWebViewContoller: NSViewController {
             webview.isInspectable = true
         }
         webview.setValue(false, forKey: "drawsBackground")
-        let script = WKUserScript(source: "console.log(\"dashboard loaded\")", injectionTime: .atDocumentStart, forMainFrameOnly: false)
 
-        webview.configuration.userContentController.addUserScript(script)
+        let guardScript = WKUserScript(source: Self.apiGuardJS, injectionTime: .atDocumentStart, forMainFrameOnly: true)
+        let hideScript = WKUserScript(source: Self.hideUpgradeJS, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        webview.configuration.userContentController.addUserScript(guardScript)
+        webview.configuration.userContentController.addUserScript(hideScript)
 
         bridge = JsBridgeUtil.initJSbridge(webview: webview, delegate: self)
 

@@ -161,10 +161,9 @@ func parseDefaultConfigThenStart(checkPort, allowLan, ipv6 bool, proxyPort uint3
 	if secretOverride != "" {
 		rawCfg.Secret = secretOverride
 	}
-	// Don't set rawCfg.ExternalUI here — mihomo's config parser validates
-	// the path against SAFE_PATHS which rejects app bundle / DerivedData paths.
-	// Instead we set the UI path directly via route.SetUIPath() after server creation.
 	rawCfg.ExternalUI = ""
+	rawCfg.ExternalUIURL = ""
+	rawCfg.ExternalUIName = ""
 	rawCfg.Profile.StoreSelected = true
 	enableIPV6 = ipv6
 	rawCfg.IPv6 = ipv6
@@ -364,6 +363,8 @@ func clashUpdateConfig(path *C.char) *C.char {
 	}
 	cfg.General.IPv6 = enableIPV6
 	cfg.Controller.ExternalUI = ""
+	cfg.Controller.ExternalUIURL = ""
+	cfg.Controller.ExternalUIName = ""
 	executor.ApplyConfig(cfg, false)
 	if savedUIPath != "" {
 		route.SetUIPath(savedUIPath)
@@ -447,6 +448,8 @@ func clashSetTunEnabled(enabled bool) *C.char {
 	rawCfg.Profile.StoreSelected = false
 	rawCfg.IPv6 = enableIPV6
 	rawCfg.ExternalUI = ""
+	rawCfg.ExternalUIURL = ""
+	rawCfg.ExternalUIName = ""
 
 	tunMu.Lock()
 	if tunEnabled {

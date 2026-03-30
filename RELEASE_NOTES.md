@@ -1,31 +1,23 @@
-## ClashFX 1.0.1
+## ClashFX 1.0.2
 
-### Bug Fixes & Improvements
+### Bug Fixes
 
-- **Fix status bar speed overflow** — Network speed text (e.g. "4.22MB/s") no longer intrudes into the vertical separator line. The status item now dynamically resizes based on actual text width
-- **Fix auto-update system** — All appcast download URLs were pointing to the wrong repository (`ClashX-Pro/ClashX`) with the wrong filename (`ClashX.dmg`). Corrected to `Clash-FX/ClashFX` with `ClashFX.dmg`. Auto-update should now work properly
-- **Fix update script** — `update_appcast.sh` now requires EdDSA signature (mandatory for Sparkle 2.x), preserves version history instead of overwriting, and uses correct URLs
-- **Fix prelease channel** — The "Prelease" update channel was pointing to the same feed as "Stable". It now uses a separate `appcast-prerelease.xml` feed
-- **Code cleanup** — Renamed `AutoUpgardeManager` → `AutoUpgradeManager` (typo fix)
+- **Fix geosite download failure** — Bundle geosite.dat in the app so subscriptions with geosite rules work on first launch without needing GitHub access (#1)
+- **Fix version check showing 10.14** — AppcastParser was collecting text from sibling XML elements (minimumSystemVersion). Version number is now correctly scoped (#2)
+- **Fix dashboard broken after "Update UI"** — Clear all WKWebView data types including ServiceWorker registrations on launch. Add upgrade_ui JS bridge handler to safely reset dashboard from bundled files (#3)
 
-### Documentation
+### Improvements
 
-- Added README translations: 繁體中文, 日本語, Русский
-- Updated language switcher across all README files (5 languages)
-- Fixed stale `ClashX.xcworkspace` reference → `ClashFX.xcworkspace`
+- **Auto-notify websites on release** — New releases automatically update version numbers on clashfx.com and clashx.tech via repository_dispatch
 
 ---
 
-### 修复与改进
+### 修复
 
-- **修复状态栏网速溢出** — 高速率文本（如 "4.22MB/s"）不再侵入竖线分隔符。状态栏项现在根据实际文本宽度动态调整大小
-- **修复自动更新系统** — appcast.xml 中所有下载 URL 指向了错误仓库（`ClashX-Pro/ClashX`）和错误文件名（`ClashX.dmg`）。已修正为 `Clash-FX/ClashFX` 和 `ClashFX.dmg`
-- **修复更新脚本** — `update_appcast.sh` 现在强制要求 EdDSA 签名（Sparkle 2.x 必需），保留版本历史而非覆盖，使用正确的 URL
-- **修复预发布频道** — "Prelease" 更新频道之前指向与 "Stable" 相同的 feed，现在使用独立的 `appcast-prerelease.xml`
-- **代码清理** — 修正 `AutoUpgardeManager` → `AutoUpgradeManager` 拼写错误
+- **修复 geosite 下载失败** — 内置 geosite.dat，首次添加含 geosite 规则的订阅不再需要先连上代理 (#1)
+- **修复版本检查显示 10.14** — AppcastParser 误采集了 minimumSystemVersion 的文本，现已正确限定采集范围 (#2)
+- **修复"更新 UI"后控制台损坏** — 启动时清理所有 WebView 缓存（含 ServiceWorker），并拦截 upgrade_ui 操作安全重置 dashboard (#3)
 
-### 文档
+### 改进
 
-- 新增 README 翻译：繁體中文、日本語、Русский
-- 更新所有 README 语言切换器（5 种语言）
-- 修正 `ClashX.xcworkspace` → `ClashFX.xcworkspace` 引用
+- **发版自动更新网站** — 新版本发布后自动更新 clashfx.com 和 clashx.tech 上的版本号

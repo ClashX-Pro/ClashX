@@ -6,6 +6,24 @@
     <description>Most recent ClashFX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.0.2</title>
+  <description><![CDATA[
+    <h2>ClashFX v1.0.2</h2><ul><li><strong>Fix geosite download failure</strong> — Bundle geosite.dat in the app so subscriptions with geosite rules work on first launch without needing GitHub access (#1)</li><li><strong>Fix version check showing 10.14</strong> — AppcastParser was collecting text from sibling XML elements (minimumSystemVersion). Version number is now correctly scoped (#2)</li><li><strong>Fix dashboard broken after "Update UI"</strong> — Clear all WKWebView data types including ServiceWorker registrations on launch. Add upgrade_ui JS bridge handler to safely reset dashboard from bundled files (#3)</li><li><strong>Auto-notify websites on release</strong> — New releases automatically update version numbers on clashfx.com and clashx.tech via repository_dispatch</li></ul>
+  ]]></description>
+  <pubDate>Mon, 30 Mar 2026 04:48:54 +0000</pubDate>
+  <sparkle:version>1.0.2</sparkle:version>
+  <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/Clash-FX/ClashFX/releases/download/1.0.2/ClashFX.dmg"
+    sparkle:version="1.0.2"
+    sparkle:shortVersionString="1.0.2"
+    sparkle:edSignature="/pvY4ikNIa+bcUdobh8FRNEzoTq3HWvWroo4eifp+8NIdsS8WTxIrB3lCVkTzKUIDkeSCE+43ToZh9g8dCcABA=="
+    length="96065901"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.0.1</title>
   <description><![CDATA[
     <h2>ClashFX v1.0.1</h2><ul><li><strong>Fix status bar speed overflow</strong> — Network speed text (e.g. "4.22MB/s") no longer intrudes into the vertical separator line. The status item now dynamically resizes based on actual text width</li><li><strong>Fix auto-update system</strong> — All appcast download URLs were pointing to the wrong repository (`ClashX-Pro/ClashX`) with the wrong filename (`ClashX.dmg`). Corrected to `Clash-FX/ClashFX` with `ClashFX.dmg`. Auto-update should now work properly</li><li><strong>Fix update script</strong> — `update_appcast.sh` now requires EdDSA signature (mandatory for Sparkle 2.x), preserves version history instead of overwriting, and uses correct URLs</li><li><strong>Fix prelease channel</strong> — The "Prelease" update channel was pointing to the same feed as "Stable". It now uses a separate `appcast-prerelease.xml` feed</li><li><strong>Code cleanup</strong> — Renamed `AutoUpgardeManager` → `AutoUpgradeManager` (typo fix)</li></ul>

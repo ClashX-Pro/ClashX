@@ -6,6 +6,24 @@
     <description>Most recent ClashFX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.0.4</title>
+  <description><![CDATA[
+    <h2>ClashFX v1.0.4</h2><ul><li><strong>Fix proxy groups not showing all proxies</strong> — Proxies using newer protocols (Hysteria, Hysteria2, TUIC, SSH, Anytls) were silently dropped due to unknown type decoding failure. Now all proxy types display correctly (#6)</li><li><strong>Sparkle auto-update</strong> — Replace manual browser-based updates with Sparkle native auto-update. Check for Updates now downloads, installs, and relaunches automatically</li><li><strong>Fix CI code signing</strong> — Release builds are now properly ad-hoc signed, enabling Sparkle signature validation</li></ul>
+  ]]></description>
+  <pubDate>Fri, 03 Apr 2026 11:14:18 +0000</pubDate>
+  <sparkle:version>1.0.4</sparkle:version>
+  <sparkle:shortVersionString>1.0.4</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/Clash-FX/ClashFX/releases/download/1.0.4/ClashFX.dmg"
+    sparkle:version="1.0.4"
+    sparkle:shortVersionString="1.0.4"
+    sparkle:edSignature="TlyC/+NhXQp+tWroC+Mj1LeHAGva9oeC1dGYm6fJNS7/DB9a3i3oPKUruieOFDyXpVeEC2VpaU1FtOjWRnWBCA=="
+    length="96316705"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.0.3</title>
   <description><![CDATA[
     <h2>ClashFX v1.0.3</h2><ul><li><strong>Fix geosite download failure</strong> — Bundle geosite.dat in the app so subscriptions with geosite rules work on first launch without needing GitHub access (#1)</li><li><strong>Fix version check showing 10.14</strong> — AppcastParser was collecting text from sibling XML elements (minimumSystemVersion). Version number is now correctly scoped (#2)</li><li><strong>Fix dashboard broken after "Update UI"</strong> — Clear all WKWebView data types including ServiceWorker registrations on launch. Add upgrade_ui JS bridge handler to safely reset dashboard from bundled files (#3)</li><li><strong>Auto-notify websites on release</strong> — New releases automatically update version numbers on clashfx.com and clashx.tech via repository_dispatch</li></ul>

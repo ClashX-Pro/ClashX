@@ -10,6 +10,24 @@
   <description><![CDATA[
     <h2>ClashFX v1.0.6</h2><ul><li><strong>Switch to metacubexd dashboard</strong> — Replace Yacd-meta with the official MetaCubeX dashboard. Fixes empty log page and connection panel layout issues. Smaller bundle (3.2 MB vs 6.9 MB)</li><li><strong>Robust dashboard upgrade</strong> — Dashboard files are now reliably replaced on every app update, even when old files have restricted permissions</li></ul>
   ]]></description>
+  <pubDate>Fri, 03 Apr 2026 14:11:55 +0000</pubDate>
+  <sparkle:version>1.0.6</sparkle:version>
+  <sparkle:shortVersionString>1.0.6</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/Clash-FX/ClashFX/releases/download/1.0.6/ClashFX.dmg"
+    sparkle:version="1.0.6"
+    sparkle:shortVersionString="1.0.6"
+    sparkle:edSignature="5OeXNS73ZAmv/Llfdm+8CiEkxzg2LRqQPdtX7EQOCdBfSdxsSbZTWkAyczHbpjFiqqt7VofX8B+Xaqt78Wk4BQ=="
+    length="95970666"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
+  <title>Version 1.0.6</title>
+  <description><![CDATA[
+    <h2>ClashFX v1.0.6</h2><ul><li><strong>Switch to metacubexd dashboard</strong> — Replace Yacd-meta with the official MetaCubeX dashboard. Fixes empty log page and connection panel layout issues. Smaller bundle (3.2 MB vs 6.9 MB)</li><li><strong>Robust dashboard upgrade</strong> — Dashboard files are now reliably replaced on every app update, even when old files have restricted permissions</li></ul>
+  ]]></description>
   <pubDate>Fri, 03 Apr 2026 13:46:34 +0000</pubDate>
   <sparkle:version>1.0.6</sparkle:version>
   <sparkle:shortVersionString>1.0.6</sparkle:shortVersionString>

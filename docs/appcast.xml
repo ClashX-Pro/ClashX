@@ -8,6 +8,24 @@
     <item>
   <title>Version 1.0.6</title>
   <description><![CDATA[
+    <h2>ClashFX v1.0.6</h2><ul><li><strong>Fix dashboard top spacing</strong> — Reduce excess blank space at the top of the content area caused by the previous traffic-light overlap fix. Overview cards now render flush below the title bar without scrolling</li><li><strong>Fix traffic light button overlap</strong> — Prevent the dashboard sidebar from covering macOS window control buttons</li></ul>
+  ]]></description>
+  <pubDate>Fri, 03 Apr 2026 14:49:18 +0000</pubDate>
+  <sparkle:version>1.0.6</sparkle:version>
+  <sparkle:shortVersionString>1.0.6</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/Clash-FX/ClashFX/releases/download/1.0.6/ClashFX.dmg"
+    sparkle:version="1.0.6"
+    sparkle:shortVersionString="1.0.6"
+    sparkle:edSignature="1k1Uks7Gbco7Tan0No9dv00z26fCemZcrNM4iiDWFaRyBvcu99XJAwg1eVz0qPG4zW+HTPyzED7Grm2uOMXVDw=="
+    length="95972773"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
+  <title>Version 1.0.6</title>
+  <description><![CDATA[
     <h2>ClashFX v1.0.6</h2><ul><li><strong>Switch to metacubexd dashboard</strong> — Replace Yacd-meta with the official MetaCubeX dashboard. Fixes empty log page and connection panel layout issues. Smaller bundle (3.2 MB vs 6.9 MB)</li><li><strong>Robust dashboard upgrade</strong> — Dashboard files are now reliably replaced on every app update, even when old files have restricted permissions</li></ul>
   ]]></description>
   <pubDate>Fri, 03 Apr 2026 14:11:55 +0000</pubDate>

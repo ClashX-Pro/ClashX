@@ -1,23 +1,21 @@
-## ClashFX 1.0.2
+## ClashFX 1.0.4
 
 ### Bug Fixes
 
-- **Fix geosite download failure** — Bundle geosite.dat in the app so subscriptions with geosite rules work on first launch without needing GitHub access (#1)
-- **Fix version check showing 10.14** — AppcastParser was collecting text from sibling XML elements (minimumSystemVersion). Version number is now correctly scoped (#2)
-- **Fix dashboard broken after "Update UI"** — Clear all WKWebView data types including ServiceWorker registrations on launch. Add upgrade_ui JS bridge handler to safely reset dashboard from bundled files (#3)
+- **Fix proxy groups not showing all proxies** — Proxies using newer protocols (Hysteria, Hysteria2, TUIC, SSH, Anytls) were silently dropped due to unknown type decoding failure. Now all proxy types display correctly (#6)
 
 ### Improvements
 
-- **Auto-notify websites on release** — New releases automatically update version numbers on clashfx.com and clashx.tech via repository_dispatch
+- **Sparkle auto-update** — Replace manual browser-based updates with Sparkle native auto-update. Check for Updates now downloads, installs, and relaunches automatically
+- **Fix CI code signing** — Release builds are now properly ad-hoc signed, enabling Sparkle signature validation
 
 ---
 
 ### 修复
 
-- **修复 geosite 下载失败** — 内置 geosite.dat，首次添加含 geosite 规则的订阅不再需要先连上代理 (#1)
-- **修复版本检查显示 10.14** — AppcastParser 误采集了 minimumSystemVersion 的文本，现已正确限定采集范围 (#2)
-- **修复"更新 UI"后控制台损坏** — 启动时清理所有 WebView 缓存（含 ServiceWorker），并拦截 upgrade_ui 操作安全重置 dashboard (#3)
+- **修复代理组不显示全部节点** — 使用新协议（Hysteria、Hysteria2、TUIC、SSH、Anytls）的节点因类型解码失败被静默跳过，现在所有代理类型都能正常显示 (#6)
 
 ### 改进
 
-- **发版自动更新网站** — 新版本发布后自动更新 clashfx.com 和 clashx.tech 上的版本号
+- **Sparkle 自动更新** — 用 Sparkle 原生自动更新替代手动打开浏览器下载。检查更新现在可以自动下载、安装并重启
+- **修复 CI 代码签名** — Release 构建现在使用正确的 ad-hoc 签名，确保 Sparkle 签名校验通过

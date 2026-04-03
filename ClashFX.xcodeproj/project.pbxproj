@@ -25,7 +25,6 @@
 		49281C802A1F01FA00F60935 /* DebugSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49281C7F2A1F01FA00F60935 /* DebugSettingViewController.swift */; };
 		4929F610258CD22E00A435F6 /* menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4929F60F258CD22E00A435F6 /* menu_icon@2x.png */; };
 		4929F677258CD89B00A435F6 /* Country.mmdb.gz in Resources */ = {isa = PBXBuildFile; fileRef = 4929F676258CD89B00A435F6 /* Country.mmdb.gz */; };
-		CF000001AAAA000000000001 /* geosite.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = CF000001AAAA000000000002 /* geosite.dat.gz */; };
 		4929F67F258CE04700A435F6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4929F67E258CE04700A435F6 /* Settings.swift */; };
 		4929F684258CE07500A435F6 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4929F683258CE07500A435F6 /* UserDefaultWrapper.swift */; };
 		492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C4868210EE6B9004554A0 /* ApiRequest.swift */; };
@@ -113,6 +112,7 @@
 		8ACD21BB27A04C7800BC4632 /* ProxySettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */; };
 		8ACD21BD27A04ED500BC4632 /* ProxyModeChangeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */; };
 		9E0E2F1481CB327D3753969D /* libPods-ClashFX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE7981A9F34B5E210C549CB /* libPods-ClashFX.a */; };
+		CF000001AAAA000000000001 /* geosite.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = CF000001AAAA000000000002 /* geosite.dat.gz */; };
 		CF100001CFGEDITOR /* ConfigEditorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF100002CFGEDITOR /* ConfigEditorWindowController.swift */; };
 		D33F6678DDE060E0F305D755 /* YAMLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF47A44A3A8712F44279A56 /* YAMLSerializer.swift */; };
 		D846369486CB7C0166D0E271 /* ProxyGroupsEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E8EE5432198C8579D36CC4 /* ProxyGroupsEditorViewController.swift */; };
@@ -193,7 +193,6 @@
 		49281C7F2A1F01FA00F60935 /* DebugSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingViewController.swift; sourceTree = "<group>"; };
 		4929F60F258CD22E00A435F6 /* menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_icon@2x.png"; sourceTree = "<group>"; };
 		4929F676258CD89B00A435F6 /* Country.mmdb.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = Country.mmdb.gz; sourceTree = "<group>"; };
-		CF000001AAAA000000000002 /* geosite.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "geosite.dat.gz"; sourceTree = "<group>"; };
 		4929F67E258CE04700A435F6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		4929F683258CE07500A435F6 /* UserDefaultWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapper.swift; sourceTree = "<group>"; };
 		492C4868210EE6B9004554A0 /* ApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
@@ -299,6 +298,7 @@
 		A1485BCE642059532D01B8BA /* Pods-ClashFX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClashFX.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClashFX/Pods-ClashFX.release.xcconfig"; sourceTree = "<group>"; };
 		ADF47A44A3A8712F44279A56 /* YAMLSerializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = YAMLSerializer.swift; sourceTree = "<group>"; };
 		CAE7981A9F34B5E210C549CB /* libPods-ClashFX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClashFX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF000001AAAA000000000002 /* geosite.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geosite.dat.gz; sourceTree = "<group>"; };
 		CF000001CLASHFXJA01 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF000002CLASHFXRU01 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF000003CLASHFXJA02 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
@@ -372,7 +372,6 @@
 				16E8EE5432198C8579D36CC4 /* ProxyGroupsEditorViewController.swift */,
 				658AD87956C634D6C5B8DC46 /* ProxiesEditorViewController.swift */,
 			);
-			name = ConfigEditor;
 			path = ConfigEditor;
 			sourceTree = "<group>";
 		};
@@ -899,9 +898,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ClashFX/Pods-ClashFX-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ClashFX/Pods-ClashFX-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -954,9 +957,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ClashFX/Pods-ClashFX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ClashFX/Pods-ClashFX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1268,9 +1275,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ClashFX/ClashFX.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = YES;
 				CURRENT_PROJECT_VERSION = 1.0.0;
@@ -1316,9 +1322,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ClashFX/ClashFX.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = YES;
 				COPY_PHASE_STRIP = YES;

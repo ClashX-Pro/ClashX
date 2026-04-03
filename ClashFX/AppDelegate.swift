@@ -480,9 +480,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let clashHome = FileManager.default.homeDirectoryForCurrentUser
                 .appendingPathComponent(".config/clashfx/dashboard")
             let fm = FileManager.default
-            // Replace with latest bundled version each launch
-            try? fm.removeItem(at: clashHome)
-            try? fm.copyItem(at: bundleDashboard, to: clashHome)
+
+            if fm.fileExists(atPath: clashHome.path) {
+                do {
+                    try fm.removeItem(at: clashHome)
+                } catch {
+                    Logger.log("dashboard removeItem failed: \(error), retrying with chmod", level: .warning)
+                    let chmod = Process()
+                    chmod.executableURL = URL(fileURLWithPath: "/bin/chmod")
+                    chmod.arguments = ["-R", "u+rwx", clashHome.path]
+                    try? chmod.run()
+                    chmod.waitUntilExit()
+
+                    if (try? fm.removeItem(at: clashHome)) == nil {
+                        Logger.log("dashboard chmod+remove also failed, renaming old directory", level: .error)
+                        let trash = clashHome.deletingLastPathComponent()
+                            .appendingPathComponent("dashboard-old-\(ProcessInfo.processInfo.globallyUniqueString)")
+                        try? fm.moveItem(at: clashHome, to: trash)
+                    }
+                }
+            }
+
+            do {
+                try fm.copyItem(at: bundleDashboard, to: clashHome)
+            } catch {
+                Logger.log("dashboard copyItem failed: \(error)", level: .error)
+            }
+
             setUIPath(clashHome.path.goStringBuffer())
         }
 

@@ -1,21 +1,13 @@
-## ClashFX 1.0.4
-
-### Bug Fixes
-
-- **Fix proxy groups not showing all proxies** — Proxies using newer protocols (Hysteria, Hysteria2, TUIC, SSH, Anytls) were silently dropped due to unknown type decoding failure. Now all proxy types display correctly (#6)
+## ClashFX 1.0.5
 
 ### Improvements
 
-- **Sparkle auto-update** — Replace manual browser-based updates with Sparkle native auto-update. Check for Updates now downloads, installs, and relaunches automatically
-- **Fix CI code signing** — Release builds are now properly ad-hoc signed, enabling Sparkle signature validation
+- **Switch to metacubexd dashboard** — Replace Yacd-meta with the official MetaCubeX dashboard. Fixes empty log page and connection panel layout issues. Smaller bundle (3.2 MB vs 6.9 MB)
+- **Robust dashboard upgrade** — Dashboard files are now reliably replaced on every app update, even when old files have restricted permissions
 
 ---
 
-### 修复
-
-- **修复代理组不显示全部节点** — 使用新协议（Hysteria、Hysteria2、TUIC、SSH、Anytls）的节点因类型解码失败被静默跳过，现在所有代理类型都能正常显示 (#6)
-
 ### 改进
 
-- **Sparkle 自动更新** — 用 Sparkle 原生自动更新替代手动打开浏览器下载。检查更新现在可以自动下载、安装并重启
-- **修复 CI 代码签名** — Release 构建现在使用正确的 ad-hoc 签名，确保 Sparkle 签名校验通过
+- **切换到 metacubexd 面板** — 用 MetaCubeX 官方面板替代 Yacd-meta。修复日志页为空和连接面板布局错位的问题。包体更小（3.2 MB vs 6.9 MB）
+- **Dashboard 升级更可靠** — 每次更新 app 都会可靠地替换 dashboard 文件，即使旧文件有权限限制也不会失败

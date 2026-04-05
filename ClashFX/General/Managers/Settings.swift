@@ -34,6 +34,12 @@ enum Settings {
     @UserDefault("proxyIgnoreList", defaultValue: proxyIgnoreListDefaultValue)
     static var proxyIgnoreList: [String]
 
+    @UserDefault("tunRouteExcludeList", defaultValue: [])
+    static var tunRouteExcludeList: [String]
+
+    @UserDefault("tunRouteExcludeRawText", defaultValue: "")
+    static var tunRouteExcludeRawText: String
+
     @UserDefault("disableMenubarNotice", defaultValue: false)
     static var disableMenubarNotice: Bool
 

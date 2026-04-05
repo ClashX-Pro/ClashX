@@ -324,3 +324,12 @@
 
 /* Class = "NSMenuItem"; title = "Enhanced Mode"; ObjectID = "enh-Mo-de1"; */
 "enh-Mo-de1.title" = "增强模式";
+
+/* Class = "NSTextFieldCell"; title = "TUN Route Exclude"; ObjectID = "kUu-UW-N0E"; */
+"kUu-UW-N0E.title" = "TUN 路由排除";
+
+/* Class = "NSTextFieldCell"; title = "Supports IP/CIDR and domains, separated by commas(,)"; ObjectID = "h4n-Op-f3j"; */
+"h4n-Op-f3j.title" = "支持 IP/CIDR 和域名，使用英文逗号(,)分隔";
+
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "ZL2-oD-6ol"; */
+"ZL2-oD-6ol.title" = "重置";

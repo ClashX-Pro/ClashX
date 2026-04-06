@@ -726,7 +726,8 @@ extension AppDelegate {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let writeResult = clashWriteEnhancedConfig(
                 selectedConfigPath.goStringBuffer(),
-                tempConfigPath.goStringBuffer()
+                tempConfigPath.goStringBuffer(),
+                Settings.tunRouteExcludeList.joined(separator: ",").goStringBuffer()
             )?.toString() ?? ""
 
             DispatchQueue.main.async {

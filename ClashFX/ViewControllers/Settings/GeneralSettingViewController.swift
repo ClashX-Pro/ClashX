@@ -11,6 +11,7 @@ import RxSwift
 
 class GeneralSettingViewController: NSViewController {
     @IBOutlet var ignoreListTextView: NSTextView!
+    @IBOutlet var tunRouteExcludeTextView: NSTextView!
     @IBOutlet var launchAtLoginButton: NSButton!
 
     @IBOutlet var reduceNotificationsButton: NSButton!
@@ -34,11 +35,25 @@ class GeneralSettingViewController: NSViewController {
         speedTestUrlField.stringValue = Settings.benchMarkUrl
         speedTestUrlField.placeholderString = Settings.defaultBenchmarkUrl
         ignoreListTextView.string = Settings.proxyIgnoreList.joined(separator: ",")
+        tunRouteExcludeTextView.string = Settings.tunRouteExcludeRawText.isEmpty
+            ? Settings.tunRouteExcludeList.joined(separator: ",\n")
+            : Settings.tunRouteExcludeRawText
         ignoreListTextView.rx
             .string.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .map { $0.components(separatedBy: ",").filter { !$0.isEmpty } }
             .subscribe { arr in
                 Settings.proxyIgnoreList = arr
+            }.disposed(by: disposeBag)
+
+        tunRouteExcludeTextView.rx
+            .string.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .subscribe { text in
+                Settings.tunRouteExcludeRawText = text
+                let arr = text
+                    .components(separatedBy: CharacterSet(charactersIn: ",\n\r"))
+                    .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                    .filter { !$0.isEmpty }
+                Settings.tunRouteExcludeList = arr
             }.disposed(by: disposeBag)
 
         ssidSuspendTextField.string = Settings.disableSSIDList.joined(separator: ",")
@@ -135,5 +150,11 @@ class GeneralSettingViewController: NSViewController {
     @IBAction func actionResetIgnoreList(_ sender: Any) {
         ignoreListTextView.string = Settings.proxyIgnoreListDefaultValue.joined(separator: ",")
         Settings.proxyIgnoreList = Settings.proxyIgnoreListDefaultValue
+    }
+
+    @IBAction func actionResetTunRouteExcludeList(_ sender: Any) {
+        tunRouteExcludeTextView.string = ""
+        Settings.tunRouteExcludeRawText = ""
+        Settings.tunRouteExcludeList = []
     }
 }

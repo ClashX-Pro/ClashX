@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"net/netip"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -40,12 +41,13 @@ import (
 )
 
 var (
-	secretOverride  string = ""
-	enableIPV6      bool   = false
-	tunEnabled      bool   = false
-	tunMu           sync.Mutex
-	savedUIPath     string
-	callbacksPaused int32 // atomic: 0=active, 1=paused
+	secretOverride     string = ""
+	enableIPV6         bool   = false
+	tunEnabled         bool   = false
+	tunRouteExcludeRaw string = ""
+	tunMu              sync.Mutex
+	savedUIPath        string
+	callbacksPaused    int32 // atomic: 0=active, 1=paused
 )
 
 func isAddrValid(addr string) bool {
@@ -82,6 +84,157 @@ func checkPortAvailable(port int) bool {
 	_ = l.Close()
 	log.Infoln("check port %d success", port)
 	return true
+}
+
+func mergeUniqueStrings(base []string, additions []string) []string {
+	seen := make(map[string]struct{}, len(base)+len(additions))
+	result := make([]string, 0, len(base)+len(additions))
+	for _, item := range base {
+		trimmed := strings.TrimSpace(item)
+		if trimmed == "" {
+			continue
+		}
+		if _, ok := seen[trimmed]; ok {
+			continue
+		}
+		seen[trimmed] = struct{}{}
+		result = append(result, trimmed)
+	}
+	for _, item := range additions {
+		trimmed := strings.TrimSpace(item)
+		if trimmed == "" {
+			continue
+		}
+		if _, ok := seen[trimmed]; ok {
+			continue
+		}
+		seen[trimmed] = struct{}{}
+		result = append(result, trimmed)
+	}
+	return result
+}
+
+func parseEntryAsPrefix(s string) (netip.Prefix, bool) {
+	if prefix, err := netip.ParsePrefix(s); err == nil {
+		return prefix.Masked(), true
+	}
+	if ip, err := netip.ParseAddr(s); err == nil {
+		bits := 32
+		if ip.Is6() {
+			bits = 128
+		}
+		return netip.PrefixFrom(ip, bits), true
+	}
+	return netip.Prefix{}, false
+}
+
+func splitTunRouteExcludeEntries(raw string) ([]netip.Prefix, []string, []string) {
+	var prefixes []netip.Prefix
+	var domains []string
+	var invalid []string
+
+	for _, item := range strings.Split(raw, ",") {
+		entry := strings.TrimSpace(item)
+		if entry == "" {
+			continue
+		}
+		if prefix, ok := parseEntryAsPrefix(entry); ok {
+			prefixes = append(prefixes, prefix)
+			continue
+		}
+		if strings.Contains(entry, ".") || strings.HasPrefix(entry, "*.") || strings.HasPrefix(entry, "+.") {
+			domains = append(domains, entry)
+			continue
+		}
+		invalid = append(invalid, entry)
+	}
+
+	return prefixes, domains, invalid
+}
+
+func applyTunRouteExclusions(rawCfg *config.RawConfig) error {
+	prefixes, domains, invalid := splitTunRouteExcludeEntries(tunRouteExcludeRaw)
+	if len(invalid) > 0 {
+		return fmt.Errorf("invalid TUN route exclude entries: %s", strings.Join(invalid, ", "))
+	}
+	if len(prefixes) > 0 {
+		rawCfg.Tun.RouteExcludeAddress = mergeUniquePrefixes(rawCfg.Tun.RouteExcludeAddress, prefixes)
+	}
+	if len(domains) > 0 {
+		rawCfg.DNS.FakeIPFilter = mergeUniqueStrings(rawCfg.DNS.FakeIPFilter, domains)
+	}
+	return nil
+}
+
+func mergeUniquePrefixes(base []netip.Prefix, additions []netip.Prefix) []netip.Prefix {
+	seen := make(map[string]struct{}, len(base)+len(additions))
+	result := make([]netip.Prefix, 0, len(base)+len(additions))
+	for _, item := range base {
+		key := item.Masked().String()
+		if _, ok := seen[key]; ok {
+			continue
+		}
+		seen[key] = struct{}{}
+		result = append(result, item.Masked())
+	}
+	for _, item := range additions {
+		masked := item.Masked()
+		key := masked.String()
+		if _, ok := seen[key]; ok {
+			continue
+		}
+		seen[key] = struct{}{}
+		result = append(result, masked)
+	}
+	return result
+}
+
+func mergeInterfaceSlice(base interface{}, additions []string) []interface{} {
+	var existing []string
+	switch value := base.(type) {
+	case []interface{}:
+		for _, item := range value {
+			if str, ok := item.(string); ok {
+				existing = append(existing, str)
+			}
+		}
+	case []string:
+		existing = append(existing, value...)
+	}
+	merged := mergeUniqueStrings(existing, additions)
+	result := make([]interface{}, 0, len(merged))
+	for _, item := range merged {
+		result = append(result, item)
+	}
+	return result
+}
+
+func mergePrefixInterfaceSlice(base interface{}, additions []netip.Prefix) []interface{} {
+	var existing []netip.Prefix
+	switch value := base.(type) {
+	case []interface{}:
+		for _, item := range value {
+			if str, ok := item.(string); ok {
+				if prefix, ok := parseEntryAsPrefix(str); ok {
+					existing = append(existing, prefix)
+				}
+			}
+		}
+	case []string:
+		for _, item := range value {
+			if prefix, ok := parseEntryAsPrefix(item); ok {
+				existing = append(existing, prefix)
+			}
+		}
+	case []netip.Prefix:
+		existing = append(existing, value...)
+	}
+	merged := mergeUniquePrefixes(existing, additions)
+	result := make([]interface{}, 0, len(merged))
+	for _, item := range merged {
+		result = append(result, item.String())
+	}
+	return result
 }
 
 //export initClashCore
@@ -192,6 +345,10 @@ func parseDefaultConfigThenStart(checkPort, allowLan, ipv6 bool, proxyPort uint3
 	tunMu.Lock()
 	if tunEnabled {
 		applyTunConfig(rawCfg)
+		if err := applyTunRouteExclusions(rawCfg); err != nil {
+			tunMu.Unlock()
+			return nil, err
+		}
 	}
 	tunMu.Unlock()
 
@@ -454,6 +611,10 @@ func clashSetTunEnabled(enabled bool) *C.char {
 	tunMu.Lock()
 	if tunEnabled {
 		applyTunConfig(rawCfg)
+		if err := applyTunRouteExclusions(rawCfg); err != nil {
+			tunMu.Unlock()
+			return C.CString(err.Error())
+		}
 	} else {
 		rawCfg.Tun.Enable = false
 	}
@@ -525,7 +686,11 @@ func clashResumeCore() *C.char {
 }
 
 //export clashWriteEnhancedConfig
-func clashWriteEnhancedConfig(configPath *C.char, outputPath *C.char) *C.char {
+func clashWriteEnhancedConfig(configPath *C.char, outputPath *C.char, tunRouteExcludeList *C.char) *C.char {
+	excludeRaw := C.GoString(tunRouteExcludeList)
+	tunMu.Lock()
+	tunRouteExcludeRaw = excludeRaw
+	tunMu.Unlock()
 	srcPath := C.GoString(configPath)
 	if srcPath == "" {
 		srcPath = constant.Path.Config()
@@ -550,11 +715,19 @@ func clashWriteEnhancedConfig(configPath *C.char, outputPath *C.char) *C.char {
 		"mtu":                   9000,
 	}
 
+	prefixes, domains, invalid := splitTunRouteExcludeEntries(excludeRaw)
+	if len(invalid) > 0 {
+		return C.CString("error:invalid TUN route exclude entries: " + strings.Join(invalid, ", "))
+	}
+
 	dns, _ := rawMap["dns"].(map[string]interface{})
 	if dns == nil {
 		dns = map[string]interface{}{}
 	}
 	dns["enable"] = true
+	if len(domains) > 0 {
+		dns["fake-ip-filter"] = mergeInterfaceSlice(dns["fake-ip-filter"], domains)
+	}
 	if mode, _ := dns["enhanced-mode"].(string); mode == "" || mode == "normal" {
 		dns["enhanced-mode"] = "fake-ip"
 	}
@@ -574,6 +747,11 @@ func clashWriteEnhancedConfig(configPath *C.char, outputPath *C.char) *C.char {
 		dns["listen"] = "127.0.0.1:11053"
 	}
 	rawMap["dns"] = dns
+	if len(prefixes) > 0 {
+		tunMap, _ := rawMap["tun"].(map[string]interface{})
+		tunMap["route-exclude-address"] = mergePrefixInterfaceSlice(tunMap["route-exclude-address"], prefixes)
+		rawMap["tun"] = tunMap
+	}
 
 	if port, err := freeport.GetFreePort(); err == nil {
 		rawMap["external-controller"] = "127.0.0.1:" + strconv.Itoa(port)

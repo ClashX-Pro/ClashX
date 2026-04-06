@@ -392,13 +392,13 @@
                                         </view>
                                     </box>
                                     <box borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="hnq-VC-kO5">
-                                        <rect key="frame" x="-3" y="-4" width="438" height="209"/>
+                                        <rect key="frame" x="-3" y="-4" width="438" height="374"/>
                                         <view key="contentView" id="Xgo-Uz-aYp">
-                                            <rect key="frame" x="4" y="5" width="430" height="201"/>
+                                            <rect key="frame" x="4" y="5" width="430" height="366"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TVZ-xJ-zK0">
-                                                    <rect key="frame" x="18" y="175" width="394" height="16"/>
+                                                    <rect key="frame" x="18" y="340" width="394" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Bypass proxy settings for these Hosts &amp; Domains" id="NPu-V9-f3r">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -406,7 +406,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VvP-5I-QhW">
-                                                    <rect key="frame" x="18" y="158" width="394" height="13"/>
+                                                    <rect key="frame" x="18" y="323" width="394" height="13"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Separated by commas(,)" id="sfe-wu-UXp">
                                                         <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
                                                         <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -414,7 +414,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfh-gi-qYe">
-                                                    <rect key="frame" x="20" y="50" width="390" height="100"/>
+                                                    <rect key="frame" x="20" y="215" width="390" height="100"/>
                                                     <clipView key="contentView" drawsBackground="NO" id="bzV-Hc-3eJ">
                                                         <rect key="frame" x="0.0" y="0.0" width="390" height="100"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -443,13 +443,68 @@
                                                     </scroller>
                                                 </scrollView>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F3Y-d6-RGr">
-                                                    <rect key="frame" x="348" y="13" width="69" height="32"/>
+                                                    <rect key="frame" x="348" y="178" width="69" height="32"/>
                                                     <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yXh-2Y-aTS">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
                                                         <action selector="actionResetIgnoreList:" target="kma-mp-ncL" id="xXk-FI-d2R"/>
+                                                    </connections>
+                                                </button>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tEr-j2-1mF">
+                                                    <rect key="frame" x="18" y="145" width="394" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="TUN Route Exclude" id="kUu-UW-N0E">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="df0-R2-dv4">
+                                                    <rect key="frame" x="18" y="128" width="394" height="13"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Supports IP/CIDR and domains, separated by commas(,)" id="h4n-Op-f3j">
+                                                        <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
+                                                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wux-VL-vvP">
+                                                    <rect key="frame" x="20" y="20" width="390" height="100"/>
+                                                    <clipView key="contentView" drawsBackground="NO" id="QeS-yP-1jQ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="390" height="100"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="UuX-eK-vWq">
+                                                                <rect key="frame" x="0.0" y="0.0" width="390" height="100"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                <size key="minSize" width="390" height="100"/>
+                                                                <size key="maxSize" width="450" height="10000000"/>
+                                                                <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            </textView>
+                                                        </subviews>
+                                                    </clipView>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="5Y7-rY-qm9"/>
+                                                    </constraints>
+                                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="iSh-VG-D3U">
+                                                        <rect key="frame" x="-100" y="-100" width="225" height="15"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </scroller>
+                                                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="P0A-zU-JpR">
+                                                        <rect key="frame" x="374" y="0.0" width="16" height="100"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </scroller>
+                                                </scrollView>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OlB-aQ-vtL">
+                                                    <rect key="frame" x="348" y="13" width="69" height="32"/>
+                                                    <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZL2-oD-6ol">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="actionResetTunRouteExcludeList:" target="kma-mp-ncL" id="j5U-hF-EeT"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -465,7 +520,18 @@
                                                 <constraint firstAttribute="trailing" secondItem="F3Y-d6-RGr" secondAttribute="trailing" constant="20" symbolic="YES" id="qgc-wk-Aom"/>
                                                 <constraint firstAttribute="trailing" secondItem="vfh-gi-qYe" secondAttribute="trailing" constant="20" symbolic="YES" id="siv-mY-uhW"/>
                                                 <constraint firstItem="vfh-gi-qYe" firstAttribute="leading" secondItem="Xgo-Uz-aYp" secondAttribute="leading" constant="20" symbolic="YES" id="w76-ua-GEo"/>
-                                                <constraint firstAttribute="bottom" secondItem="F3Y-d6-RGr" secondAttribute="bottom" constant="20" symbolic="YES" id="yKg-vb-iw4"/>
+                                                <constraint firstItem="F3Y-d6-RGr" firstAttribute="bottom" secondItem="tEr-j2-1mF" secondAttribute="top" constant="8" id="aRt-QX-pjA"/>
+                                                <constraint firstItem="tEr-j2-1mF" firstAttribute="leading" secondItem="Xgo-Uz-aYp" secondAttribute="leading" constant="20" symbolic="YES" id="gEg-zC-3dk"/>
+                                                <constraint firstAttribute="trailing" secondItem="tEr-j2-1mF" secondAttribute="trailing" constant="20" symbolic="YES" id="jFf-lm-SRf"/>
+                                                <constraint firstItem="df0-R2-dv4" firstAttribute="top" secondItem="tEr-j2-1mF" secondAttribute="bottom" constant="4" id="mAI-d5-Tv8"/>
+                                                <constraint firstItem="df0-R2-dv4" firstAttribute="leading" secondItem="Xgo-Uz-aYp" secondAttribute="leading" constant="20" symbolic="YES" id="mNY-vE-qB1"/>
+                                                <constraint firstAttribute="trailing" secondItem="df0-R2-dv4" secondAttribute="trailing" constant="20" symbolic="YES" id="mvG-5R-Txp"/>
+                                                <constraint firstItem="Wux-VL-vvP" firstAttribute="top" secondItem="df0-R2-dv4" secondAttribute="bottom" constant="8" symbolic="YES" id="n7a-E0-SwM"/>
+                                                <constraint firstItem="Wux-VL-vvP" firstAttribute="leading" secondItem="Xgo-Uz-aYp" secondAttribute="leading" constant="20" symbolic="YES" id="nAw-eS-kUK"/>
+                                                <constraint firstAttribute="trailing" secondItem="Wux-VL-vvP" secondAttribute="trailing" constant="20" symbolic="YES" id="rk9-8N-rml"/>
+                                                <constraint firstItem="OlB-aQ-vtL" firstAttribute="top" secondItem="Wux-VL-vvP" secondAttribute="bottom" constant="10" id="u9K-UQ-rqg"/>
+                                                <constraint firstAttribute="trailing" secondItem="OlB-aQ-vtL" secondAttribute="trailing" constant="20" symbolic="YES" id="v4s-r7-7gX"/>
+                                                <constraint firstAttribute="bottom" secondItem="OlB-aQ-vtL" secondAttribute="bottom" constant="20" symbolic="YES" id="yKg-vb-iw4"/>
                                             </constraints>
                                         </view>
                                     </box>
@@ -507,6 +573,7 @@
                         <outlet property="apiSecretOverrideButton" destination="N0V-ac-Acm" id="n9x-y4-XsR"/>
                         <outlet property="apiSecretTextField" destination="CE4-Aa-FiI" id="po3-LI-T3l"/>
                         <outlet property="ignoreListTextView" destination="JDw-FW-A2o" id="fhs-QW-Ug6"/>
+                        <outlet property="tunRouteExcludeTextView" destination="UuX-eK-vWq" id="iK2-ZL-s3Q"/>
                         <outlet property="ipv6Button" destination="buf-aL-Tkl" id="s3h-2l-ik5"/>
                         <outlet property="launchAtLoginButton" destination="jsq-3u-CRd" id="RnH-Va-nCX"/>
                         <outlet property="proxyPortTextField" destination="mBx-6u-i5v" id="7Af-XU-9Xn"/>

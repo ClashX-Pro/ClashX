@@ -413,14 +413,11 @@ func applyTunConfig(rawCfg *config.RawConfig) {
 func verifyClashConfig(content *C.char) *C.char {
 
 	b := []byte(C.GoString(content))
-	cfg, err := executor.ParseWithBytes(b)
+	_, err := executor.ParseWithBytes(b)
 	if err != nil {
 		return C.CString(err.Error())
 	}
 
-	if len(cfg.Proxies) < 1 {
-		return C.CString("No proxy found in config")
-	}
 	return C.CString("success")
 }
 

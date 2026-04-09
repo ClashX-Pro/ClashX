@@ -1,19 +1,11 @@
-## ClashFX 1.0.7
+## ClashFX 1.0.8
 
-### New Features
+### Bug Fixes
 
-- **TUN route exclusion settings** — Exclude specific IPs, CIDRs, and domains from TUN routing. IPs/CIDRs go to `tun.route-exclude-address`, domains go to `dns.fake-ip-filter`. Includes Chinese localization. by @YangYongAn in #9
-
-### Improvements
-
-- **Remove menu bar separator** — Remove the 1px divider between the tray icon and speed numbers for a cleaner menu bar look. by @ayangweb in #8
+- **Fix remote config import rejecting proxy-provider-only configs** — Configs that use only `proxy-providers` (without inline `proxies`) were incorrectly rejected with "Remote Config Format Error". These configs work fine in other Clash clients. The overly strict proxy count check has been removed, aligning remote config validation with local config loading behavior. Fixes #12
 
 ---
 
-### 新功能
+### Bug 修复
 
-- **TUN 路由排除设置** — 支持将特定 IP、CIDR 和域名排除出 TUN 路由。IP/CIDR 写入 `tun.route-exclude-address`，域名写入 `dns.fake-ip-filter`。包含中文本地化。by @YangYongAn in #9
-
-### 改进
-
-- **移除菜单栏分隔线** — 去掉托盘图标与速度数字之间的 1px 竖线，菜单栏更简洁。by @ayangweb in #8
+- **修复远程配置导入误拒仅含 proxy-providers 的配置** — 仅使用 `proxy-providers`（无内联 `proxies`）的配置会被错误拒绝并显示"格式错误"，但同样的配置在其他 Clash 客户端可正常使用。已移除过于严格的代理数量检查，使远程配置校验与本地加载行为保持一致。修复 #12

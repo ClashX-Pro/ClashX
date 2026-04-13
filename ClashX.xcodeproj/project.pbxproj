@@ -33,6 +33,7 @@
 		4952C3D02117027C004A4FA8 /* ConfigFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4952C3CF2117027C004A4FA8 /* ConfigFileManager.swift */; };
 		495340B020DE5F7200B0D3FF /* StatusItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 495340AF20DE5F7200B0D3FF /* StatusItemView.xib */; };
 		495340B320DE68C300B0D3FF /* StatusItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495340B220DE68C300B0D3FF /* StatusItemView.swift */; };
+		AA0001010000000000000002 /* SpeedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001010000000000000001 /* SpeedTextView.swift */; };
 		495A44D320D267D000888A0A /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495A44D220D267D000888A0A /* LaunchAtLogin.swift */; };
 		495BFB8821919B9800C8779D /* RemoteConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495BFB8721919B9800C8779D /* RemoteConfigManager.swift */; };
 		4960A6DB2136529200B940C9 /* JSBridgeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4960A6DA2136529200B940C9 /* JSBridgeHandler.swift */; };
@@ -191,6 +192,7 @@
 		4952C3CF2117027C004A4FA8 /* ConfigFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFileManager.swift; sourceTree = "<group>"; };
 		495340AF20DE5F7200B0D3FF /* StatusItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StatusItemView.xib; path = ClashX/Views/StatusItem/StatusItemView.xib; sourceTree = SOURCE_ROOT; };
 		495340B220DE68C300B0D3FF /* StatusItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemView.swift; sourceTree = "<group>"; };
+		AA0001010000000000000001 /* SpeedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedTextView.swift; sourceTree = "<group>"; };
 		495A44D220D267D000888A0A /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
 		495BFB8721919B9800C8779D /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
 		4960A6DA2136529200B940C9 /* JSBridgeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBridgeHandler.swift; sourceTree = "<group>"; };
@@ -533,6 +535,7 @@
 			children = (
 				495340AF20DE5F7200B0D3FF /* StatusItemView.xib */,
 				495340B220DE68C300B0D3FF /* StatusItemView.swift */,
+				AA0001010000000000000001 /* SpeedTextView.swift */,
 				49D6A45129AEEC15006487EF /* StatusItemTool.swift */,
 				49D6A45529AEEC55006487EF /* StatusItemViewProtocol.swift */,
 			);
@@ -935,6 +938,7 @@
 				F915A4622366ADEF004840BE /* ClashConnection.swift in Sources */,
 				F977FAAE23669D6400C17F1F /* ConnectionManager.swift in Sources */,
 				495340B320DE68C300B0D3FF /* StatusItemView.swift in Sources */,
+				AA0001010000000000000002 /* SpeedTextView.swift in Sources */,
 				F935B2FC23085515009E4D33 /* SystemProxyManager.swift in Sources */,
 				0AD7506D2A5B9B26001FFBBD /* ConnectionLeftTextCellView.swift in Sources */,
 				495A44D320D267D000888A0A /* LaunchAtLogin.swift in Sources */,
@@ -1210,7 +1214,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = YES;
-				CURRENT_PROJECT_VERSION = 1.123.0;
+				CURRENT_PROJECT_VERSION = 1.125.0;
 				DEVELOPMENT_TEAM = WP562Z93Y4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1232,7 +1236,7 @@
 					"$(PROJECT_DIR)/ClashX/goClash",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 1.123.0;
+				MARKETING_VERSION = 1.125.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.west2online.ClashX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1258,7 +1262,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 1.123.0;
+				CURRENT_PROJECT_VERSION = 1.125.0;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = WP562Z93Y4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1281,7 +1285,7 @@
 					"$(PROJECT_DIR)/ClashX/goClash",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 1.123.0;
+				MARKETING_VERSION = 1.125.0;
 				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				PRODUCT_BUNDLE_IDENTIFIER = com.west2online.ClashX;
 				PRODUCT_NAME = "$(TARGET_NAME)";

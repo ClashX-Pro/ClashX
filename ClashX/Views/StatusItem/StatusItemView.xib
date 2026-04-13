@@ -23,32 +23,6 @@
                 </imageView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="x4I-nn-92U">
                     <rect key="frame" x="38" y="0.0" width="24" height="22"/>
-                    <subviews>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hlw-Vg-wLD">
-                            <rect key="frame" x="-2" y="1" width="28" height="10"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0KB/s" id="Cy5-d1-ldi">
-                                <font key="font" metaFont="system" size="8"/>
-                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                        </textField>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="srp-1R-o7n">
-                            <rect key="frame" x="-2" y="11" width="28" height="10"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0KB/s" id="oCt-YG-3AI">
-                                <font key="font" metaFont="system" size="8"/>
-                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                        </textField>
-                    </subviews>
-                    <constraints>
-                        <constraint firstItem="srp-1R-o7n" firstAttribute="top" secondItem="x4I-nn-92U" secondAttribute="top" constant="1" id="1zQ-0p-x99"/>
-                        <constraint firstAttribute="trailing" secondItem="srp-1R-o7n" secondAttribute="trailing" id="Ijz-ec-WpJ"/>
-                        <constraint firstAttribute="bottom" secondItem="Hlw-Vg-wLD" secondAttribute="bottom" constant="1" id="a9D-MM-89v"/>
-                        <constraint firstItem="Hlw-Vg-wLD" firstAttribute="leading" secondItem="x4I-nn-92U" secondAttribute="leading" id="i79-Gi-Tfm"/>
-                        <constraint firstAttribute="trailing" secondItem="Hlw-Vg-wLD" secondAttribute="trailing" id="maG-ty-KTU"/>
-                        <constraint firstItem="srp-1R-o7n" firstAttribute="leading" secondItem="x4I-nn-92U" secondAttribute="leading" id="pgT-Fj-TYZ"/>
-                    </constraints>
                 </customView>
             </subviews>
             <constraints>
@@ -60,10 +34,8 @@
                 <constraint firstItem="x4I-nn-92U" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="yw8-7n-aCe"/>
             </constraints>
             <connections>
-                <outlet property="downloadSpeedLabel" destination="Hlw-Vg-wLD" id="Cji-Uh-tet"/>
                 <outlet property="imageView" destination="7SZ-08-T0A" id="q3S-JL-4mH"/>
                 <outlet property="speedContainerView" destination="x4I-nn-92U" id="qlv-Jp-oB5"/>
-                <outlet property="uploadSpeedLabel" destination="srp-1R-o7n" id="s4y-hX-VbP"/>
             </connections>
             <point key="canvasLocation" x="28.5" y="98"/>
         </customView>

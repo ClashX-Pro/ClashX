@@ -365,6 +365,7 @@
 
 /* No comment provided by engineer. */
 "Failed to change tray icon" = "Не удалось изменить иконку трея";
+"Failed to reset tray icon" = "Не удалось сбросить иконку трея";
 
 /* No comment provided by engineer. */
 "Drop PNG here" = "Перетащите PNG сюда";
@@ -385,4 +386,4 @@
 "The file could not be loaded as an image." = "Не удалось загрузить файл как изображение.";
 
 /* No comment provided by engineer. */
-"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels." = "Изображение слишком большое (%d×%d). Максимально допустимый размер — %d×%d пикселей.";
+"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels. Recommended size is 36×36 pixels (72×72 for Retina @2x)." = "Изображение слишком большое (%d×%d). Максимально допустимый размер — %d×%d пикселей. Рекомендуемый размер — 36×36 пикселей (72×72 для Retina @2x).";

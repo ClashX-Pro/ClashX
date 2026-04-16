@@ -11,6 +11,7 @@ import AppKit
 enum StatusItemTool {
     static let customImagePath = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clashfx/menuImage.png")
 
+    /// Must be accessed on main thread only.
     static var menuImage: NSImage = loadMenuImage()
 
     static func loadMenuImage() -> NSImage {

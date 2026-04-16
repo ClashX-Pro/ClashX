@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import UniformTypeIdentifiers
 
 class TrayIconPickerView: NSView {
     private let dropZone = NSView()
@@ -131,7 +132,11 @@ class TrayIconPickerView: NSView {
     @objc private func selectImage() {
         let panel = NSOpenPanel()
         panel.title = NSLocalizedString("Select Tray Icon Image", comment: "")
-        panel.allowedFileTypes = ["png"]
+        if #available(macOS 11.0, *) {
+            panel.allowedContentTypes = [.png]
+        } else {
+            panel.allowedFileTypes = ["png"]
+        }
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         panel.canChooseFiles = true
@@ -143,12 +148,21 @@ class TrayIconPickerView: NSView {
     @objc private func resetImage() {
         let destPath = StatusItemTool.customImagePath
         if FileManager.default.fileExists(atPath: destPath) {
-            try? FileManager.default.removeItem(atPath: destPath)
+            do {
+                try FileManager.default.removeItem(atPath: destPath)
+            } catch {
+                let alert = NSAlert()
+                alert.alertStyle = .warning
+                alert.messageText = NSLocalizedString("Failed to reset tray icon", comment: "")
+                alert.informativeText = error.localizedDescription
+                alert.runModal()
+                return
+            }
         }
         reloadIcon()
     }
 
-    private static let maxIconDimension: CGFloat = 128
+    private static let maxIconDimension: CGFloat = 256
 
     private func applyImage(from srcURL: URL) -> Bool {
         guard let image = NSImage(contentsOf: srcURL) else {
@@ -166,7 +180,7 @@ class TrayIconPickerView: NSView {
                 alert.alertStyle = .warning
                 alert.messageText = NSLocalizedString("Failed to change tray icon", comment: "")
                 alert.informativeText = String(
-                    format: NSLocalizedString("Image is too large (%d×%d). Maximum allowed size is %d×%d pixels.", comment: ""),
+                    format: NSLocalizedString("Image is too large (%d×%d). Maximum allowed size is %d×%d pixels. Recommended size is 36×36 pixels (72×72 for Retina @2x).", comment: ""),
                     Int(pixelSize.width), Int(pixelSize.height),
                     Int(TrayIconPickerView.maxIconDimension), Int(TrayIconPickerView.maxIconDimension)
                 )

@@ -402,6 +402,7 @@
 
 /* No comment provided by engineer. */
 "Failed to change tray icon" = "更换托盘图标失败";
+"Failed to reset tray icon" = "重置托盘图标失败";
 
 /* No comment provided by engineer. */
 "Drop PNG here" = "拖入 PNG 图片";
@@ -422,4 +423,4 @@
 "The file could not be loaded as an image." = "无法将该文件加载为图片。";
 
 /* No comment provided by engineer. */
-"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels." = "图片尺寸过大（%d×%d）。最大允许尺寸为 %d×%d 像素。";
+"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels. Recommended size is 36×36 pixels (72×72 for Retina @2x)." = "图片尺寸过大（%d×%d）。最大允许尺寸为 %d×%d 像素。推荐尺寸为 36×36 像素（Retina @2x 为 72×72）。";

@@ -365,6 +365,7 @@
 
 /* No comment provided by engineer. */
 "Failed to change tray icon" = "Failed to change tray icon";
+"Failed to reset tray icon" = "Failed to reset tray icon";
 
 /* No comment provided by engineer. */
 "Drop PNG here" = "Drop PNG here";
@@ -385,4 +386,4 @@
 "The file could not be loaded as an image." = "The file could not be loaded as an image.";
 
 /* No comment provided by engineer. */
-"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels." = "Image is too large (%d×%d). Maximum allowed size is %d×%d pixels.";
+"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels. Recommended size is 36×36 pixels (72×72 for Retina @2x)." = "Image is too large (%d×%d). Maximum allowed size is %d×%d pixels. Recommended size is 36×36 pixels (72×72 for Retina @2x).";

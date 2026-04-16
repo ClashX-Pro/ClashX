@@ -365,6 +365,7 @@
 
 /* No comment provided by engineer. */
 "Failed to change tray icon" = "更換選單列圖像失敗";
+"Failed to reset tray icon" = "重置選單列圖像失敗";
 
 /* No comment provided by engineer. */
 "Drop PNG here" = "拖入 PNG 圖片";
@@ -385,4 +386,4 @@
 "The file could not be loaded as an image." = "無法將該檔案載入為圖片。";
 
 /* No comment provided by engineer. */
-"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels." = "圖片尺寸過大（%d×%d）。最大允許尺寸為 %d×%d 像素。";
+"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels. Recommended size is 36×36 pixels (72×72 for Retina @2x)." = "圖片尺寸過大（%d×%d）。最大允許尺寸為 %d×%d 像素。推薦尺寸為 36×36 像素（Retina @2x 為 72×72）。";

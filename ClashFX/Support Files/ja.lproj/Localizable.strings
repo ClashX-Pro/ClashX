@@ -365,6 +365,7 @@
 
 /* No comment provided by engineer. */
 "Failed to change tray icon" = "トレイアイコンの変更に失敗しました";
+"Failed to reset tray icon" = "トレイアイコンのリセットに失敗しました";
 
 /* No comment provided by engineer. */
 "Drop PNG here" = "PNGをドロップ";
@@ -385,4 +386,4 @@
 "The file could not be loaded as an image." = "ファイルを画像として読み込めませんでした。";
 
 /* No comment provided by engineer. */
-"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels." = "画像が大きすぎます（%d×%d）。最大許容サイズは %d×%d ピクセルです。";
+"Image is too large (%d×%d). Maximum allowed size is %d×%d pixels. Recommended size is 36×36 pixels (72×72 for Retina @2x)." = "画像が大きすぎます（%d×%d）。最大許容サイズは %d×%d ピクセルです。推奨サイズは 36×36 ピクセル（Retina @2x の場合は 72×72）です。";

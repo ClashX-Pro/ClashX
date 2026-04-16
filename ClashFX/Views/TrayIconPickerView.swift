@@ -89,11 +89,13 @@ class TrayIconPickerView: NSView {
             bottomAnchor.constraint(equalTo: dropZone.bottomAnchor),
         ])
 
-        updateResetButtonVisibility()
+        updateIconPreview()
     }
 
-    private func updateResetButtonVisibility() {
-        resetButton.isHidden = !FileManager.default.fileExists(atPath: StatusItemTool.customImagePath)
+    private func updateIconPreview() {
+        let hasCustom = FileManager.default.fileExists(atPath: StatusItemTool.customImagePath)
+        placeholderLabel.isHidden = hasCustom
+        resetButton.isHidden = !hasCustom
     }
 
     // MARK: - Drag and Drop
@@ -157,21 +159,20 @@ class TrayIconPickerView: NSView {
             return false
         }
 
-        let pixelSize = image.representations.first.map {
-            NSSize(width: $0.pixelsWide, height: $0.pixelsHigh)
-        } ?? image.size
-
-        if pixelSize.width > TrayIconPickerView.maxIconDimension || pixelSize.height > TrayIconPickerView.maxIconDimension {
-            let alert = NSAlert()
-            alert.alertStyle = .warning
-            alert.messageText = NSLocalizedString("Failed to change tray icon", comment: "")
-            alert.informativeText = String(
-                format: NSLocalizedString("Image is too large (%d×%d). Maximum allowed size is %d×%d pixels.", comment: ""),
-                Int(pixelSize.width), Int(pixelSize.height),
-                Int(TrayIconPickerView.maxIconDimension), Int(TrayIconPickerView.maxIconDimension)
-            )
-            alert.runModal()
-            return false
+        if let rep = image.representations.first {
+            let pixelSize = NSSize(width: rep.pixelsWide, height: rep.pixelsHigh)
+            if pixelSize.width > TrayIconPickerView.maxIconDimension || pixelSize.height > TrayIconPickerView.maxIconDimension {
+                let alert = NSAlert()
+                alert.alertStyle = .warning
+                alert.messageText = NSLocalizedString("Failed to change tray icon", comment: "")
+                alert.informativeText = String(
+                    format: NSLocalizedString("Image is too large (%d×%d). Maximum allowed size is %d×%d pixels.", comment: ""),
+                    Int(pixelSize.width), Int(pixelSize.height),
+                    Int(TrayIconPickerView.maxIconDimension), Int(TrayIconPickerView.maxIconDimension)
+                )
+                alert.runModal()
+                return false
+            }
         }
 
         let destPath = StatusItemTool.customImagePath
@@ -203,6 +204,6 @@ class TrayIconPickerView: NSView {
             view.imageView.image = StatusItemTool.menuImage
         }
 
-        updateResetButtonVisibility()
+        updateIconPreview()
     }
 }

@@ -43,6 +43,6 @@ class AppearanceSettingViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("Appearance", comment: "")
-        preferredContentSize = NSSize(width: 400, height: 120)
+        preferredContentSize = NSSize(width: 400, height: 160)
     }
 }

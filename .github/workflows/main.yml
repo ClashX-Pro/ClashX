@@ -281,6 +281,7 @@ jobs:
       run: |
         tag=${GITHUB_REF##*/}
         DATE=$(date -u +%Y-%m-%d)
+        NOTES=$(head -50 release_notes.md | jq -Rs .)
 
         # Extract short descriptions and change type from release notes
         CHANGE_TYPE="fix"
@@ -303,6 +304,7 @@ jobs:
           --arg change_type "$CHANGE_TYPE" \
           --arg desc_en "$DESC_EN" \
           --arg desc_zh "$DESC_ZH" \
+          --argjson notes "$NOTES" \
           '{
             event_type: "clashx-release",
             client_payload: {
@@ -312,6 +314,7 @@ jobs:
               change_type: $change_type,
               desc_en: $desc_en,
               desc_zh: $desc_zh,
+              release_notes: $notes,
               download_url: "https://github.com/ClashX-Pro/ClashX/releases/download/\($version)/ClashX.dmg"
             }
           }')

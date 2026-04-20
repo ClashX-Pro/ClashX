@@ -291,8 +291,15 @@ jobs:
           if grep -q "New Features" release_notes.md; then
             CHANGE_TYPE="feat"
           fi
-          DESC_EN=$(sed -n 's/^- \*\*\(.*\)\*\*$/\1/p' release_notes.md | head -1)
-          DESC_ZH=$(grep -A2 "^\- \*\*" release_notes.md | grep "^  [^A-Za-z]" | head -1 | sed 's/^  //')
+          DESC_EN=$(awk '
+            /^---/ { exit }
+            /^  / { sub(/^  /, ""); print; exit }
+          ' release_notes.md)
+          DESC_ZH=$(awk '
+            /^### .*问题修复|^### .*新功能/ { in_zh = 1; next }
+            /^---/ && in_zh { exit }
+            in_zh && /^  / { sub(/^  /, ""); print; exit }
+          ' release_notes.md)
         fi
         DESC_EN=${DESC_EN:-"See release notes on GitHub"}
         DESC_ZH=${DESC_ZH:-"详见 GitHub Release Notes"}

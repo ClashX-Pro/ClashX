@@ -200,12 +200,21 @@ jobs:
     #     version=$appversion.$branch
     #     bundle exec fastlane run appcenter_upload version:${version} build_number:${buildVersion}
 
+    - name: generate release notes
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        tag=${GITHUB_REF##*/}
+        python3 scripts/generate_release_notes.py "$tag" release_notes.md
+        echo "Generated release notes:"
+        cat release_notes.md
+
     - name: upload build to github
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        body_path: release_notes.md
         files: |
             ClashX.app.dSYM.zip
             ClashX.dmg
@@ -273,16 +282,36 @@ jobs:
         tag=${GITHUB_REF##*/}
         DATE=$(date -u +%Y-%m-%d)
 
+        # Extract short descriptions and change type from release notes
+        CHANGE_TYPE="fix"
+        DESC_EN=""
+        DESC_ZH=""
+        if [ -f release_notes.md ]; then
+          if grep -q "New Features" release_notes.md; then
+            CHANGE_TYPE="feat"
+          fi
+          DESC_EN=$(sed -n 's/^- \*\*\(.*\)\*\*$/\1/p' release_notes.md | head -1)
+          DESC_ZH=$(grep -A2 "^\- \*\*" release_notes.md | grep "^  [^A-Za-z]" | head -1 | sed 's/^  //')
+        fi
+        DESC_EN=${DESC_EN:-"See release notes on GitHub"}
+        DESC_ZH=${DESC_ZH:-"详见 GitHub Release Notes"}
+
         PAYLOAD=$(jq -n \
           --arg version "$tag" \
           --arg date "$DATE" \
           --arg product "clashx" \
+          --arg change_type "$CHANGE_TYPE" \
+          --arg desc_en "$DESC_EN" \
+          --arg desc_zh "$DESC_ZH" \
           '{
             event_type: "clashx-release",
             client_payload: {
               product: $product,
               version: $version,
               date: $date,
+              change_type: $change_type,
+              desc_en: $desc_en,
+              desc_zh: $desc_zh,
               download_url: "https://github.com/ClashX-Pro/ClashX/releases/download/\($version)/ClashX.dmg"
             }
           }')

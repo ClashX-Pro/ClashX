@@ -252,6 +252,8 @@ class RemoteConfigManager {
             proxies: ["Auto", \(proxyList)]
 
         rules:
+          - GEOIP,private,DIRECT
+          - GEOIP,CN,DIRECT
           - MATCH,Proxy
         """
     }

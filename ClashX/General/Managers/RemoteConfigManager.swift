@@ -183,11 +183,139 @@ class RemoteConfigManager {
             .replacingOccurrences(of: "_", with: "/")
         let padded = base64Cleaned.padding(toLength: ((base64Cleaned.count + 3) / 4) * 4, withPad: "=", startingAt: 0)
         guard let data = Data(base64Encoded: padded, options: .ignoreUnknownCharacters),
-              let decoded = String(data: data, encoding: .utf8),
-              decoded.contains("proxies:") || decoded.contains("proxy-groups:") || decoded.contains("port:") || decoded.contains("mixed-port:") else {
+              let decoded = String(data: data, encoding: .utf8) else {
+            return nil
+        }
+
+        if decoded.contains("proxies:") || decoded.contains("proxy-groups:") || decoded.contains("port:") || decoded.contains("mixed-port:") {
+            return decoded
+        }
+
+        if let generated = buildConfigFromShareLinks(decoded) {
+            return generated
+        }
+
+        return decoded
+    }
+
+    private static func buildConfigFromShareLinks(_ decoded: String) -> String? {
+        let lines = decoded
+            .split(whereSeparator: \.isNewline)
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+
+        guard !lines.isEmpty else { return nil }
+
+        var proxies: [String] = []
+        var names: [String] = []
+
+        for line in lines {
+            guard let proxy = parseSSShareLink(line) else {
+                return nil
+            }
+            proxies.append(proxy.yaml)
+            names.append("\"\(escapeYAML(proxy.name))\"")
+        }
+
+        return """
+        mode: rule
+        log-level: info
+
+        proxies:
+        \(proxies.joined(separator: "\n"))
+
+        proxy-groups:
+          - name: \"Proxy\"
+            type: select
+            proxies: [\(names.joined(separator: ", "))]
+
+        rules:
+          - MATCH,Proxy
+        """
+    }
+
+    private struct ParsedSSProxy {
+        let name: String
+        let server: String
+        let port: Int
+        let cipher: String
+        let password: String
+
+        var yaml: String {
+            """
+              - name: \"\(RemoteConfigManager.escapeYAML(name))\"
+                type: ss
+                server: \"\(RemoteConfigManager.escapeYAML(server))\"
+                port: \(port)
+                cipher: \"\(RemoteConfigManager.escapeYAML(cipher))\"
+                password: \"\(RemoteConfigManager.escapeYAML(password))\"
+                udp: true
+            """
+        }
+    }
+
+    private static func parseSSShareLink(_ line: String) -> ParsedSSProxy? {
+        guard line.hasPrefix("ss://") else { return nil }
+
+        let raw = String(line.dropFirst(5))
+        let fragmentSplit = raw.split(separator: "#", maxSplits: 1, omittingEmptySubsequences: false)
+        let body = String(fragmentSplit[0])
+        let name = fragmentSplit.count > 1 ? (fragmentSplit[1].removingPercentEncoding ?? String(fragmentSplit[1])) : "Proxy"
+
+        let queryless = body.split(separator: "?", maxSplits: 1, omittingEmptySubsequences: false)
+        let main = String(queryless[0])
+
+        let userAndHost: String
+        if main.contains("@") {
+            userAndHost = main
+        } else if let decoded = decodeBase64ToString(main), decoded.contains("@") {
+            userAndHost = decoded
+        } else {
+            return nil
+        }
+
+        let parts = userAndHost.split(separator: "@", maxSplits: 1, omittingEmptySubsequences: false)
+        guard parts.count == 2 else { return nil }
+
+        let userInfo = String(parts[0])
+        let hostPort = String(parts[1])
+
+        let methodAndPassword: String
+        if userInfo.contains(":") {
+            methodAndPassword = userInfo
+        } else if let decoded = decodeBase64ToString(userInfo), decoded.contains(":") {
+            methodAndPassword = decoded
+        } else {
+            return nil
+        }
+
+        let mp = methodAndPassword.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: false)
+        guard mp.count == 2 else { return nil }
+        let cipher = String(mp[0])
+        let password = String(mp[1])
+
+        let hp = hostPort.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: false)
+        guard hp.count == 2, let port = Int(hp[1]) else { return nil }
+
+        return ParsedSSProxy(name: name, server: String(hp[0]), port: port, cipher: cipher, password: password)
+    }
+
+    private static func decodeBase64ToString(_ string: String) -> String? {
+        let base64Cleaned = string
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        let padded = base64Cleaned.padding(toLength: ((base64Cleaned.count + 3) / 4) * 4, withPad: "=", startingAt: 0)
+        guard let data = Data(base64Encoded: padded, options: .ignoreUnknownCharacters),
+              let decoded = String(data: data, encoding: .utf8) else {
             return nil
         }
         return decoded
+    }
+
+    private static func escapeYAML(_ string: String) -> String {
+        string
+            .replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
     }
 
     static func updateConfig(config: RemoteConfigModel, complete: ((String?) -> Void)? = nil) {

@@ -11,6 +11,7 @@ env:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build:
@@ -271,28 +272,12 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         TAG=${GITHUB_REF##*/}
-        BRANCH="ci/appcast-${TAG}"
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git checkout -b "$BRANCH"
         git add docs/appcast.xml
         git commit -m "release: update appcast.xml for v${TAG} [skip ci]"
-        git push origin "$BRANCH"
-        # Open a PR and immediately auto-merge it as admin
-        PR_URL=$(gh pr create \
-          --repo "$GITHUB_REPOSITORY" \
-          --title "release: update appcast.xml for v${TAG}" \
-          --body "Automated appcast update for release v${TAG}." \
-          --base master \
-          --head "$BRANCH")
-        echo "PR created: $PR_URL"
-        PR_NUM=$(echo "$PR_URL" | grep -o '[0-9]*$')
-        gh pr merge "$PR_NUM" \
-          --repo "$GITHUB_REPOSITORY" \
-          --squash \
-          --admin \
-          --subject "release: update appcast.xml for v${TAG} [skip ci]"
-        echo "Appcast PR merged successfully"
+        git push origin HEAD:master
+        echo "Appcast updated successfully"
 
     - name: notify website repos
       if: startsWith(github.ref, 'refs/tags/')

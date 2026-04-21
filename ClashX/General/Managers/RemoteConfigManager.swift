@@ -210,12 +210,28 @@ class RemoteConfigManager {
         var names: [String] = []
 
         for line in lines {
-            guard let proxy = parseSSShareLink(line) else {
-                return nil
+            // Some subscriptions double-encode each URI: try base64-decoding
+            // lines that don't start with a known scheme.
+            let candidate: String
+            let knownSchemes = ["ss://", "vmess://", "trojan://", "vless://", "hysteria://", "hysteria2://"]
+            if knownSchemes.contains(where: { line.hasPrefix($0) }) {
+                candidate = line
+            } else if let innerDecoded = decodeBase64ToString(line),
+                      knownSchemes.contains(where: { innerDecoded.hasPrefix($0) }) {
+                candidate = innerDecoded
+            } else {
+                continue
+            }
+
+            guard let proxy = parseSSShareLink(candidate) else {
+                // Skip unsupported protocols (vmess, trojan, etc.) silently.
+                continue
             }
             proxies.append(proxy.yaml)
             names.append("\"\(escapeYAML(proxy.name))\"")
         }
+
+        guard !proxies.isEmpty else { return nil }
 
         return """
         mode: rule

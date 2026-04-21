@@ -30,6 +30,16 @@ class SpeedTextView: NSView {
         needsDisplay = true
     }
 
+    override func layout() {
+        super.layout()
+        // Auto Layout may resolve bounds after the initial draw call (which
+        // would have had zero-height bounds). Re-trigger drawing whenever
+        // the layout changes so the text is visible after first layout pass.
+        if bounds.height > 0 {
+            needsDisplay = true
+        }
+    }
+
     override func draw(_ dirtyRect: NSRect) {
         let font = StatusItemTool.font
         let attrs: [NSAttributedString.Key: Any] = [

@@ -11,13 +11,18 @@ import Cocoa
 class SettingTabViewController: NSTabViewController, NibLoadable {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabStyle = .toolbar
-        // Set SF Symbol images in code — storyboard catalog images render as
-        // black squares in NSTabViewController toolbar style on macOS 15+.
-        if #available(macOS 11, *) {
-            let symbols = ["gearshape", "keyboard", "hammer"]
-            for (idx, item) in tabViewItems.enumerated() where idx < symbols.count {
-                item.image = NSImage(systemSymbolName: symbols[idx], accessibilityDescription: nil)
+        if #available(macOS 15, *) {
+            // NSTabViewController .toolbar style renders as a large gray block
+            // on macOS 15 Sequoia — the toolbar layout changed significantly.
+            // Fall back to segmentedControlOnTop which renders cleanly.
+            tabStyle = .segmentedControlOnTop
+        } else {
+            tabStyle = .toolbar
+            if #available(macOS 11, *) {
+                let symbols = ["gearshape", "keyboard", "hammer"]
+                for (idx, item) in tabViewItems.enumerated() where idx < symbols.count {
+                    item.image = NSImage(systemSymbolName: symbols[idx], accessibilityDescription: nil)
+                }
             }
         }
         NSApp.activate(ignoringOtherApps: true)

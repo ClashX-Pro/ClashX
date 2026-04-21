@@ -6,6 +6,24 @@
     <description>Most recent ClashX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.129.0</title>
+  <description><![CDATA[
+    <h2>ClashX v1.129.0</h2><p>See release notes on GitHub.</p>
+  ]]></description>
+  <pubDate>Tue, 21 Apr 2026 07:28:16 +0000</pubDate>
+  <sparkle:version>1.129.0</sparkle:version>
+  <sparkle:shortVersionString>1.129.0</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/ClashX-Pro/ClashX/releases/download/1.129.0/ClashX.dmg"
+    sparkle:version="1.129.0"
+    sparkle:shortVersionString="1.129.0"
+    sparkle:edSignature="2/zMAFzB7VH2qeAt76B4LqzQ/mArCziHMsvo/uOkJJl6NXr0jCsYfq2jxKc7JsN7A2uHE0zHoJypx+fF9k28DA=="
+    length="46613303"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.128.0</title>
   <description><![CDATA[
     <h2>ClashX v1.128.0</h2><p>See release notes on GitHub.</p>

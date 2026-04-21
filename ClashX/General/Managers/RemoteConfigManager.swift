@@ -233,6 +233,7 @@ class RemoteConfigManager {
 
         guard !proxies.isEmpty else { return nil }
 
+        let proxyList = names.joined(separator: ", ")
         return """
         mode: rule
         log-level: info
@@ -241,9 +242,14 @@ class RemoteConfigManager {
         \(proxies.joined(separator: "\n"))
 
         proxy-groups:
-          - name: \"Proxy\"
+          - name: "Auto"
+            type: url-test
+            proxies: [\(proxyList)]
+            url: "http://cp.cloudflare.com/generate_204"
+            interval: 300
+          - name: "Proxy"
             type: select
-            proxies: [\(names.joined(separator: ", "))]
+            proxies: ["Auto", \(proxyList)]
 
         rules:
           - MATCH,Proxy

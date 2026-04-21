@@ -52,6 +52,22 @@ CN_VERBS = {
 }
 
 CN_TERMS = [
+    ("go bridge", "Go 桥接层"),
+    ("dreamacro/clash", "Dreamacro/clash"),
+    ("mihomo", "mihomo"),
+    ("ss-2022", "SS-2022"),
+    ("shadowsocks-2022", "SS-2022"),
+    ("cipher not supported", "不支持的加密算法"),
+    ("cipher", "加密算法"),
+    ("config home dir", "配置目录"),
+    ("home dir", "配置目录"),
+    ("home directory", "配置目录"),
+    ("config directory", "配置目录"),
+    ("no such file or directory", "找不到文件"),
+    ("backward compatibility", "向后兼容"),
+    ("subscribe", "订阅"),
+    ("subscription import", "订阅导入"),
+    ("user-agent", "User-Agent"),
     ("high cpu usage", "高 CPU 占用"),
     ("high cpu", "高 CPU 占用"),
     ("cpu usage", "CPU 占用"),

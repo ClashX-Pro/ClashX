@@ -72,6 +72,10 @@ func checkPortAvailable(port int) bool {
 
 //export initClashCore
 func initClashCore() {
+	// Keep config directory at ~/.config/clash/ for backward compatibility.
+	// mihomo defaults to ~/.config/mihomo/ which would break existing user configs.
+	homeDir, _ := os.UserHomeDir()
+	constant.SetHomeDir(filepath.Join(homeDir, ".config", "clash"))
 	configFile := filepath.Join(constant.Path.HomeDir(), constant.Path.Config())
 	constant.SetConfig(configFile)
 }

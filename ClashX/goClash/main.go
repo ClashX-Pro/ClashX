@@ -12,7 +12,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"os"
 	"path/filepath"
@@ -21,14 +20,13 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/Dreamacro/clash/component/mmdb"
-	"github.com/Dreamacro/clash/config"
-	"github.com/Dreamacro/clash/constant"
-	"github.com/Dreamacro/clash/hub/executor"
-	"github.com/Dreamacro/clash/hub/route"
-	"github.com/Dreamacro/clash/log"
-	"github.com/Dreamacro/clash/tunnel/statistic"
-	"github.com/oschwald/geoip2-golang"
+	"github.com/metacubex/mihomo/component/mmdb"
+	"github.com/metacubex/mihomo/config"
+	"github.com/metacubex/mihomo/constant"
+	"github.com/metacubex/mihomo/hub/executor"
+	"github.com/metacubex/mihomo/hub/route"
+	"github.com/metacubex/mihomo/log"
+	"github.com/metacubex/mihomo/tunnel/statistic"
 	"github.com/phayes/freeport"
 )
 
@@ -82,7 +80,7 @@ func readConfig(path string) ([]byte, error) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return nil, err
 	}
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +166,10 @@ func parseDefaultConfigThenStart(checkPort, allowLan, ipv6 bool, proxyPort uint3
 	if err != nil {
 		return nil, err
 	}
-	go route.Start(cfg.General.ExternalController, cfg.General.Secret)
+	go route.ReCreateServer(&route.Config{
+		Addr:   cfg.Controller.ExternalController,
+		Secret: cfg.Controller.Secret,
+	})
 	executor.ApplyConfig(cfg, true)
 	return cfg, nil
 }
@@ -193,9 +194,8 @@ func clashSetupLogger() {
 	sub := log.Subscribe()
 	go func() {
 		for elm := range sub {
-			log := elm.(log.Event)
-			cs := C.CString(log.Payload)
-			cl := C.CString(log.Type())
+			cs := C.CString(elm.Payload)
+			cl := C.CString(elm.Type())
 			C.sendLogToUI(cs, cl)
 			C.free(unsafe.Pointer(cs))
 			C.free(unsafe.Pointer(cl))
@@ -243,8 +243,8 @@ func run(checkConfig, allowLan, ipv6 bool, portOverride uint32, externalControll
 	}
 
 	portInfo := map[string]string{
-		"externalController": cfg.General.ExternalController,
-		"secret":             cfg.General.Secret,
+		"externalController": cfg.Controller.ExternalController,
+		"secret":             cfg.Controller.Secret,
 	}
 
 	jsonString, err := json.Marshal(portInfo)
@@ -302,35 +302,24 @@ func clashGetConfigs() *C.char {
 
 //export verifyGEOIPDataBase
 func verifyGEOIPDataBase() bool {
-	mmdb, err := geoip2.Open(constant.Path.MMDB())
-	if err != nil {
-		log.Warnln("mmdb fail:%s", err.Error())
-		return false
-	}
-
-	_, err = mmdb.Country(net.ParseIP("114.114.114.114"))
-	if err != nil {
-		log.Warnln("mmdb lookup fail:%s", err.Error())
-		return false
-	}
-	return true
+	return mmdb.Verify(constant.Path.MMDB())
 }
 
 //export clash_getCountryForIp
 func clash_getCountryForIp(ip *C.char) *C.char {
-	record, _ := mmdb.Instance().Country(net.ParseIP(C.GoString(ip)))
-	if record != nil {
-		return C.CString(record.Country.IsoCode)
+	codes := mmdb.IPInstance().LookupCode(net.ParseIP(C.GoString(ip)))
+	if len(codes) > 0 {
+		return C.CString(codes[0])
 	}
 	return C.CString("")
 }
 
 //export clash_closeAllConnections
 func clash_closeAllConnections() {
-	snapshot := statistic.DefaultManager.Snapshot()
-	for _, c := range snapshot.Connections {
+	statistic.DefaultManager.Range(func(c statistic.Tracker) bool {
 		c.Close()
-	}
+		return true
+	})
 }
 
 //export clash_getProggressInfo

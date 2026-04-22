@@ -37,7 +37,10 @@ class SpeedTextView: NSView {
     }
 
     private func commonInit() {
-        guard useLegacyLabels else { return }
+        guard useLegacyLabels else {
+            wantsLayer = true
+            return
+        }
 
         let up = Self.makeLegacyLabel()
         let down = Self.makeLegacyLabel()

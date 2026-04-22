@@ -58,8 +58,10 @@ class StatusItemView: NSView, StatusItemViewProtocol {
             speedTextView.leadingAnchor.constraint(equalTo: speedContainerView.leadingAnchor),
             speedTextView.trailingAnchor.constraint(equalTo: speedContainerView.trailingAnchor),
             speedTextView.topAnchor.constraint(equalTo: speedContainerView.topAnchor),
-            speedTextView.bottomAnchor.constraint(equalTo: speedContainerView.bottomAnchor),
+            speedTextView.bottomAnchor.constraint(equalTo: speedContainerView.bottomAnchor)
         ])
+
+        updateSpeedLabel(up: 0, down: 0)
     }
 
     func updateSize(width: CGFloat) {
@@ -96,6 +98,10 @@ class StatusItemView: NSView, StatusItemViewProtocol {
 
     func showSpeedContainer(show: Bool) {
         speedContainerView.isHidden = !show
+        if show {
+            updateDynamicWidth()
+            speedTextView.needsDisplay = true
+        }
     }
 
     private func updateDynamicWidth() {

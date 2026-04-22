@@ -16,8 +16,13 @@ class SettingTabViewController: NSTabViewController, NibLoadable {
             // on macOS 15 Sequoia — the toolbar layout changed significantly.
             // Fall back to segmentedControlOnTop which renders cleanly.
             tabStyle = .segmentedControlOnTop
-        } else {
+        } else if #available(macOS 11, *) {
             tabStyle = .toolbar
+        } else {
+            // Catalina does not have SF Symbols and the generated bitmap fallback
+            // images render blurry/cramped in toolbar-style tabs. Use segmented tabs
+            // with text glyphs instead for a sharper, more consistent layout.
+            tabStyle = .segmentedControlOnTop
         }
         configureTabIcons()
         NSApp.activate(ignoringOtherApps: true)
@@ -25,34 +30,17 @@ class SettingTabViewController: NSTabViewController, NibLoadable {
 
     private func configureTabIcons() {
         let symbolNames = ["gearshape", "keyboard", "hammer"]
-        let fallbackGlyphs = ["⚙︎", "⌨︎", "🔨"]
+        let fallbackGlyphs = ["⚙︎", "⌨︎", "⚒︎"]
 
         for (idx, item) in tabViewItems.enumerated() where idx < min(symbolNames.count, fallbackGlyphs.count) {
+            let originalLabel = item.label
             if #available(macOS 11, *), let image = NSImage(systemSymbolName: symbolNames[idx], accessibilityDescription: nil) {
                 item.image = image
+                item.label = originalLabel
             } else {
-                item.image = makeFallbackIcon(glyph: fallbackGlyphs[idx])
+                item.image = nil
+                item.label = "\(fallbackGlyphs[idx]) \(originalLabel)"
             }
         }
-    }
-
-    private func makeFallbackIcon(glyph: String) -> NSImage {
-        let size = NSSize(width: 18, height: 18)
-        let image = NSImage(size: size)
-        image.lockFocus()
-        defer { image.unlockFocus() }
-
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = .center
-        let attrs: [NSAttributedString.Key: Any] = [
-            .font: NSFont.systemFont(ofSize: 13, weight: .regular),
-            .foregroundColor: NSColor.labelColor,
-            .paragraphStyle: paragraph
-        ]
-
-        let rect = NSRect(x: 0, y: 1, width: size.width, height: size.height)
-        (glyph as NSString).draw(in: rect, withAttributes: attrs)
-        image.isTemplate = true
-        return image
     }
 }

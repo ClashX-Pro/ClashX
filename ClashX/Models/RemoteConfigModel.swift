@@ -14,6 +14,8 @@ class RemoteConfigModel: Codable {
     var updateTime: Date?
     var updating = false
     var isPlaceHolderName = false
+    var generatedByShareLinks = false
+    var generatedTemplateVersion: Int?
 
     init(url: String, name: String, updateTime: Date? = nil) {
         self.url = url
@@ -22,7 +24,7 @@ class RemoteConfigModel: Codable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case url, name, updateTime
+        case url, name, updateTime, generatedByShareLinks, generatedTemplateVersion
     }
 
     func displayingTimeString() -> String {

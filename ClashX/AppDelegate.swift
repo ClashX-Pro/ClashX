@@ -151,6 +151,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // start watch config file change
         ConfigManager.watchCurrentConfigFile()
 
+        RemoteConfigManager.shared.migrateLegacyGeneratedRemoteConfigsIfNeeded()
+
         RemoteConfigManager.shared.autoUpdateCheck()
 
         setupNetworkNotifier()

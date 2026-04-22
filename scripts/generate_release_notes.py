@@ -337,6 +337,8 @@ def first_paragraph(body):
     lines = []
     for line in body.split("\n"):
         stripped = line.strip()
+        if "Ultraworked with" in stripped or "Sisyphus" in stripped:
+            continue
         if stripped.startswith("- ") or stripped.startswith("* "):
             break
         if stripped.startswith("Closes #") or stripped.startswith("Made-with:"):

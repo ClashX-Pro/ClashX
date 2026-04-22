@@ -305,74 +305,22 @@ jobs:
       run: |
         tag=${GITHUB_REF##*/}
         DATE=$(date -u +%Y-%m-%d)
-        NOTES=$(python3 - <<'PYEOF'
-        import json
-        from pathlib import Path
-        p = Path("release_notes.md")
-        text = p.read_text(encoding="utf-8") if p.exists() else ""
-        print(json.dumps("\n".join(text.splitlines()[:80])))
-        PYEOF
-        )
+        NOTES=$(python3 -c 'import json, pathlib; p = pathlib.Path("release_notes.md"); text = p.read_text(encoding="utf-8") if p.exists() else ""; print(json.dumps("\\n".join(text.splitlines()[:80])))')
 
         # Build website summary from the previous stable tag to match history card version.
         CHANGE_TYPE="fix"
         DESC_EN=""
         DESC_ZH=""
-        PREV_TAG=$(python3 - "$tag" <<'PYEOF'
-        import subprocess
-        import sys
-
-        current = sys.argv[1]
-        out = subprocess.check_output(
-            ["git", "tag", "--sort=-version:refname"], text=True
-        )
-        tags = [t.strip() for t in out.splitlines() if t.strip()]
-        prev = ""
-        for i, t in enumerate(tags):
-            if t == current and i + 1 < len(tags):
-                prev = tags[i + 1]
-                break
-        print(prev)
-        PYEOF
-        )
+        PREV_TAG=$(python3 -c 'import subprocess, sys; current = sys.argv[1]; out = subprocess.check_output(["git", "tag", "--sort=-version:refname"], text=True); tags = [t.strip() for t in out.splitlines() if t.strip()]; print(next((tags[i + 1] for i, t in enumerate(tags) if t == current and i + 1 < len(tags)), ""))' "$tag")
 
         if [ -n "$PREV_TAG" ]; then
           python3 scripts/generate_release_notes.py "$PREV_TAG" website_prev_release_notes.md || true
         fi
 
         if [ -f website_prev_release_notes.md ]; then
-          CHANGE_TYPE=$(python3 <<'PYEOF'
-          from pathlib import Path
-          text = Path("website_prev_release_notes.md").read_text(encoding="utf-8")
-          print("feat" if "### New Features" in text else "fix")
-          PYEOF
-          )
-          DESC_EN=$(python3 <<'PYEOF'
-          from pathlib import Path
-          text = Path("website_prev_release_notes.md").read_text(encoding="utf-8")
-          value = ""
-          for line in text.splitlines():
-              stripped = line.strip()
-              if stripped.startswith("**") or stripped.startswith("---"):
-                  continue
-              if line.startswith("  ") and stripped:
-                  value = stripped
-                  break
-          print(value)
-          PYEOF
-          )
-          DESC_ZH=$(python3 <<'PYEOF'
-          from pathlib import Path
-          text = Path("website_prev_release_notes.md").read_text(encoding="utf-8")
-          value = ""
-          for line in text.splitlines():
-              stripped = line.strip()
-              if stripped.startswith("修复") or stripped.startswith("新增") or stripped.startswith("优化"):
-                  value = stripped
-                  break
-          print(value)
-          PYEOF
-          )
+          CHANGE_TYPE=$(python3 -c 'from pathlib import Path; text = Path("website_prev_release_notes.md").read_text(encoding="utf-8"); print("feat" if "### New Features" in text else "fix")')
+          DESC_EN=$(python3 -c 'from pathlib import Path; text = Path("website_prev_release_notes.md").read_text(encoding="utf-8"); lines = text.splitlines(); print(next((line.strip() for line in lines if line.startswith("  ") and line.strip() and not line.strip().startswith("**") and not line.strip().startswith("---")), ""))')
+          DESC_ZH=$(python3 -c 'from pathlib import Path; text = Path("website_prev_release_notes.md").read_text(encoding="utf-8"); lines = text.splitlines(); print(next((line.strip() for line in lines if line.strip().startswith("修复") or line.strip().startswith("新增") or line.strip().startswith("优化")), ""))')
         fi
 
         DESC_EN=${DESC_EN:-"See release notes on GitHub"}

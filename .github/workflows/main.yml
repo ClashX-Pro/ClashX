@@ -64,6 +64,14 @@ jobs:
         bundle exec fastlane run increment_build_number_in_plist build_number:"${tag}"  scheme:"ClashX"
         bundle exec fastlane run increment_version_number_in_plist version_number:"${tag}"  scheme:"ClashX"
 
+    - name: prepare release notes
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        tag=${GITHUB_REF##*/}
+        python3 scripts/generate_release_notes.py "$tag" release_notes.md
+        echo "Prepared release notes:"
+        cat release_notes.md
+
     - name: build
       run: |
         cd ClashX
@@ -201,14 +209,6 @@ jobs:
     #     version=$appversion.$branch
     #     bundle exec fastlane run appcenter_upload version:${version} build_number:${buildVersion}
 
-    - name: generate release notes
-      if: startsWith(github.ref, 'refs/tags/')
-      run: |
-        tag=${GITHUB_REF##*/}
-        python3 scripts/generate_release_notes.py "$tag" release_notes.md
-        echo "Generated release notes:"
-        cat release_notes.md
-
     - name: upload build to github
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
@@ -227,13 +227,32 @@ jobs:
       run: |
         tag=${GITHUB_REF##*/}
         python3 - "$tag" "$SPARKLE_SIGNATURE" "$SPARKLE_LENGTH" <<'PYEOF'
+        import html
         import sys, re
         from datetime import datetime, timezone
+        from pathlib import Path
 
         tag, signature, length = sys.argv[1], sys.argv[2], sys.argv[3]
         pub_date = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S %z")
 
-        notes_html = f"<h2>ClashX v{tag}</h2><p>See release notes on GitHub.</p>"
+        notes_md = Path("release_notes.md").read_text(encoding="utf-8") if Path("release_notes.md").exists() else ""
+        note_lines = [line.strip() for line in notes_md.splitlines() if line.strip()]
+        summary = []
+        for line in note_lines[:12]:
+            if line.startswith(("#", "##", "###")):
+                continue
+            if line.startswith(("- ", "* ")):
+                summary.append(f"<li>{html.escape(line[2:])}</li>")
+            else:
+                summary.append(f"<p>{html.escape(line)}</p>")
+        notes_html = f"<h2>ClashX v{tag}</h2>"
+        if summary:
+            if all(item.startswith("<li>") for item in summary):
+                notes_html += "<ul>" + "".join(summary) + "</ul>"
+            else:
+                notes_html += "".join(summary)
+        else:
+            notes_html += "<p>See release notes on GitHub.</p>"
 
         new_item = f"""    <item>
           <title>Version {tag}</title>
@@ -286,26 +305,76 @@ jobs:
       run: |
         tag=${GITHUB_REF##*/}
         DATE=$(date -u +%Y-%m-%d)
-        NOTES=$(head -50 release_notes.md | jq -Rs .)
+        NOTES=$(python3 - <<'PYEOF'
+        import json
+        from pathlib import Path
+        p = Path("release_notes.md")
+        text = p.read_text(encoding="utf-8") if p.exists() else ""
+        print(json.dumps("\n".join(text.splitlines()[:80])))
+        PYEOF
+        )
 
-        # Extract short descriptions and change type from release notes
+        # Build website summary from the previous stable tag to match history card version.
         CHANGE_TYPE="fix"
         DESC_EN=""
         DESC_ZH=""
-        if [ -f release_notes.md ]; then
-          if grep -q "New Features" release_notes.md; then
-            CHANGE_TYPE="feat"
-          fi
-          DESC_EN=$(awk '
-            /^---/ { exit }
-            /^  / { sub(/^  /, ""); print; exit }
-          ' release_notes.md)
-          DESC_ZH=$(awk '
-            /^### .*问题修复|^### .*新功能/ { in_zh = 1; next }
-            /^---/ && in_zh { exit }
-            in_zh && /^  / { sub(/^  /, ""); print; exit }
-          ' release_notes.md)
+        PREV_TAG=$(python3 - "$tag" <<'PYEOF'
+        import subprocess
+        import sys
+
+        current = sys.argv[1]
+        out = subprocess.check_output(
+            ["git", "tag", "--sort=-version:refname"], text=True
+        )
+        tags = [t.strip() for t in out.splitlines() if t.strip()]
+        prev = ""
+        for i, t in enumerate(tags):
+            if t == current and i + 1 < len(tags):
+                prev = tags[i + 1]
+                break
+        print(prev)
+        PYEOF
+        )
+
+        if [ -n "$PREV_TAG" ]; then
+          python3 scripts/generate_release_notes.py "$PREV_TAG" website_prev_release_notes.md || true
         fi
+
+        if [ -f website_prev_release_notes.md ]; then
+          CHANGE_TYPE=$(python3 <<'PYEOF'
+          from pathlib import Path
+          text = Path("website_prev_release_notes.md").read_text(encoding="utf-8")
+          print("feat" if "### New Features" in text else "fix")
+          PYEOF
+          )
+          DESC_EN=$(python3 <<'PYEOF'
+          from pathlib import Path
+          text = Path("website_prev_release_notes.md").read_text(encoding="utf-8")
+          value = ""
+          for line in text.splitlines():
+              stripped = line.strip()
+              if stripped.startswith("**") or stripped.startswith("---"):
+                  continue
+              if line.startswith("  ") and stripped:
+                  value = stripped
+                  break
+          print(value)
+          PYEOF
+          )
+          DESC_ZH=$(python3 <<'PYEOF'
+          from pathlib import Path
+          text = Path("website_prev_release_notes.md").read_text(encoding="utf-8")
+          value = ""
+          for line in text.splitlines():
+              stripped = line.strip()
+              if stripped.startswith("修复") or stripped.startswith("新增") or stripped.startswith("优化"):
+                  value = stripped
+                  break
+          print(value)
+          PYEOF
+          )
+        fi
+
         DESC_EN=${DESC_EN:-"See release notes on GitHub"}
         DESC_ZH=${DESC_ZH:-"详见 GitHub Release Notes"}
 

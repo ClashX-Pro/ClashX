@@ -52,6 +52,14 @@ CN_VERBS = {
 }
 
 CN_TERMS = [
+    ("generated compatibility configs", "生成的兼容配置"),
+    ("compatibility configs", "兼容配置"),
+    ("compatibility config", "兼容配置"),
+    ("compatibility", "兼容性"),
+    ("geosite template", "geosite 模板"),
+    ("status ui", "状态界面"),
+    ("older macos", "旧版 macOS"),
+    ("macos catalina", "macOS Catalina"),
     ("go bridge", "Go 桥接层"),
     ("dreamacro/clash", "Dreamacro/clash"),
     ("mihomo", "mihomo"),
@@ -122,6 +130,7 @@ CN_CONNECTORS = [
     (r"\bacross\b", "跨"),
     (r"\bwhen\b", "当"),
     (r"\bvia\b", "通过"),
+    (r"\bto\b", "为"),
     (r"\bmatches\b", "匹配"),
 ]
 
@@ -241,6 +250,18 @@ def to_chinese(text, commit_type="fix"):
     s = re.sub(r"\s*\(#\d+\)\s*$", "", text).strip()
 
     if commit_type == "fix":
+        # "restore/upgrade/... X" -> "<verb><translated X>相关问题"
+        m = re.match(r"(\w+)\s+(.+)$", s, re.I)
+        if m and m.group(1).lower() in CN_VERBS:
+            verb = CN_VERBS[m.group(1).lower()]
+            body = _full_translate(m.group(2))
+            if _chinese_ratio(body) >= 0.15:
+                return f"{verb}{body}相关问题"
+            terms = _extract_key_terms(m.group(2))
+            if terms:
+                return f"{verb}{' / '.join(terms)}相关问题"
+            return f"修复{_apply_terms(s)}相关问题"
+
         # "do X to fix/resolve/prevent Y" → "修复 Y 的问题"
         m = re.search(r"to (?:fix|resolve|prevent|avoid)\s+(.+)$", s, re.I)
         if m:
@@ -282,13 +303,20 @@ def to_chinese(text, commit_type="fix"):
         return _smart_translate(s, "修复: ")
 
     if commit_type == "feat":
+        # "upgrade X to Y" -> "升级X为Y"
+        m = re.match(r"(?:upgrade|update)\s+(.+?)\s+to\s+(.+)$", s, re.I)
+        if m:
+            left = _full_translate(m.group(1))
+            right = _full_translate(m.group(2))
+            return f"升级{left}为{right}"
         m = re.match(r"(?:add|implement|introduce)\s+(.+)$", s, re.I)
         if m:
             return _smart_translate(m.group(1), "新增")
         m = re.match(r"(\w+)\s+(.+)$", s, re.I)
         if m and m.group(1).lower() in CN_VERBS:
             verb = CN_VERBS[m.group(1).lower()]
-            return _smart_translate(m.group(2), verb)
+            # Ensure natural CJK concatenation for feature verb phrases.
+            return _smart_translate(m.group(2), f"{verb}")
         return _smart_translate(s, "")
 
     if commit_type == "perf":

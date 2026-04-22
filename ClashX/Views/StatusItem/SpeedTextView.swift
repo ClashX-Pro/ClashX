@@ -12,9 +12,63 @@ import AppKit
 class SpeedTextView: NSView {
     private var upSpeed: String = "0KB/s"
     private var downSpeed: String = "0KB/s"
+    private let useLegacyLabels: Bool = {
+        if #available(macOS 26, *) {
+            return false
+        }
+        return true
+    }()
+
+    private var upLabel: NSTextField?
+    private var downLabel: NSTextField?
+
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        commonInit()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
 
     override var isFlipped: Bool {
         true
+    }
+
+    private func commonInit() {
+        guard useLegacyLabels else { return }
+
+        let up = Self.makeLegacyLabel()
+        let down = Self.makeLegacyLabel()
+        upLabel = up
+        downLabel = down
+
+        addSubview(up)
+        addSubview(down)
+
+        NSLayoutConstraint.activate([
+            up.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            up.trailingAnchor.constraint(equalTo: trailingAnchor),
+            down.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
+            down.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+
+        update(up: upSpeed, down: downSpeed)
+    }
+
+    private static func makeLegacyLabel() -> NSTextField {
+        let label = NSTextField(labelWithString: "0KB/s")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = StatusItemTool.font
+        label.textColor = .labelColor
+        label.alignment = .right
+        label.backgroundColor = .clear
+        label.isBezeled = false
+        label.isBordered = false
+        label.drawsBackground = false
+        label.lineBreakMode = .byClipping
+        return label
     }
 
     var textWidth: CGFloat {
@@ -27,6 +81,12 @@ class SpeedTextView: NSView {
     func update(up: String, down: String) {
         upSpeed = up
         downSpeed = down
+        if useLegacyLabels {
+            upLabel?.stringValue = up
+            downLabel?.stringValue = down
+            needsLayout = true
+            return
+        }
         needsDisplay = true
     }
 
@@ -41,10 +101,12 @@ class SpeedTextView: NSView {
     }
 
     override func draw(_ dirtyRect: NSRect) {
+        guard !useLegacyLabels else { return }
+
         let font = StatusItemTool.font
         let attrs: [NSAttributedString.Key: Any] = [
             .font: font,
-            .foregroundColor: NSColor.labelColor,
+            .foregroundColor: NSColor.labelColor
         ]
 
         let upSize = (upSpeed as NSString).size(withAttributes: attrs)

@@ -238,6 +238,16 @@ class RemoteConfigManager {
         mode: rule
         log-level: info
 
+        dns:
+          enable: true
+          ipv6: false
+          enhanced-mode: redir-host
+          nameserver:
+            - 223.5.5.5
+            - 119.29.29.29
+            - 1.1.1.1
+            - 8.8.8.8
+
         proxies:
         \(proxies.joined(separator: "\n"))
 
@@ -252,6 +262,9 @@ class RemoteConfigManager {
             proxies: ["Auto", \(proxyList)]
 
         rules:
+          - DOMAIN-SUFFIX,baidu.com,DIRECT
+          - DOMAIN-SUFFIX,bdimg.com,DIRECT
+          - DOMAIN-SUFFIX,bdstatic.com,DIRECT
           - GEOIP,private,DIRECT
           - GEOIP,CN,DIRECT
           - MATCH,Proxy

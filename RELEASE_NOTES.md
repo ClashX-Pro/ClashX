@@ -1,27 +1,31 @@
-## ClashFX 1.0.13
+## ClashFX 1.0.14
 
 ### Bug Fixes / 问题修复
 
-- **Fixed double-encoded share-link subscriptions** — Some providers (e.g. sub.cucloud.top) return a base64 payload where each individual proxy URI is itself base64-encoded a second time, so lines look like `c3M6Ly9...` instead of `ss://...`. ClashFX now detects and decodes these correctly, generates a valid Clash config with `Auto` (url-test) and `Proxy` (select) groups, and no longer shows "cannot unmarshal !!str" errors.
+- **Fixed menu bar icon shrinking when realtime speed is disabled** — ClashFX had already fixed this once, but a later XIB layout change reintroduced a permanent leading constraint between the icon and hidden speed container. The status item now follows the original ClashFX fix again, so disabling realtime speed no longer compresses the tray icon.
 
-- **Fixed domestic site access in Rules mode** — When generating a config from share-link subscriptions, the rules section previously only contained `MATCH,Proxy`, routing all traffic through the proxy including Chinese domestic sites (Baidu, etc.). `GEOIP,private,DIRECT` and `GEOIP,CN,DIRECT` rules are now added before `MATCH,Proxy` so local and domestic traffic bypasses the proxy.
+- **Fixed Config Editor appearance in dark and light mode** — The raw editor, line number ruler, and visual editor sidebar previously used hard-coded dark colors. ClashFX now uses semantic system colors so the Config Editor follows the current macOS appearance correctly in both light and dark mode.
 
-- **Fixed blank speed display in menu bar** — The upload/download speed text in the status bar was invisible on first launch. The initial draw call occurred before Auto Layout resolved the view bounds (height = 0), and subsequent updates were silently dropped if the speed values hadn't changed. Fixed by overriding `layout()` to re-trigger `needsDisplay` once bounds are non-zero.
+- **Improved share-link generated configs for domestic sites** — When ClashFX builds a minimal Clash config from `ss://` share-link subscriptions, it now enables `dns:` and adds direct rules for `baidu.com`, `bdimg.com`, and `bdstatic.com`, reducing cases where domestic domains fall through to `MATCH,Proxy`.
 
-- **Fixed settings tab gray block on macOS 15 Sequoia** — `NSTabViewController` with `.toolbar` style renders as a large gray block on macOS 15 due to toolbar layout changes. The settings window now uses `.segmentedControlOnTop` style on macOS 15+ for a clean appearance, while retaining `.toolbar` with proper SF Symbol icons on macOS 11–14.
+- **Improved Settings tab icon compatibility on older macOS** — The Settings window now falls back to generated icons on systems that do not support SF Symbols, instead of leaving missing tab icons.
+
+- **Improved menu bar speed text compatibility on older macOS** — The status bar speed view now uses a legacy text-label fallback on older systems while keeping the custom draw path for newer macOS versions.
 
 ---
 
 ### 改进
 
-- **修复双层 base64 订阅解析** — 部分机场（如 sub.cucloud.top）返回的 base64 内容中每行代理链接本身也经过了一次 base64 编码，导致每行看起来像 `c3M6Ly9...` 而非 `ss://...`。ClashFX 现在能正确识别并解码，自动生成包含 `Auto`（url-test）和 `Proxy`（select）分组的合法 Clash 配置，不再出现 "cannot unmarshal !!str" 错误。
+- **修复关闭实时速率后菜单栏图标变小** — 这个问题在 ClashFX 里以前其实修过一次，但后续 XIB 布局调整又重新引入了一条固定间距约束，导致隐藏速度区域时图标被挤压。现在已恢复为 ClashFX 原先正确的约束切换逻辑，关闭实时速率后图标不再变小。
 
-- **修复 Rules 模式下国内网站无法访问** — 由订阅链接生成的配置规则原先只有 `MATCH,Proxy`，导致所有流量（包括百度等国内网站）都走代理。现在在 `MATCH,Proxy` 之前添加了 `GEOIP,private,DIRECT` 和 `GEOIP,CN,DIRECT` 规则，本地及国内 IP 直连。
+- **修复 Config Editor 在深色 / 浅色模式下显示异常** — 原始编辑器、行号区域和可视化编辑器侧边栏之前写死了深色配色。现在已改为使用系统语义色，能够跟随 macOS 当前外观正确切换。
 
-- **修复菜单栏网速显示空白** — 状态栏的上传/下载速度文字在首次启动时不可见。原因是初始绘制调用在 Auto Layout 确定视图尺寸（高度为 0）之前就执行了，后续流量更新如果速度值未变化则被静默丢弃。通过覆写 `layout()` 在布局完成后触发重绘修复。
+- **改进分享链接生成配置对国内站点的处理** — 当 ClashFX 从 `ss://` 分享链接自动生成最小 Clash 配置时，现在会启用 `dns:`，并额外添加 `baidu.com`、`bdimg.com`、`bdstatic.com` 的直连规则，减少国内域名误走代理的情况。
 
-- **修复 macOS 15 Sequoia 设置窗口标签大灰块** — macOS 15 对 `NSTabViewController` 的 `.toolbar` 样式布局做了大幅调整，导致设置标签区域显示为大灰块。macOS 15+ 现在改用 `.segmentedControlOnTop` 样式呈现简洁的分段控件，macOS 11–14 仍使用带 SF Symbol 图标的 `.toolbar` 样式。
+- **改进旧版 macOS 的设置页图标兼容性** — 对不支持 SF Symbols 的系统补充了 fallback 图标，不再出现设置页顶部图标缺失的问题。
+
+- **改进旧版 macOS 的菜单栏速率显示兼容性** — 状态栏速率视图在旧系统上增加了兼容 fallback，同时保留新系统使用的自绘实现。
 
 ---
 
-[![Download ClashFX](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/clashfx/files/1.0.13/)
+[![Download ClashFX](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/clashfx/files/1.0.14/)

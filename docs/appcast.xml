@@ -6,6 +6,24 @@
     <description>Most recent ClashX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.133.0</title>
+  <description><![CDATA[
+    <h2>ClashX v1.133.0</h2><li>**restore Catalina menu bar speed rendering**</li><p>恢复菜单栏相关问题</p><li>**exclude Sisyphus attribution lines from generated notes**</li><p>修复: exclude Sisyphus attribution lines from generated notes</p><li>**improve Chinese translation quality for generated notes**</li><p>修复 improve Chinese translation quality for generated notes 相关问题</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>
+  ]]></description>
+  <pubDate>Thu, 23 Apr 2026 03:02:40 +0000</pubDate>
+  <sparkle:version>1.133.0</sparkle:version>
+  <sparkle:shortVersionString>1.133.0</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/ClashX-Pro/ClashX/releases/download/1.133.0/ClashX.dmg"
+    sparkle:version="1.133.0"
+    sparkle:shortVersionString="1.133.0"
+    sparkle:edSignature="zQaI4bjwF/34FfRyhLeA6rVGQZf2P5Dp/HvvG+DcpAbIkWLR2LmRqArcOB/Hh1bCHIo4HM1LH5xanSB6Z1jMDQ=="
+    length="46872848"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.132.0</title>
   <description><![CDATA[
     <h2>ClashX v1.132.0</h2><li>**restore older macOS status UI compatibility**</li><p>Ultraworked with [Sisyphus](https://github.com/code-yeongyu/oh-my-openagent)</p><p>修复: restore older macOS status UI compatibility</p><li>**upgrade generated compatibility configs to geosite template**</li><p>Ultraworked with [Sisyphus](https://github.com/code-yeongyu/oh-my-openagent)</p><p>upgrade generated compatibility configs to geosite template</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>

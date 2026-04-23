@@ -23,6 +23,16 @@ class StatusItemView: NSView, StatusItemViewProtocol {
 
     weak var statusItem: NSStatusItem?
 
+    private var usesSnapshotStatusRendering: Bool {
+        if #available(macOS 11, *) {
+            return false
+        }
+        if #available(macOS 10.15, *) {
+            return true
+        }
+        return false
+    }
+
     static func create(statusItem: NSStatusItem?) -> StatusItemView {
         var topLevelObjects: NSArray?
         if Bundle.main.loadNibNamed("StatusItemView", owner: self, topLevelObjects: &topLevelObjects) {
@@ -31,7 +41,12 @@ class StatusItemView: NSView, StatusItemViewProtocol {
             view.setupView()
             view.imageView.image = StatusItemTool.menuImage
 
-            if let button = statusItem?.button {
+            if view.usesSnapshotStatusRendering {
+                statusItem?.button?.image = nil
+                statusItem?.button?.title = ""
+                statusItem?.button?.imagePosition = .imageOnly
+                view.refreshStatusItemSnapshot()
+            } else if let button = statusItem?.button {
                 // 修复 macOS 15+ 兼容性：在添加新子视图前移除所有现有子视图
                 // 这样可以避免在新版 macOS 中因为多次添加子视图而导致的崩溃
                 button.subviews.forEach { $0.removeFromSuperview() }
@@ -66,6 +81,9 @@ class StatusItemView: NSView, StatusItemViewProtocol {
 
     func updateSize(width: CGFloat) {
         frame = CGRect(x: 0, y: 0, width: width, height: 22)
+        if usesSnapshotStatusRendering {
+            refreshStatusItemSnapshot()
+        }
     }
 
     func updateViewStatus(enableProxy: Bool) {
@@ -73,6 +91,9 @@ class StatusItemView: NSView, StatusItemViewProtocol {
             imageView.contentTintColor = NSColor.labelColor
         } else {
             imageView.contentTintColor = NSColor.labelColor.withSystemEffect(.disabled)
+        }
+        if usesSnapshotStatusRendering {
+            refreshStatusItemSnapshot()
         }
     }
 
@@ -93,6 +114,9 @@ class StatusItemView: NSView, StatusItemViewProtocol {
                 down: SpeedUtils.getSpeedString(for: down)
             )
             updateDynamicWidth()
+            if usesSnapshotStatusRendering {
+                refreshStatusItemSnapshot()
+            }
         }
     }
 
@@ -101,6 +125,9 @@ class StatusItemView: NSView, StatusItemViewProtocol {
         if show {
             updateDynamicWidth()
             speedTextView.needsDisplay = true
+        }
+        if usesSnapshotStatusRendering {
+            refreshStatusItemSnapshot()
         }
     }
 
@@ -114,5 +141,24 @@ class StatusItemView: NSView, StatusItemViewProtocol {
             updateSize(width: width)
             statusItem?.length = width
         }
+    }
+
+    private func refreshStatusItemSnapshot() {
+        guard usesSnapshotStatusRendering, let statusItem = statusItem else { return }
+        layoutSubtreeIfNeeded()
+        statusItem.updateImage(withView: self)
+    }
+}
+
+private extension NSStatusItem {
+    func updateImage(withView view: NSView) {
+        let targetBounds = CGRect(origin: .zero, size: view.frame.size)
+        guard targetBounds.width > 0, targetBounds.height > 0,
+              let bitmap = view.bitmapImageRepForCachingDisplay(in: targetBounds) else { return }
+        view.cacheDisplay(in: targetBounds, to: bitmap)
+        let image = NSImage(size: targetBounds.size)
+        image.addRepresentation(bitmap)
+        image.isTemplate = true
+        self.image = image
     }
 }

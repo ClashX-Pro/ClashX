@@ -6,6 +6,24 @@
     <description>Most recent ClashX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.134.0</title>
+  <description><![CDATA[
+    <h2>ClashX v1.134.0</h2><li>**use dataWithPDF for Catalina menu bar speed rendering**</li><p>bitmapImageRepForCachingDisplay returns nil for offscreen views (views not attached to a window). On macOS 10.15, the StatusItemView is not added to the button&#x27;s subview hierarchy, so the guard in updateImage silently returns early and no speed image is ever set.</p><p>使用菜单栏相关问题</p><li>**restore valid workflow indentation**</li><p>修复 restore valid workflow indentation 相关问题</p><li>**align website history summaries with release sections**</li><p>修复: align website history summaries with release sections</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>
+  ]]></description>
+  <pubDate>Fri, 24 Apr 2026 04:06:26 +0000</pubDate>
+  <sparkle:version>1.134.0</sparkle:version>
+  <sparkle:shortVersionString>1.134.0</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/ClashX-Pro/ClashX/releases/download/1.134.0/ClashX.dmg"
+    sparkle:version="1.134.0"
+    sparkle:shortVersionString="1.134.0"
+    sparkle:edSignature="n01SrN3BZGwobMHRNDBO2RIX/FQxGK1q5jMExTV3Nshug/njo6SLtm2+UarNSzwVHfvU74Sj5yg8gD/pFT9cAg=="
+    length="46870590"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.133.0</title>
   <description><![CDATA[
     <h2>ClashX v1.133.0</h2><li>**restore Catalina menu bar speed rendering**</li><p>恢复菜单栏相关问题</p><li>**exclude Sisyphus attribution lines from generated notes**</li><p>修复: exclude Sisyphus attribution lines from generated notes</p><li>**improve Chinese translation quality for generated notes**</li><p>修复 improve Chinese translation quality for generated notes 相关问题</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>

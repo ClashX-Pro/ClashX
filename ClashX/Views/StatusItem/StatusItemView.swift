@@ -145,20 +145,16 @@ class StatusItemView: NSView, StatusItemViewProtocol {
 
     private func refreshStatusItemSnapshot() {
         guard usesSnapshotStatusRendering, let statusItem = statusItem else { return }
-        layoutSubtreeIfNeeded()
         statusItem.updateImage(withView: self)
     }
 }
 
 private extension NSStatusItem {
     func updateImage(withView view: NSView) {
-        let targetBounds = CGRect(origin: .zero, size: view.frame.size)
-        guard targetBounds.width > 0, targetBounds.height > 0,
-              let bitmap = view.bitmapImageRepForCachingDisplay(in: targetBounds) else { return }
-        view.cacheDisplay(in: targetBounds, to: bitmap)
-        let image = NSImage(size: targetBounds.size)
-        image.addRepresentation(bitmap)
-        image.isTemplate = true
-        self.image = image
+        guard view.bounds.width > 0, view.bounds.height > 0 else { return }
+        let data = view.dataWithPDF(inside: view.bounds)
+        let image = NSImage(data: data)
+        image?.isTemplate = true
+        button?.image = image
     }
 }

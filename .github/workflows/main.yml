@@ -318,49 +318,7 @@ jobs:
         fi
 
         if [ -f website_prev_release_notes.md ]; then
-          SUMMARY_JSON=$(python3 - <<'PY'
-          import json
-          import re
-          from pathlib import Path
-
-          text = Path("website_prev_release_notes.md").read_text(encoding="utf-8")
-          sections = {}
-          current = None
-          for line in text.splitlines():
-              if line.startswith("### "):
-                  current = line.strip()
-                  sections[current] = []
-              elif current is not None:
-                  sections[current].append(line.rstrip())
-
-          target_heading = "### New Features / 新功能" if "### New Features / 新功能" in sections else "### Bug Fixes / 问题修复"
-          change_type = "feat" if target_heading.startswith("### New Features") else "fix"
-          target_lines = sections.get(target_heading, [])
-
-          indented = [line.strip() for line in target_lines if line.startswith("  ") and line.strip()]
-          desc_en = next((line for line in indented if not re.search(r"[\u4e00-\u9fff]", line)), "")
-          desc_zh = next((line for line in indented if re.search(r"[\u4e00-\u9fff]", line)), "")
-
-          if not desc_en:
-              desc_en = next(
-                  (
-                      re.sub(r"^- \*\*(.+?)\*\*$", r"\1", line.strip())
-                      for line in target_lines
-                      if line.strip().startswith("- **")
-                  ),
-                  "",
-              )
-
-          if not desc_zh:
-              desc_zh = next((line for line in indented if line), "")
-
-          print(json.dumps({
-              "change_type": change_type,
-              "desc_en": desc_en,
-              "desc_zh": desc_zh,
-          }, ensure_ascii=False))
-          PY
-          )
+          SUMMARY_JSON=$(python3 scripts/build_website_summary.py website_prev_release_notes.md)
           CHANGE_TYPE=$(jq -r '.change_type' <<< "$SUMMARY_JSON")
           DESC_EN=$(jq -r '.desc_en' <<< "$SUMMARY_JSON")
           DESC_ZH=$(jq -r '.desc_zh' <<< "$SUMMARY_JSON")

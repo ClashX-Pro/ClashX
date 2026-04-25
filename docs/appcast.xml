@@ -6,6 +6,24 @@
     <description>Most recent ClashX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.135.0</title>
+  <description><![CDATA[
+    <h2>ClashX v1.135.0</h2><li>**remove Catalina snapshot rendering to restore menu bar speed display**</li><p>On macOS 10.15, the snapshot rendering path introduced in v1.131.0 never worked: the StatusItemView was never added to the button&#x27;s subview tree, so Auto Layout never ran and SpeedTextView&#x27;s NSTextField subviews had zero frames when dataWithPDF captured them.</p><p>移除菜单栏相关问题</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>
+  ]]></description>
+  <pubDate>Sat, 25 Apr 2026 03:47:24 +0000</pubDate>
+  <sparkle:version>1.135.0</sparkle:version>
+  <sparkle:shortVersionString>1.135.0</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/ClashX-Pro/ClashX/releases/download/1.135.0/ClashX.dmg"
+    sparkle:version="1.135.0"
+    sparkle:shortVersionString="1.135.0"
+    sparkle:edSignature="o2Z2kxrZnf1kKG80Etw3L9411sxROLOmN8RudzXpTZvXJvIirKVEETidxfgmkYQjyPleoyjPKvmqI9vWqBknDQ=="
+    length="46866831"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.134.0</title>
   <description><![CDATA[
     <h2>ClashX v1.134.0</h2><li>**use dataWithPDF for Catalina menu bar speed rendering**</li><p>bitmapImageRepForCachingDisplay returns nil for offscreen views (views not attached to a window). On macOS 10.15, the StatusItemView is not added to the button&#x27;s subview hierarchy, so the guard in updateImage silently returns early and no speed image is ever set.</p><p>使用菜单栏相关问题</p><li>**restore valid workflow indentation**</li><p>修复 restore valid workflow indentation 相关问题</p><li>**align website history summaries with release sections**</li><p>修复: align website history summaries with release sections</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>

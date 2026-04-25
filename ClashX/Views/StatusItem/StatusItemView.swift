@@ -23,16 +23,6 @@ class StatusItemView: NSView, StatusItemViewProtocol {
 
     weak var statusItem: NSStatusItem?
 
-    private var usesSnapshotStatusRendering: Bool {
-        if #available(macOS 11, *) {
-            return false
-        }
-        if #available(macOS 10.15, *) {
-            return true
-        }
-        return false
-    }
-
     static func create(statusItem: NSStatusItem?) -> StatusItemView {
         var topLevelObjects: NSArray?
         if Bundle.main.loadNibNamed("StatusItemView", owner: self, topLevelObjects: &topLevelObjects) {
@@ -41,14 +31,9 @@ class StatusItemView: NSView, StatusItemViewProtocol {
             view.setupView()
             view.imageView.image = StatusItemTool.menuImage
 
-            if view.usesSnapshotStatusRendering {
-                statusItem?.button?.image = nil
-                statusItem?.button?.title = ""
-                statusItem?.button?.imagePosition = .imageOnly
-                view.refreshStatusItemSnapshot()
-            } else if let button = statusItem?.button {
-                // 修复 macOS 15+ 兼容性：在添加新子视图前移除所有现有子视图
-                // 这样可以避免在新版 macOS 中因为多次添加子视图而导致的崩溃
+            if let button = statusItem?.button {
+                // Remove any existing subviews before adding to avoid duplicate-subview
+                // crashes on repeated StatusItem creation (affects macOS 15+).
                 button.subviews.forEach { $0.removeFromSuperview() }
                 button.addSubview(view)
                 button.imagePosition = .imageOverlaps
@@ -64,7 +49,9 @@ class StatusItemView: NSView, StatusItemViewProtocol {
 
     func setupView() {
         // Replace NSTextField with custom draw-based view to avoid
-        // macOS 26+ status bar NSTextField infinite redraw loop (high CPU bug)
+        // macOS 26+ status bar NSTextField infinite redraw loop (high CPU bug).
+        // SpeedTextView automatically falls back to NSTextField on macOS < 26,
+        // so this is safe for all supported OS versions including macOS 10.15.
         speedTextView = SpeedTextView()
         speedTextView.translatesAutoresizingMaskIntoConstraints = false
         speedContainerView.subviews.forEach { $0.removeFromSuperview() }
@@ -81,9 +68,6 @@ class StatusItemView: NSView, StatusItemViewProtocol {
 
     func updateSize(width: CGFloat) {
         frame = CGRect(x: 0, y: 0, width: width, height: 22)
-        if usesSnapshotStatusRendering {
-            refreshStatusItemSnapshot()
-        }
     }
 
     func updateViewStatus(enableProxy: Bool) {
@@ -91,9 +75,6 @@ class StatusItemView: NSView, StatusItemViewProtocol {
             imageView.contentTintColor = NSColor.labelColor
         } else {
             imageView.contentTintColor = NSColor.labelColor.withSystemEffect(.disabled)
-        }
-        if usesSnapshotStatusRendering {
-            refreshStatusItemSnapshot()
         }
     }
 
@@ -114,9 +95,6 @@ class StatusItemView: NSView, StatusItemViewProtocol {
                 down: SpeedUtils.getSpeedString(for: down)
             )
             updateDynamicWidth()
-            if usesSnapshotStatusRendering {
-                refreshStatusItemSnapshot()
-            }
         }
     }
 
@@ -125,9 +103,6 @@ class StatusItemView: NSView, StatusItemViewProtocol {
         if show {
             updateDynamicWidth()
             speedTextView.needsDisplay = true
-        }
-        if usesSnapshotStatusRendering {
-            refreshStatusItemSnapshot()
         }
     }
 
@@ -141,20 +116,5 @@ class StatusItemView: NSView, StatusItemViewProtocol {
             updateSize(width: width)
             statusItem?.length = width
         }
-    }
-
-    private func refreshStatusItemSnapshot() {
-        guard usesSnapshotStatusRendering, let statusItem = statusItem else { return }
-        statusItem.updateImage(withView: self)
-    }
-}
-
-private extension NSStatusItem {
-    func updateImage(withView view: NSView) {
-        guard view.bounds.width > 0, view.bounds.height > 0 else { return }
-        let data = view.dataWithPDF(inside: view.bounds)
-        let image = NSImage(data: data)
-        image?.isTemplate = true
-        button?.image = image
     }
 }

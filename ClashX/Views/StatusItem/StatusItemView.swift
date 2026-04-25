@@ -60,7 +60,8 @@ class StatusItemView: NSView, StatusItemViewProtocol {
             speedTextView.leadingAnchor.constraint(equalTo: speedContainerView.leadingAnchor),
             speedTextView.trailingAnchor.constraint(equalTo: speedContainerView.trailingAnchor),
             speedTextView.topAnchor.constraint(equalTo: speedContainerView.topAnchor),
-            speedTextView.bottomAnchor.constraint(equalTo: speedContainerView.bottomAnchor)
+            speedTextView.bottomAnchor.constraint(equalTo: speedContainerView.bottomAnchor),
+            speedContainerView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 3)
         ])
 
         updateSpeedLabel(up: 0, down: 0)

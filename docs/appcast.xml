@@ -6,6 +6,24 @@
     <description>Most recent ClashX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.136.0</title>
+  <description><![CDATA[
+    <h2>ClashX v1.136.0</h2><li>**pin speedContainerView.leading to restore menu bar speed on Catalina**</li><p>The speedContainerView had no leading constraint in the XIB — only trailing, top, and bottom were defined. In v1.118.0 this was fine because the NSTextField labels inside had both leading and trailing pinned to the container, so their intrinsic content size propagated upward and gave the container a non-zero width.</p><p>修复: 菜单栏相关问题</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>
+  ]]></description>
+  <pubDate>Sat, 25 Apr 2026 04:47:52 +0000</pubDate>
+  <sparkle:version>1.136.0</sparkle:version>
+  <sparkle:shortVersionString>1.136.0</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/ClashX-Pro/ClashX/releases/download/1.136.0/ClashX.dmg"
+    sparkle:version="1.136.0"
+    sparkle:shortVersionString="1.136.0"
+    sparkle:edSignature="gc946ojqmGpVR/HlvFT2iD8b4xXMxXibrZZFvc6cctc0EA28fq/B9A+jUF9gkHLqGl+QazV6M4BtxmioMvvZCA=="
+    length="46622254"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.135.0</title>
   <description><![CDATA[
     <h2>ClashX v1.135.0</h2><li>**remove Catalina snapshot rendering to restore menu bar speed display**</li><p>On macOS 10.15, the snapshot rendering path introduced in v1.131.0 never worked: the StatusItemView was never added to the button&#x27;s subview tree, so Auto Layout never ran and SpeedTextView&#x27;s NSTextField subviews had zero frames when dataWithPDF captured them.</p><p>移除菜单栏相关问题</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>

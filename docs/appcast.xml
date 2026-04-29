@@ -6,6 +6,24 @@
     <description>Most recent ClashX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.137.0</title>
+  <description><![CDATA[
+    <h2>ClashX v1.137.0</h2><li>**prioritize proxy selector in generated configs**</li><p>修复: 代理相关问题</p><li>**support mihomo share-link conversion**</li><p>支持 mihomo 相关问题</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>
+  ]]></description>
+  <pubDate>Wed, 29 Apr 2026 16:55:37 +0000</pubDate>
+  <sparkle:version>1.137.0</sparkle:version>
+  <sparkle:shortVersionString>1.137.0</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/ClashX-Pro/ClashX/releases/download/1.137.0/ClashX.dmg"
+    sparkle:version="1.137.0"
+    sparkle:shortVersionString="1.137.0"
+    sparkle:edSignature="+2gwcUgYBnmRw5xBbFmzcrPIfsxwvRtwjclummId7cUXK4nRCyk9VhoZeTbezDBXcfhR0kU8YLADj2BUPT+2Bw=="
+    length="46642804"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.136.0</title>
   <description><![CDATA[
     <h2>ClashX v1.136.0</h2><li>**pin speedContainerView.leading to restore menu bar speed on Catalina**</li><p>The speedContainerView had no leading constraint in the XIB — only trailing, top, and bottom were defined. In v1.118.0 this was fine because the NSTextField labels inside had both leading and trailing pinned to the container, so their intrinsic content size propagated upward and gave the container a non-zero width.</p><p>修复: 菜单栏相关问题</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>

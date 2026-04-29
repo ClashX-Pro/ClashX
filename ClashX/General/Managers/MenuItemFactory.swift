@@ -44,7 +44,7 @@ class MenuItemFactory {
         let leftPadding = AppDelegate.shared.hasMenuSelected()
         guard let proxyInfo = proxyInfo else { return }
         var menuItems = [NSMenuItem]()
-        for proxy in proxyInfo.proxyGroups {
+        for proxy in sortedProxyGroupsForMenu(proxyInfo.proxyGroups) {
             var menu: NSMenuItem?
             switch proxy.type {
             case .select: menu = generateSelectorMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo, leftPadding: leftPadding)
@@ -61,8 +61,31 @@ class MenuItemFactory {
                 menu.isEnabled = true
             }
         }
-        let items = Array(menuItems.reversed())
-        updateProxyList(withMenus: items)
+        updateProxyList(withMenus: menuItems)
+    }
+
+    private static func sortedProxyGroupsForMenu(_ groups: [ClashProxy]) -> [ClashProxy] {
+        groups.enumerated().sorted { lhs, rhs in
+            let lhsPriority = proxyGroupMenuPriority(lhs.element)
+            let rhsPriority = proxyGroupMenuPriority(rhs.element)
+            if lhsPriority != rhsPriority {
+                return lhsPriority < rhsPriority
+            }
+            return lhs.offset < rhs.offset
+        }.map(\.element)
+    }
+
+    private static func proxyGroupMenuPriority(_ group: ClashProxy) -> Int {
+        switch group.type {
+        case .select:
+            return 0
+        case .urltest, .fallback, .loadBalance:
+            return 1
+        case .relay:
+            return 2
+        default:
+            return 3
+        }
     }
 
     static func generateSwitchConfigMenuItems(complete: @escaping (([NSMenuItem]) -> Void)) {

@@ -10,7 +10,7 @@ import Alamofire
 import Cocoa
 
 class RemoteConfigManager {
-    private static let generatedShareLinkTemplateVersion = 5
+    private static let generatedShareLinkTemplateVersion = 6
     private static let generatedShareLinkMarker = "clashx-generated: share-links"
     private static let generatedShareLinkMigrationKey = "kGeneratedShareLinkRemoteConfigMigrationVersion"
     private static let defaultGeoIPDataURL = "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
@@ -285,14 +285,14 @@ class RemoteConfigManager {
         \(proxies.joined(separator: "\n"))
 
         proxy-groups:
+          - name: "Proxy"
+            type: select
+            proxies: ["Auto", "DIRECT", \(proxyList)]
           - name: "Auto"
             type: url-test
             proxies: [\(proxyList)]
             url: "http://cp.cloudflare.com/generate_204"
             interval: 300
-          - name: "Proxy"
-            type: select
-            proxies: ["Auto", "DIRECT", \(proxyList)]
 
         rules:
           - DOMAIN,localhost,DIRECT

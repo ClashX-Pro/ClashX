@@ -10,12 +10,19 @@ import Alamofire
 import Cocoa
 
 class RemoteConfigManager {
-    private static let generatedShareLinkTemplateVersion = 4
+    private static let generatedShareLinkTemplateVersion = 5
     private static let generatedShareLinkMarker = "clashx-generated: share-links"
     private static let generatedShareLinkMigrationKey = "kGeneratedShareLinkRemoteConfigMigrationVersion"
     private static let defaultGeoIPDataURL = "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
     private static let defaultGeoSiteDataURL = "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
     private static let defaultMMDBDataURL = "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+
+    private static let shareLinkSchemes = [
+        "ss://", "vmess://", "trojan://", "vless://",
+        "hysteria://", "hysteria2://", "hy2://",
+        "tuic://", "ssr://", "socks://", "socks5://", "socks5h://",
+        "http://", "https://", "anytls://", "mierus://"
+    ]
 
     var configs: [RemoteConfigModel] = []
     var refreshActivity: NSBackgroundActivityScheduler?
@@ -155,7 +162,7 @@ class RemoteConfigManager {
     /// This fork actually ships the mihomo (Clash.Meta) core, so declaring
     /// `mihomo/<version>` is both accurate and recognised by provider whitelists.
     /// See https://github.com/ClashX-Pro/ClashX/issues/16.
-    private static let subscriptionUserAgent = "mihomo/1.19.11"
+    private static let subscriptionUserAgent = "mihomo/1.19.24"
 
     static func getRemoteConfigData(config: RemoteConfigModel, complete: @escaping ((String?, String?) -> Void)) {
         guard var urlRequest = try? URLRequest(url: config.url, method: .get) else {
@@ -182,7 +189,8 @@ class RemoteConfigManager {
               !trimmed.hasPrefix("port:"),
               !trimmed.hasPrefix("mixed-port:"),
               !trimmed.contains("proxies:"),
-              !trimmed.contains("proxy-groups:") else {
+              !trimmed.contains("proxy-groups:"),
+              !shareLinkSchemes.contains(where: { trimmed.hasPrefix($0) }) else {
             return nil
         }
         let base64Cleaned = trimmed
@@ -206,6 +214,10 @@ class RemoteConfigManager {
     }
 
     private static func buildConfigFromShareLinks(_ decoded: String) -> String? {
+        if let converted = buildConfigFromShareLinksUsingMihomo(decoded) {
+            return converted
+        }
+
         let lines = decoded
             .split(whereSeparator: \.isNewline)
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -220,18 +232,16 @@ class RemoteConfigManager {
             // Some subscriptions double-encode each URI: try base64-decoding
             // lines that don't start with a known scheme.
             let candidate: String
-            let knownSchemes = ["ss://", "vmess://", "trojan://", "vless://", "hysteria://", "hysteria2://"]
-            if knownSchemes.contains(where: { line.hasPrefix($0) }) {
+            if shareLinkSchemes.contains(where: { line.hasPrefix($0) }) {
                 candidate = line
             } else if let innerDecoded = decodeBase64ToString(line),
-                      knownSchemes.contains(where: { innerDecoded.hasPrefix($0) }) {
+                      shareLinkSchemes.contains(where: { innerDecoded.hasPrefix($0) }) {
                 candidate = innerDecoded
             } else {
                 continue
             }
 
-            guard let proxy = parseSSShareLink(candidate) else {
-                // Skip unsupported protocols (vmess, trojan, etc.) silently.
+            guard let proxy = parseShareLink(candidate) else {
                 continue
             }
             proxies.append(proxy.yaml)
@@ -308,8 +318,17 @@ class RemoteConfigManager {
           - IP-CIDR6,fe80::/10,DIRECT,no-resolve
           - GEOIP,private,DIRECT
           - GEOIP,CN,DIRECT
-          - MATCH,Auto
+          - MATCH,Proxy
         """
+    }
+
+    private static func buildConfigFromShareLinksUsingMihomo(_ decoded: String) -> String? {
+        guard let converted = clashConvertShareLinks(decoded.goStringBuffer())?.toString(),
+              !converted.hasPrefix("error:"),
+              verifyConfig(string: converted) == nil else {
+            return nil
+        }
+        return converted
     }
 
     private static func isGeneratedShareLinkConfig(_ string: String) -> Bool {
@@ -519,6 +538,28 @@ class RemoteConfigManager {
             .replacingOccurrences(of: "\"", with: "\\\"")
     }
 
+    private struct ParsedProxyResult {
+        let name: String
+        let yaml: String
+    }
+
+    private static func parseShareLink(_ line: String) -> ParsedProxyResult? {
+        if line.hasPrefix("ss://") {
+            guard let ss = parseSSShareLink(line) else { return nil }
+            return ParsedProxyResult(name: ss.name, yaml: ss.yaml)
+        }
+        return nil
+    }
+
+    private static func looksLikeShareLinks(_ string: String) -> Bool {
+        guard let firstLine = string
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .split(whereSeparator: \.isNewline)
+            .first
+            .map(String.init) else { return false }
+        return shareLinkSchemes.contains(where: { firstLine.hasPrefix($0) })
+    }
+
     static func updateConfig(config: RemoteConfigModel, complete: ((String?) -> Void)? = nil) {
         getRemoteConfigData(config: config) { configString, suggestedFilename in
             guard let rawConfig = configString else {
@@ -529,6 +570,9 @@ class RemoteConfigManager {
             let newConfig: String
             if verifyConfig(string: rawConfig) == nil {
                 newConfig = rawConfig
+            } else if looksLikeShareLinks(rawConfig), let converted = buildConfigFromShareLinks(rawConfig) {
+                Logger.log("[Remote Config] Content was raw share links, converted successfully")
+                newConfig = converted
             } else if let decoded = tryDecodeBase64(rawConfig) {
                 Logger.log("[Remote Config] Content was base64 encoded, decoded successfully")
                 newConfig = decoded

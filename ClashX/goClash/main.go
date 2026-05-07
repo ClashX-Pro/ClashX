@@ -227,13 +227,24 @@ func clashConvertShareLinks(content *C.char) *C.char {
 			"enable":        true,
 			"ipv6":          false,
 			"enhanced-mode": "redir-host",
-			"nameserver": []string{
+			"default-nameserver": []string{
+				"114.114.114.114",
 				"223.5.5.5",
 				"119.29.29.29",
 			},
+			"nameserver": []string{
+				"https://223.5.5.5/dns-query",
+				"https://doh.pub/dns-query",
+				"119.29.29.29",
+				"223.5.5.5",
+				"tls://223.5.5.5:853",
+				"tls://223.6.6.6:853",
+			},
 			"fallback": []string{
-				"1.1.1.1",
-				"8.8.8.8",
+				"https://223.5.5.5/dns-query",
+				"https://doh.pub/dns-query",
+				"tls://1.1.1.1:853",
+				"tls://8.8.8.8:853",
 			},
 			"fallback-filter": map[string]interface{}{
 				"geoip":      true,

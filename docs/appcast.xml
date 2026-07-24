@@ -6,6 +6,24 @@
     <description>Most recent ClashX updates</description>
     <language>en</language>
     <item>
+  <title>Version 1.140.0</title>
+  <description><![CDATA[
+    <h2>ClashX v1.140.0</h2><li>**keep proxy selector at top of status menu**</li><p>Preserve the prioritized proxy-group order when inserting menu items instead of reversing it at a fixed index.</p><p>修复: 代理相关问题</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>
+  ]]></description>
+  <pubDate>Fri, 24 Jul 2026 04:39:31 +0000</pubDate>
+  <sparkle:version>1.140.0</sparkle:version>
+  <sparkle:shortVersionString>1.140.0</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/ClashX-Pro/ClashX/releases/download/1.140.0/ClashX.dmg"
+    sparkle:version="1.140.0"
+    sparkle:shortVersionString="1.140.0"
+    sparkle:edSignature="/rlDpIJMmpqyYMfoSKqzk2imeCnYaiu1Q0EWUw9FE8WRuATDso5rVw/6kRTbVJNwbWQIlDWPLbGFYG0to6b5CA=="
+    length="46229797"
+    type="application/octet-stream"
+  />
+</item>
+    <item>
   <title>Version 1.139.0</title>
   <description><![CDATA[
     <h2>ClashX v1.139.0</h2><li>**align share-link Go DNS defaults with DoH/DoT (parity with Swift template)**</li><p>The clashConvertShareLinks Go cgo function still emitted plain UDP/53 DNS in the auto-generated config when users imported share links through the Go path:</p><p>修复: align share-link Go DNS defaults with DoH/DoT (parity with Swift template)</p><p>---</p><p>Minimum system requirement: macOS 10.14.</p><p>最低系统要求：macOS 10.14。</p>

@@ -334,6 +334,7 @@ def clean_title(text):
 
 def first_paragraph(body):
     """Extract first meaningful paragraph from commit body."""
+    body = body.replace("\\n", "\n")
     lines = []
     for line in body.split("\n"):
         stripped = line.strip()

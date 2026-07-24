@@ -123,8 +123,8 @@ class MenuItemFactory {
         for _ in 0 ..< endIndex - startIndex {
             app.statusMenu.removeItem(at: startIndex)
         }
-        for each in menus {
-            app.statusMenu.insertItem(each, at: startIndex)
+        for (offset, each) in menus.enumerated() {
+            app.statusMenu.insertItem(each, at: startIndex + offset)
         }
     }
 

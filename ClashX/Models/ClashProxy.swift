@@ -27,6 +27,13 @@ enum ClashProxyType: String, Codable {
     case unknown = "Unknown"
     case wireguard = "Wireguard"
     case vless = "Vless"
+    case anytls = "AnyTLS"
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        self = ClashProxyType(rawValue: value) ?? .unknown
+    }
 
     static let proxyGroups: [ClashProxyType] = [.select, .urltest, .fallback, .loadBalance]
 

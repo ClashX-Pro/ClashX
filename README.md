@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/charlessnow/ClashX/raw/master/clashx.png" alt="Clash" width="200">
+  <img src="./clashx.png" alt="Clash" width="200">
   <br>
   ClashX
   <br>
@@ -11,49 +11,39 @@
 
 </div>
 
-## ⚠️ Notice
+## Maintenance status
 
-This project is based on code originally created by [yichengchen](https://github.com/yichengchen). I discovered that the original version was not compatible with macOS 26 (Sequoia), so I modified the code to make it work on macOS 26. The source code was forked from [bannedbook/ClashX](https://github.com/bannedbook/ClashX). The git history was lost because I accidentally deleted the `.git` folder when recreating the project after encountering some issues.
+**ClashX is no longer maintained. Please migrate to [ClashFX](https://clashfx.com/).**
 
----
+This repository keeps the existing ClashX source code, releases and historical discussions available for reference. There are no plans for further ClashX feature development, compatibility updates or routine bug fixes. Existing issues and pull requests are not automatically closed or transferred by this notice.
 
-## 🌐 Official Website
+- [ClashFX website](https://clashfx.com/)
+- [Download ClashFX](https://clashfx.com/en/download/)
+- [Migrate from ClashX: backup, import, verification and rollback](https://clashfx.com/en/guides/migrate-from-clashx/)
+- [ClashFX repository and feedback](https://github.com/Clash-FX/ClashFX)
 
-**Official Website**: [https://clashx.tech](https://clashx.tech)
+Check ClashFX's system requirements before migrating. Back up your configuration and do not run both clients against the system proxy or TUN at the same time. Migration is not a guarantee that a reported ClashX issue is fixed in ClashFX.
 
-- 📥 [Download Latest Version](https://clashx.tech/download)
-- 📖 [Documentation & Tutorial](https://clashx.tech/tutorial)
-- ❓ [FAQ](https://clashx.tech/tutorial#faq)
-- 🚀 **Next-Gen Client**: [ClashFX](https://clashfx.com) — A modern macOS proxy client with advanced features
+ClashFX's current core features are free to use. ClashFX Pro is in preparation and is not available to purchase. The historical product named ClashX Pro is separate from both standard ClashX and the planned ClashFX Pro.
 
----
+## Legacy downloads and documentation
 
-## 🚀 Need Advanced Features? Try ClashFX
+- [Retained ClashX 1.140.0 release](https://github.com/ClashX-Pro/ClashX/releases/tag/1.140.0)
+- [All historical ClashX releases](https://github.com/ClashX-Pro/ClashX/releases)
+- [ClashX website and retained downloads](https://clashx.tech/)
+- [Configuration tutorials](https://clashx.tech/tutorial)
+- [Existing issues](https://github.com/ClashX-Pro/ClashX/issues)
 
-ClashX focuses on a simple, lightweight, and compatible macOS proxy experience. If you need more advanced capabilities, we recommend migrating to [ClashFX](https://github.com/Clash-FX/ClashFX), our next-generation macOS client built around the mihomo core.
+ClashX is a proxy client and does not provide proxy servers or subscriptions. Contact your provider about server availability or renewals.
 
-ClashFX includes advanced features such as:
+## Project background
 
-- **Enhanced Mode (TUN)** for system-wide TCP/UDP traffic capture
-- Support for newer proxy protocols and mihomo core capabilities
-- Rule-based routing with domain, IP-CIDR, GeoIP, and process matching
-- Fake-IP DNS mode and gVisor userspace network stack
-- Built-in dashboard and a more complete modern macOS experience
+This project is based on code originally created by [yichengchen](https://github.com/yichengchen), obtained from [bannedbook/ClashX](https://github.com/bannedbook/ClashX), with subsequent macOS compatibility changes. The original git history was lost when the `.git` directory was accidentally deleted while recreating the project.
 
-Download ClashFX from [GitHub Releases](https://github.com/Clash-FX/ClashFX/releases) or the official website: [https://clashfx.com](https://clashfx.com).
+The [1.140.0 source tag](https://github.com/ClashX-Pro/ClashX/blob/1.140.0/ClashX/goClash/go.mod) already depends on mihomo v1.19.24. Core capabilities do not mean every feature is exposed by this legacy client's interface. This repository is standard ClashX, not the historical ClashX Pro application.
 
----
+## Retained features
 
-A rule-based proxy client for macOS based on Clash.
-
-ClashX aims to provide a simple and lightweight proxy client with an intuitive interface.
-
-## ⚠️ Notice
-
-- **Official Website**: Please visit the official website at **clashx.tech**.
-- ClashX / ClashX Pro is only a proxy tool and does not provide any proxy servers. For server-related issues or renewals, please contact your service provider.
-
-## ✨ Features
 
 - HTTP/HTTPS and SOCKS protocol support
 - Surge-like configuration
@@ -61,15 +51,17 @@ ClashX aims to provide a simple and lightweight proxy client with an intuitive i
 - Support for Vmess/Shadowsocks/Socks5/Trojan protocols
 - Netfilter TCP redirect support
 - macOS 10.14+ compatibility
-- **macOS 15+ (Sequoia) support with compatibility fixes**
+- Historical macOS compatibility fixes; newer system releases are no longer tested or maintained
 
 ## 📥 Installation
 
-Download ClashX from the [Releases](https://github.com/charlessnow/ClashX/releases) page.
+Historical ClashX installers remain available on the [Releases](https://github.com/ClashX-Pro/ClashX/releases) page.
 
-For Enhanced Mode (TUN), newer protocol support, and other advanced capabilities, use [ClashFX](https://github.com/Clash-FX/ClashFX).
+For a maintained client, see [ClashFX](https://clashfx.com/) and its [migration guide](https://clashfx.com/en/guides/migrate-from-clashx/). Check compatibility before installing.
 
-## 🔨 Build from Source
+## Legacy build instructions
+
+These instructions are retained for reference and are not maintained against newer Xcode or macOS releases.
 
 ### Prerequisites
 
@@ -165,7 +157,7 @@ A: Click the ClashX menu icon and press `Option-Command-C`
 
 ## 🤝 Contributing
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+ClashX is no longer maintained, and new feature work should be proposed in [ClashFX](https://github.com/Clash-FX/ClashFX/issues). Historical reports and contributions remain available for reference; review, fixes and new ClashX releases are not promised.
 
 ## 📄 License
 

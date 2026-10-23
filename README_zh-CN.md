@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/charlessnow/ClashX/raw/master/clashx.png" alt="Clash" width="200">
+  <img src="./clashx.png" alt="Clash" width="200">
   <br>
   ClashX
   <br>
@@ -11,49 +11,39 @@
 
 </div>
 
-## ⚠️ 情况说明
+## 维护状态
 
-本项目使用的是 [yichengchen](https://github.com/yichengchen) 大佬以前的代码。因为我自己使用时发现在 macOS 26 (Sequoia) 系统下无法使用,所以重新修改代码使其在 macOS 26 可用。源代码来源于 [bannedbook/ClashX](https://github.com/bannedbook/ClashX)。git 历史记录丢失是因为在修改出问题后重新搞的时候把 `.git` 文件删掉了。
+**ClashX 已停止维护，请迁移至 [ClashFX](https://clashfx.com/)。**
 
----
+本仓库保留现有 ClashX 源代码、发行版本和历史讨论，供已有用户查阅。后续不再计划为 ClashX 开发新功能、适配新系统或提供常规问题修复。本说明不会自动关闭或迁移现有 issue、PR。
 
-## 🌐 官方网站
+- [ClashFX 官网](https://clashfx.com/)
+- [下载 ClashFX](https://clashfx.com/download/)
+- [ClashX 迁移指南：备份、导入、验证与回退](https://clashfx.com/guides/migrate-from-clashx/)
+- [ClashFX 仓库与反馈入口](https://github.com/Clash-FX/ClashFX)
 
-**官方网站**: [https://clashx.tech](https://clashx.tech)
+迁移前请确认 ClashFX 的系统要求并备份配置，避免两个客户端同时接管系统代理或 TUN。建议迁移不代表所报告的 ClashX 问题已在 ClashFX 中修复。
 
-- 📥 [下载最新版本](https://clashx.tech/download)
-- 📖 [使用文档与教程](https://clashx.tech/tutorial)
-- ❓ [常见问题](https://clashx.tech/tutorial#faq)
-- 🚀 **下一代客户端**: [ClashFX](https://clashfx.com) — 面向高级功能的现代 macOS 代理客户端
+ClashFX 当前核心功能可免费使用；ClashFX Pro 正在筹备，尚未开放购买。历史产品 ClashX Pro 与标准 ClashX、筹备中的 ClashFX Pro 是不同产品。
 
----
+## 历史下载与使用资料
 
-## 🚀 需要更多高级功能？建议迁移到 ClashFX
+- [ClashX 1.140.0 保留版本](https://github.com/ClashX-Pro/ClashX/releases/tag/1.140.0)
+- [ClashX 全部历史发行版本](https://github.com/ClashX-Pro/ClashX/releases)
+- [ClashX 网站与保留下载](https://clashx.tech/)
+- [配置教程](https://clashx.tech/tutorial)
+- [已有问题记录](https://github.com/ClashX-Pro/ClashX/issues)
 
-ClashX 会继续保持简单、轻量和基础兼容。如果你需要更完整的高级功能，建议迁移到我们的下一代 macOS 客户端 [ClashFX](https://github.com/Clash-FX/ClashFX)。ClashFX 基于 mihomo 内核，后续也会优先跟进新的内核能力和协议支持。
+ClashX 只是代理客户端，不提供代理服务器或订阅服务。服务器可用性和续费问题请联系对应服务商。
 
-ClashFX 提供的高级能力包括：
+## 项目来源
 
-- **增强模式 (TUN)**：通过 TUN 虚拟网卡捕获系统级 TCP/UDP 流量
-- 支持更多新协议和 mihomo 内核能力
-- 规则路由：支持域名、IP-CIDR、GeoIP、进程匹配等规则
-- Fake-IP DNS 模式和 gVisor 用户态网络栈
-- 内置 Dashboard 面板，以及更完整的现代 macOS 使用体验
+本项目基于 [yichengchen](https://github.com/yichengchen) 原有代码，源码取得自 [bannedbook/ClashX](https://github.com/bannedbook/ClashX)，后续做过 macOS 兼容性修改。原始 git 历史是在重新创建项目时误删 `.git` 目录而丢失的。
 
-你可以从 [GitHub Releases](https://github.com/Clash-FX/ClashFX/releases) 或官网下载安装：[https://clashfx.com](https://clashfx.com)。
+[1.140.0 标签源码](https://github.com/ClashX-Pro/ClashX/blob/1.140.0/ClashX/goClash/go.mod)已依赖 mihomo v1.19.24。内核支持某项能力，不代表旧客户端界面已完整提供该功能。本仓库是标准 ClashX，并非历史 ClashX Pro 应用。
 
----
+## 保留版本的功能说明
 
-基于 Clash 的 macOS 规则代理客户端。
-
-ClashX 旨在提供一个简单轻量化的代理客户端，具有直观的用户界面。
-
-## ⚠️ 注意
-
-- **官方网站**: 请访问官方网站 **clashx.tech**。
-- ClashX / ClashX Pro 只是一个代理工具，不提供任何代理服务器。如果服务器不可用或与服务器续费有关的问题，请与您的提供商联系。
-
-## ✨ 功能特性
 
 - 支持 HTTP/HTTPS 和 SOCKS 协议
 - Surge 风格的配置
@@ -61,15 +51,17 @@ ClashX 旨在提供一个简单轻量化的代理客户端，具有直观的用�
 - 支持 Vmess/Shadowsocks/Socks5/Trojan 协议
 - 支持 Netfilter TCP 重定向
 - 支持 macOS 10.14+
-- **支持 macOS 15+ (Sequoia) 并修复兼容性问题**
+- 保留历史 macOS 兼容性修改；不再测试或适配后续系统版本
 
 ## 📥 安装
 
-从 [Releases](https://github.com/charlessnow/ClashX/releases) 页面下载 ClashX。
+已有用户仍可从 [Releases](https://github.com/ClashX-Pro/ClashX/releases) 页面获取历史 ClashX 安装包。
 
-如果你需要增强模式 (TUN)、更多新协议支持和其他高级能力，请使用 [ClashFX](https://github.com/Clash-FX/ClashFX)。
+需要仍在维护的客户端时，请查看 [ClashFX](https://clashfx.com/) 和[迁移指南](https://clashfx.com/guides/migrate-from-clashx/)，安装前先确认系统兼容性。
 
-## 🔨 从源码构建
+## 历史构建说明
+
+以下步骤仅保留供参考，不再针对后续 Xcode 或 macOS 版本维护。
 
 ### 环境要求
 
@@ -165,7 +157,7 @@ script:
 
 ## 🤝 贡献
 
-欢迎提交 Pull Request！对于重大更改，请先开 issue 讨论你想要改变的内容。
+ClashX 已停止维护，新功能建议请提交到 [ClashFX](https://github.com/Clash-FX/ClashFX/issues)。现有报告和贡献保留供参考，不承诺继续审查、修复或发布新的 ClashX 版本。
 
 ## 📄 许可证
 

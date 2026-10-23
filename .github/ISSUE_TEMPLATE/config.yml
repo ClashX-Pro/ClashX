@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ClashFX website / ClashFX 官网
+    url: https://clashfx.com/
+    about: ClashX is no longer maintained. Please migrate to ClashFX. / ClashX 已停止维护，请迁移至 ClashFX。
+  - name: Migrate from ClashX (English)
+    url: https://clashfx.com/en/guides/migrate-from-clashx/
+    about: Check system requirements, back up, import, verify and keep a rollback path.
+  - name: ClashX 中文迁移指南
+    url: https://clashfx.com/guides/migrate-from-clashx/
+    about: 迁移前确认系统要求，备份后导入并验证配置，保留回退方式。
+  - name: ClashFX questions and feature requests / 问题与功能建议
+    url: https://github.com/Clash-FX/ClashFX/issues
+    about: Submit new requests to the maintained project. No existing issue is transferred. / 新需求请提交至维护中的项目，不会迁移已有 issue。
